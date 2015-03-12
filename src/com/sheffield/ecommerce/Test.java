@@ -37,13 +37,16 @@ import java.io.IOException;
       p.setProperty( "runtime.log", path + "test.log" );
       return p;
     }
-   
+  
     /*
      * The Servlet
      */
     public Template handleRequest(HttpServletRequest request, 
                                   HttpServletResponse response, Context ctx )
+                                  
     {        
+     String inputEmail = request.getParameter("inputEmail");
+     ctx.put("email", inputEmail);
      Template outty = null;
      String text = "Velocity";
      ctx.put("name", text);
