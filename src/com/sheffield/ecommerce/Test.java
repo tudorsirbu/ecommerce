@@ -1,37 +1,64 @@
 package com.sheffield.ecommerce;
+
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+   import java.io.FileNotFoundException;
+   
+   import java.util.Properties;
+   import java.util.Vector;
 
-/**
- * Servlet implementation class Test
- */
-public class Test extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+   import javax.servlet.*;
+   import javax.servlet.http.*;
+   import javax.servlet.ServletConfig;
+   
+   import org.apache.velocity.Template;
+   import org.apache.velocity.context.Context;
+   import org.apache.velocity.servlet.VelocityServlet;
+   import org.apache.velocity.app.Velocity;
+   import org.apache.velocity.exception.ResourceNotFoundException;
+   import org.apache.velocity.exception.ParseErrorException;
+   
+   public class Test extends VelocityServlet
+   {
     /**
-     * @see HttpServlet#HttpServlet()
+     *   Make sure the template files are found
      */
-    public Test() {
-        super();
-        // TODO Auto-generated constructor stub
+    protected Properties loadConfiguration(ServletConfig config )
+        throws IOException, FileNotFoundException
+    {
+     Properties p = new Properties();
+     String path = config.getServletContext().getRealPath("/");
+      if (path == null)
+      {
+       System.out.println(" SampleServlet.loadConfiguration() : unable to " 
+                          + "get the current webapp root.  Using '/'. Please fix.");
+       path = "/";
+      }
+      p.setProperty( Velocity.FILE_RESOURCE_LOADER_PATH,  path );
+      p.setProperty( "runtime.log", path + "test.log" );
+      return p;
     }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().print("Hello World!");
-		response.getWriter().print("Goodbye cruel world!"); 
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
-}
+   
+    /*
+     * The Servlet
+     */
+    public Template handleRequest(HttpServletRequest request, 
+                                  HttpServletResponse response, Context ctx )
+    {        
+     Template outty = null;
+     String text = "Velocity";
+     ctx.put("name", text);
+        
+     try {
+       // Open the template 'hello.vm'
+       outty =  getTemplate("templates/test.vm");
+     } catch( ParseErrorException pee ){
+       System.out.println("SampleServlet : parse error for template " + pee);
+     } catch( ResourceNotFoundException rnfe ){
+       System.out.println("SampleServlet : template not found " + rnfe);
+     } catch( Exception e ){
+       System.out.println("Error " + e);
+     }          
+   
+     return outty;
+    }
+   }
