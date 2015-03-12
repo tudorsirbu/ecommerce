@@ -31,5 +31,10 @@
   		<artifactId>activejdbc-instrumentation</artifactId>
   		<version>1.4.10</version>
   	</dependency>
+  	<dependency>
+  		<groupId>org.apache.velocity</groupId>
+  		<artifactId>velocity</artifactId>
+  		<version>1.7</version>
+  	</dependency>
   </dependencies>
 </project>
