@@ -1,30 +1,64 @@
 package com.sheffield.ecommerce;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
    
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {   
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		testCreateNewUser();
+		
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/login.jsp");
 		requestDispatcher.forward(request, response);
 	}
 	
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		RequestDispatcher requestDispatcher;
 		String email = request.getParameter("inputEmail");
 		String password = request.getParameter("inputPassword");
 
-		// Check email and password against db 
-
-		// If correct, load User model class for that login
+		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		String hql = "FROM User u WHERE u.email = :email AND u.password = :password";
+		Query query = session.createQuery(hql);
+		query.setParameter("email", email);
+		query.setParameter("password", password);
+		List<User> results = query.list();
+		session.getTransaction().commit();
 		
-		// Send back to jsp via request attributes, like this:		
-		//request.setAttribute("user", user);
+		if (results.isEmpty()) {
+			request.setAttribute("errorMsg", "Incorrect email or password");
+			requestDispatcher = request.getRequestDispatcher("jsp/login.jsp");
+			
+		} else {
+			User user = results.get(0);
+			request.setAttribute("user", user);
+			requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
+		}
 		
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
-	    requestDispatcher.forward(request, response);
+		requestDispatcher.forward(request, response);
+	}
+	
+	private void testCreateNewUser() {
+		User user = new User();
+		user.setFirstName("Bob");
+		user.setLastName("Smith");
+		user.setEmail("test@test.com");
+		user.setPassword("password");
+		
+		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		session.save(user);
+		session.getTransaction().commit();
 	}
 
 }

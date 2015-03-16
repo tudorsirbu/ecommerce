@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="page-header">
-        <h1>Welcome back, ${name}</h1>
+        <h1>Welcome back, ${user.firstName}</h1>
       </div>
       
       <h3>Your email is "${user.email}" and your id in the database is "${user.id}"!</h3> 
