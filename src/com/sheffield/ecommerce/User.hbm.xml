@@ -20,11 +20,11 @@
         </property>
  
         <property name="email">
-            <column name="email" length="100" not-null="true" />
+            <column name="email" length="100" not-null="true" unique="true" />
         </property>
         
         <property name="password">
-            <column name="password" length="100" not-null="true" />
+            <column name="password" length="100" not-null="true"/>
         </property>
  
     </class>
