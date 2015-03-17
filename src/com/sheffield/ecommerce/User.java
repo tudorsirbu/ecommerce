@@ -3,6 +3,7 @@ package com.sheffield.ecommerce;
 import java.io.Serializable;
 
 public class User implements Serializable {
+	private static final long serialVersionUID = 5999500982028327711L;
 	int id;
 	String firstName;
 	String lastName;
@@ -12,6 +13,7 @@ public class User implements Serializable {
 	public int getId() {
 		return id;
 	}
+	@SuppressWarnings("unused")
 	private void setId(int id) {
 		this.id = id;
 	}

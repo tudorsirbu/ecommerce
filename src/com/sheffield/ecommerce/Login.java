@@ -2,20 +2,16 @@ package com.sheffield.ecommerce;
 
 import java.io.IOException;
 import java.util.List;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
    
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		testCreateNewUser();
+		//testCreateNewUser();
 		
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/login.jsp");
 		requestDispatcher.forward(request, response);
@@ -32,6 +28,7 @@ public class Login extends HttpServlet {
 		Query query = session.createQuery(hql);
 		query.setParameter("email", email);
 		query.setParameter("password", password);
+		@SuppressWarnings("unchecked")
 		List<User> results = query.list();
 		session.getTransaction().commit();
 		
@@ -48,17 +45,17 @@ public class Login extends HttpServlet {
 		requestDispatcher.forward(request, response);
 	}
 	
-	private void testCreateNewUser() {
-		User user = new User();
-		user.setFirstName("Bob");
-		user.setLastName("Smith");
-		user.setEmail("test@test.com");
-		user.setPassword("password");
-		
-		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.save(user);
-		session.getTransaction().commit();
-	}
+//	private void testCreateNewUser() {
+//		User user = new User();
+//		user.setFirstName("Bob");
+//		user.setLastName("Smith");
+//		user.setEmail("test@test.com");
+//		user.setPassword("password");
+//		
+//		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+//		session.beginTransaction();
+//		session.save(user);
+//		session.getTransaction().commit();
+//	}
 
 }
