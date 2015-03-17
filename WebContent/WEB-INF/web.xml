@@ -15,8 +15,31 @@
     <servlet-name>Login</servlet-name>
     <servlet-class>com.sheffield.ecommerce.Login</servlet-class>
   </servlet>
+  
+  <servlet>
+    <description></description>
+    <display-name>Register</display-name>
+    <servlet-name>Register</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.Register</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <description></description>
+    <display-name>Seed</display-name>
+    <servlet-name>Seed</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.Seed</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/Login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Register</servlet-name>
+    <url-pattern>/Register</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Seed</servlet-name>
+    <url-pattern>/Seed</url-pattern>
   </servlet-mapping>
 </web-app>
