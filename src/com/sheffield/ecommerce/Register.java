@@ -43,11 +43,12 @@ public class Register extends HttpServlet {
 		
 		// save the user to the database
 		session.save(user);
-		transaction.commit();
+		session.getTransaction().commit();
 		
 		
 		requestDispatcher = request.getRequestDispatcher("jsp/login.jsp");
 		requestDispatcher.forward(request, response);
+//		response.sendRedirect("ecommerce/Login");
 	}
 
 }
