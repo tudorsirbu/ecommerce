@@ -1,4 +1,4 @@
-package com.sheffield.ecommerce;
+package com.sheffield.ecommerce.servlets;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,6 +9,9 @@ import javax.servlet.http.*;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import com.sheffield.ecommerce.models.SessionFactoryUtil;
+import com.sheffield.ecommerce.models.User;
    
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;

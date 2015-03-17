@@ -1,22 +1,21 @@
-package com.sheffield.ecommerce;
+package com.sheffield.ecommerce.servlets;
 
 import java.io.IOException;
 import java.util.List;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
+
+import com.sheffield.ecommerce.models.SessionFactoryUtil;
+import com.sheffield.ecommerce.models.User;
    
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			testCreateNewUser();
-		} catch (Exception ex) {
-			request.setAttribute("errorMsg", ex.getMessage());
-		}
-		
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/login.jsp");
 		requestDispatcher.forward(request, response);
 	}
@@ -47,23 +46,6 @@ public class Login extends HttpServlet {
 		}
 		
 		requestDispatcher.forward(request, response);
-	}
-	
-	private void testCreateNewUser() {
-		User user = new User();
-		user.setFirstName("Bob");
-		user.setLastName("Smith");
-		user.setEmail("test@test.com");
-		user.setPassword("password");
-		
-		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.save(user);
-		try	{
-			session.getTransaction().commit();
-		} catch (Exception ex) {
-			throw ex;
-		};
 	}
 
 }

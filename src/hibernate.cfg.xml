@@ -29,7 +29,7 @@
         <!-- # mapping files with external dependencies # -->
         <!-- ############################################ -->
  
-        <mapping resource="com/sheffield/ecommerce/User.hbm.xml" />
+        <mapping resource="com/sheffield/ecommerce/models/User.hbm.xml" />
  
     </session-factory>
 </hibernate-configuration>

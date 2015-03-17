@@ -1,4 +1,4 @@
-package com.sheffield.ecommerce;
+package com.sheffield.ecommerce.models;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
