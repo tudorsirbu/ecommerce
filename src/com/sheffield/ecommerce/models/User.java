@@ -1,11 +1,8 @@
 package com.sheffield.ecommerce.models;
 
 import java.io.Serializable;
-import java.util.List;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
-
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
 
 public class User implements Serializable {
@@ -16,54 +13,69 @@ public class User implements Serializable {
 	String email;
 	String password;
 	
+	
+	
 	public int getId() {
 		return id;
 	}
+	
+	public String getFirstName() {
+		return firstName;
+	}
+	
+	public String getlastName() {
+		return lastName;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	//TODO Complete validation in setters:
+	
 	@SuppressWarnings("unused")
 	private void setId(int id) {
 		this.id = id;
 	}
-	public String getFirstName() {
-		return firstName;
-	}
-	public void setFirstName(String firstName) {
+
+	public void setFirstName(String firstName) throws InvalidModelException {
+		if (firstName == null || firstName.isEmpty()){
+			throw new InvalidModelException("First name cannot be empty.");
+		}
 		this.firstName = firstName;
 	}
-	public String getlastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
+
+	public void setLastName(String lastName) throws InvalidModelException {
+		if (lastName == null || lastName.isEmpty()){
+			throw new InvalidModelException("Surname name cannot be empty.");
+		}
 		this.lastName = lastName;
 	}
-	public String getEmail() {
-		return email;
-	}
+
 	public void setEmail(String email) throws InvalidModelException {
 		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		String hql = "SELECT * FROM User u WHERE u.email = :email";
-		Query query = session.createQuery(hql);
+		Query query = session.createQuery("SELECT 1 FROM User u where u.email = :email");
 		query.setParameter("email", email);
-		@SuppressWarnings("unchecked")
-		List<User> results = query.list();
-		session.getTransaction().commit();
-		if (results.size() > 0) {
-			throw new InvalidModelException("Error, this email has already been used.");
+		if (query.uniqueResult() != null) { 
+			throw new InvalidModelException("This email has already been used.");
 		}
 		this.email = email;
 	}
-	public String getPassword() {
-		return password;
-	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
 	
-	
-	public void validate() throws InvalidModelException{
-		if (firstName == null || firstName.isEmpty()){
-			throw new InvalidModelException("Error, First name cannot be empty.");
+	public void setPassword(String password, String passwordConfirmation) throws InvalidModelException {
+		if (!password.equals(passwordConfirmation)){
+			throw new InvalidModelException("Passwords do not match.");
 		}
+		setPassword(password);
 	}
-
+	
 }

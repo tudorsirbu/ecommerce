@@ -1,54 +1,53 @@
 package com.sheffield.ecommerce.servlets;
 
 import java.io.IOException;
-import java.util.List;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.*;
 import javax.servlet.http.*;
-
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-
+import com.sheffield.ecommerce.exceptions.InvalidModelException;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.User;
    
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger LOGGER = Logger.getLogger(Register.class.getName());
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//testCreateNewUser();
-		
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/register.jsp");
 		requestDispatcher.forward(request, response);
 	}
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		RequestDispatcher requestDispatcher;
-		
-		// get the user parameters
-		String email = request.getParameter("inputEmail");
-		String password = request.getParameter("inputPassword");
-		String password_confirmation = request.getParameter("inputPasswordConfirmation");
-		String first_name = request.getParameter("inputFirstName");
-		String last_name = request.getParameter("inputLastName");
-		
-		// start a db session
+		//Start a database session
 		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
-		Transaction transaction = session.beginTransaction();
 		
-		// create a new user with the parameters received
-		User user = new User();
-		user.setEmail(email);
-		user.setFirstName(first_name);
-		user.setLastName(last_name);
-		user.setPassword(password);
+		try {		
+			//Create a new user with received user data
+			User user = new User();
+			user.setFirstName(request.getParameter("inputFirstName"));
+			user.setLastName(request.getParameter("inputLastName"));
+			user.setEmail(request.getParameter("inputEmail"));
+			user.setPassword(request.getParameter("inputPassword"), request.getParameter("inputPasswordConfirmation"));
+			
+			//Save the user to the database
+			session.beginTransaction();
+			session.save(user);
+			session.getTransaction().commit();
+			LOGGER.log(Level.FINE, "New user registered with email: " + user.getEmail());
+		} catch (InvalidModelException ex) {
+			//If there was any invalid User information then log and throw the message up to the user
+			LOGGER.log(Level.INFO, ex.getMessage());
+			request.setAttribute("errorMsg", ex.getMessage());
+		} catch (Exception ex) {
+			//If an unexpected error occurred then log, attempt to rollback and then throw a user friendly error
+			LOGGER.log(Level.SEVERE, ex.getMessage());
+			session.getTransaction().rollback();
+			request.setAttribute("errorMsg", "A connection problem occurred.");
+		}
 		
-		// save the user to the database
-		session.save(user);
-		session.getTransaction().commit();
-		
-		
+		RequestDispatcher requestDispatcher;
 		requestDispatcher = request.getRequestDispatcher("jsp/login.jsp");
 		requestDispatcher.forward(request, response);
 //		response.sendRedirect("ecommerce/Login");
