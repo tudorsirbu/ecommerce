@@ -20,8 +20,19 @@ public class Register extends HttpServlet {
 	}
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		RequestDispatcher requestDispatcher;
+		
 		//Start a database session
 		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		
+		
+		
+		if (!arePasswordsMatching(request)){
+			request.setAttribute("errorMsg", "Password and confirmation do not match!");
+			requestDispatcher = request.getRequestDispatcher("jsp/register.jsp");
+			requestDispatcher.forward(request, response);
+			return;
+		}
 		
 		try {		
 			//Create a new user with received user data
@@ -47,10 +58,13 @@ public class Register extends HttpServlet {
 			request.setAttribute("errorMsg", "A connection problem occurred.");
 		}
 		
-		RequestDispatcher requestDispatcher;
 		requestDispatcher = request.getRequestDispatcher("jsp/login.jsp");
 		requestDispatcher.forward(request, response);
 //		response.sendRedirect("ecommerce/Login");
 	}
-
+	
+	private boolean arePasswordsMatching(HttpServletRequest request){
+		return request.getParameter("inputPassword").equals(request.getParameter("inputPasswordConfirmation"));
+	}
+	
 }
