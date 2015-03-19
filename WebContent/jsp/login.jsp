@@ -6,9 +6,6 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:template title="Login">
-  <c:if test="${not empty errorMsg}">
-    <div class="alert alert-danger" role="alert">Error: ${errorMsg}</div>
-  </c:if>
   <div class="row">
     <div class="col-sm-4 col-sm-push-4">
       <h2>Login</h2>
@@ -20,6 +17,7 @@
         <br>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       </form>
+      <a class="pull-right" href="Register" title="Register">Don't have an account?</a>
     </div>
   </div>
 </t:template>

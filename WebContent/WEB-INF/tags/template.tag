@@ -41,6 +41,12 @@
 
     <!-- Begin page content -->
     <div class="container">
+      <c:if test="${not empty errorMsg}">
+    	<div class="alert alert-danger" role="alert">Error: ${errorMsg}</div>
+  	  </c:if>
+  	  <c:if test="${not empty successMsg}">
+    	<div class="alert alert-success" role="alert">${successMsg}</div>
+  	  </c:if>
       <jsp:doBody/>
     </div>
 

@@ -3,9 +3,13 @@ package com.sheffield.ecommerce.servlets;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
+
 import org.hibernate.Session;
+import org.hibernate.exception.ConstraintViolationException;
+
 import com.sheffield.ecommerce.exceptions.*;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.User;
@@ -17,6 +21,7 @@ public class Seed extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			createTestUser();
+			request.setAttribute("successMsg", "Seeding completed successfully");
 		} catch (InvalidModelException | ConnectionProblemException ex) {
 			request.setAttribute("errorMsg", ex.getMessage());
 		}
@@ -36,22 +41,28 @@ public class Seed extends HttpServlet {
 			user.setFirstName("john");
 			user.setLastName("doe");
 			user.setPassword("password");
+			user.validateModel();
 			
 			//Save the user to the database
 			session.beginTransaction();
 			session.save(user);
 			session.getTransaction().commit();
 			LOGGER.log(Level.FINE, "Created seed user");
+			return;
 		} catch (InvalidModelException ex) {
 			//If there was any invalid User information then log and throw the message up to the user
 			LOGGER.log(Level.INFO, ex.getMessage());
 			throw ex;
+		} catch (ConstraintViolationException ex) {
+			//If an unexpected error occurred then log, attempt to rollback and then throw a user friendly error
+			LOGGER.log(Level.SEVERE, ex.getCause().getMessage());
+			session.getTransaction().rollback();
+			throw new InvalidModelException("The seed data entered is invalid, please check and try again.");
 		} catch (Exception ex) {
 			//If an unexpected error occurred then log, attempt to rollback and then throw a user friendly error
 			LOGGER.log(Level.SEVERE, ex.getMessage());
 			session.getTransaction().rollback();
-			throw new ConnectionProblemException("A connection problem occurred.");
+			throw new ConnectionProblemException("A problem occurred and seeding could not be completed.");
 		}
-
 	}
 }

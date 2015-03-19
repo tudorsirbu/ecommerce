@@ -6,9 +6,6 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:template title="Register">
-  <c:if test="${not empty errorMsg}">
-    <div class="alert alert-danger" role="alert">Error: ${errorMsg}</div>
-  </c:if>
   <div class="row">
     <div class="col-sm-4 col-sm-push-4">
       <h2>Register</h2>
