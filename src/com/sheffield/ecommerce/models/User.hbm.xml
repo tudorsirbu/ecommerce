@@ -26,6 +26,10 @@
         <property name="password">
             <column name="password" length="100" not-null="true"/>
         </property>
+        
+        <property name="role">
+            <column name="role" length="1" not-null="true"/>
+        </property>
  
     </class>
 </hibernate-mapping>

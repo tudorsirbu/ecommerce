@@ -12,9 +12,18 @@ public class User implements Serializable {
 	String lastName;
 	String email;
 	String password;
+	int role;
 	
 	
 	
+	public int getRole() {
+		return role;
+	}
+
+	public void setRole(int role) {
+		this.role = role;
+	}
+
 	public int getId() {
 		return id;
 	}
