@@ -30,6 +30,13 @@
     <servlet-class>com.sheffield.ecommerce.servlets.Seed</servlet-class>
   </servlet>
   
+  <servlet>
+    <description></description>
+    <display-name>UploadArticle</display-name>
+    <servlet-name>UploadArticle</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.UploadArticle</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/Login</url-pattern>
@@ -42,4 +49,16 @@
     <servlet-name>Seed</servlet-name>
     <url-pattern>/Seed</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UploadArticle</servlet-name>
+    <url-pattern>/UploadArticle</url-pattern>
+  </servlet-mapping>
+  
+  <context-param> 
+    <description>Location to store uploaded articles</description> 
+    <param-name>upload-articles</param-name> 
+    <param-value>
+         c:\apache-tomcat-5.5.29\webapps\data\
+     </param-value> 
+   </context-param>
 </web-app>
