@@ -2,6 +2,7 @@ package com.sheffield.ecommerce.servlets;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -9,6 +10,7 @@ import javax.servlet.http.*;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.sheffield.ecommerce.models.Article;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.User;
    
@@ -47,5 +49,4 @@ public class Login extends HttpServlet {
 		
 		requestDispatcher.forward(request, response);
 	}
-
 }
