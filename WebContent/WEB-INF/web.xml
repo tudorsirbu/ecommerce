@@ -8,28 +8,25 @@
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
-  </welcome-file-list>  
+  </welcome-file-list>
   <servlet>
     <description></description>
     <display-name>Login</display-name>
     <servlet-name>Login</servlet-name>
     <servlet-class>com.sheffield.ecommerce.servlets.Login</servlet-class>
   </servlet>
-  
   <servlet>
     <description></description>
     <display-name>Register</display-name>
     <servlet-name>Register</servlet-name>
     <servlet-class>com.sheffield.ecommerce.servlets.Register</servlet-class>
   </servlet>
-  
   <servlet>
     <description></description>
     <display-name>Seed</display-name>
     <servlet-name>Seed</servlet-name>
     <servlet-class>com.sheffield.ecommerce.servlets.Seed</servlet-class>
   </servlet>
-  
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/Login</url-pattern>
@@ -41,5 +38,25 @@
   <servlet-mapping>
     <servlet-name>Seed</servlet-name>
     <url-pattern>/Seed</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Logout</display-name>
+    <servlet-name>Logout</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.Logout</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Logout</servlet-name>
+    <url-pattern>/Logout</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Home</display-name>
+    <servlet-name>Home</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.Home</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Home</servlet-name>
+    <url-pattern>/Home</url-pattern>
   </servlet-mapping>
 </web-app>

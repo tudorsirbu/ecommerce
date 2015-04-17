@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
+import com.sheffield.ecommerce.helpers.PasswordHelper;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.User;
    
@@ -19,8 +20,18 @@ public class Register extends HttpServlet {
 	private static final Logger LOGGER = Logger.getLogger(Register.class.getName());
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/register.jsp");
-		requestDispatcher.forward(request, response);
+		//Attempt to get the current user
+		HttpSession httpSession = request.getSession(false);
+	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("user") : null;
+	    
+	    //If a user is already logged in we redirect them to the homepage
+		if (currentUser != null) {
+			response.sendRedirect("/ecommerce/Home");
+		} else {
+			//Otherwise the user is not logged in and they are allowed to register
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/register.jsp");
+			requestDispatcher.forward(request, response);
+		}
 	}
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
@@ -42,7 +53,9 @@ public class Register extends HttpServlet {
 			user.setFirstName(request.getParameter("inputFirstName"));
 			user.setLastName(request.getParameter("inputLastName"));
 			user.setEmail(request.getParameter("inputEmail"));
-			user.setPassword(request.getParameter("inputPassword"));
+			PasswordHelper passwordHelper = new PasswordHelper(request.getParameter("inputPassword"));
+			user.setPasswordHash(passwordHelper.getPasswordHash());
+			user.setPasswordSalt(passwordHelper.getPasswordSalt());
 			user.validateModel();
 			
 			//Save the user to the database

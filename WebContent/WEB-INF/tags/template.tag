@@ -13,6 +13,8 @@
     <title>${title}</title>
     <link rel = "stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
     <link rel = "stylesheet" href="${pageContext.request.contextPath}/css/application.css">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
   </head>
 
   <body>
@@ -31,10 +33,29 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
+            <li class="active"><a href="Home">Home</a></li>
             <li><a href="#">Link 1</a></li>
             <li><a href="#">Link 2</a></li>
           </ul>
+          <ul class="nav navbar-nav navbar-right">
+	          <c:choose>
+		          <c:when test="${sessionScope.user != null}">
+					<li class="dropdown">
+					    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Welcome back, ${user.firstName} <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+						    <li><a href="#">My Account</a></li>
+		            		<li class="divider"></li>
+							<li>
+							<a href="Logout" title="Log out of the system">Log out</a>
+							</li>
+						</ul>
+					</li>
+				  </c:when>
+				  <c:otherwise>
+				  	<li><a href="Login">Login</a></li>
+				  </c:otherwise>
+		  	  </c:choose>
+		  </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>

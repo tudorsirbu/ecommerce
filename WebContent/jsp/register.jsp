@@ -23,7 +23,7 @@
         <label for="inputPasswordConfirmation" class="sr-only">Password confirmations</label>
         <input type="password" name="inputPasswordConfirmation" id="inputPasswordConfirmation" class="form-control" placeholder="Password confirmation" required="">
         <br>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
       </form>
     </div>
   </div>
