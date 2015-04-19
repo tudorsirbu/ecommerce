@@ -7,6 +7,8 @@ import com.sheffield.ecommerce.exceptions.InvalidModelException;
 
 public class User implements Serializable {
 	private static final long serialVersionUID = 5999500982028327711L;
+	public static final int AUTHOR = 0;
+	public static final int EDITOR = 1;
 	int id;
 	String firstName;
 	String lastName;

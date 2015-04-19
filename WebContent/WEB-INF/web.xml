@@ -59,4 +59,24 @@
     <servlet-name>Home</servlet-name>
     <url-pattern>/Home</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserEditor</display-name>
+    <servlet-name>UserEditor</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.UserEditor</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserEditor</servlet-name>
+    <url-pattern>/user</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UsersList</display-name>
+    <servlet-name>UsersList</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.UsersList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UsersList</servlet-name>
+    <url-pattern>/users</url-pattern>
+  </servlet-mapping>
 </web-app>
