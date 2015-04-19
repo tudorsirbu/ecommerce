@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -38,7 +39,7 @@ public class Register extends HttpServlet {
 		RequestDispatcher requestDispatcher;
 		
 		if (!arePasswordsMatching(request)){
-			request.setAttribute("errorMsg", "Password and confirmation do not match!");
+			request.setAttribute("errorMsg", "Password and confirmation do not match");
 			requestDispatcher = request.getRequestDispatcher("jsp/register.jsp");
 			requestDispatcher.forward(request, response);
 			return;
@@ -70,11 +71,11 @@ public class Register extends HttpServlet {
 			//If there was any invalid User information then log and throw the message up to the user
 			LOGGER.log(Level.INFO, ex.getMessage());
 			request.setAttribute("errorMsg", ex.getMessage());
-		} catch (ConstraintViolationException ex) {
+		} catch (HibernateException ex) {
 			//If an unexpected error occurred then log, attempt to rollback and then throw a user friendly error
 			LOGGER.log(Level.SEVERE, ex.getCause().getMessage());
 			session.getTransaction().rollback();
-			request.setAttribute("errorMsg", "The data entered is invalid, please check and try again."); //TODO dont want to leave the page
+			request.setAttribute("errorMsg", "The data entered is invalid, please check and try again.");
 		} catch (Exception ex) {
 			//If an unexpected error occurred then log, attempt to rollback and then throw a user friendly error
 			LOGGER.log(Level.SEVERE, ex.getMessage());

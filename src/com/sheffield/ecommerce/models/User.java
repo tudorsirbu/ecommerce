@@ -72,7 +72,6 @@ public class User implements Serializable {
 		this.email = email;
 	}
 	
-	//TODO Complete validation for model
 	public void validateModel() throws InvalidModelException {
 		if (firstName == null || firstName.isEmpty()){
 			throw new InvalidModelException("First name cannot be empty.");
