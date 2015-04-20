@@ -2,26 +2,51 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<t:template title="Register">
-  <div class="row">
-    <div class="col-sm-4 col-sm-push-4">
-      <h2>Register</h2>
-      <form name="register" action="Register" method="post" class="form-signin">
-        <label for="inputFirstName" class="sr-only">First name</label>
-        <input type="text" name="inputFirstName" id="inputFirstName" class="form-control" placeholder="First name" required="" autofocus="">
-        <label for="inputLastName" class="sr-only">Last name</label>
-        <input type="text" name="inputLastName" id="inputLastName" class="form-control" placeholder="Last name" required="" autofocus="">
-      
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required="">
-        
-        <label for="inputPasswordConfirmation" class="sr-only">Password confirmations</label>
-        <input type="password" name="inputPasswordConfirmation" id="inputPasswordConfirmation" class="form-control" placeholder="Password confirmation" required="">
-        <br>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
-      </form>
+<t:template title="Edit User">
+  <c:if test="${not empty user}">
+    <div class="page-header">
+      <h1>Edit User</h1>
     </div>
-  </div>
+    
+	  <form name="register" method="post" class="form-horizontal">
+	  
+	    <div class="form-group">
+	     <label for="firstName" class="control-label col-sm-2">First name</label>
+	     <div class="col-sm-10">
+	       <input type="text" name="firstName" id="firstName" class="form-control" placeholder="First name" required="" autofocus="" value="${user.firstName}">
+	     </div>
+	    </div>
+	    
+	    <div class="form-group">
+	      <label for="lastName" class="control-label col-sm-2">Last name</label>
+	      <div class="col-sm-10">
+	        <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Last name" required="" value="${user.lastName}">
+	      </div>
+      </div>
+	     
+		  <div class="form-group">
+		    <label for="email" class="control-label col-sm-2">Email address</label>
+		    <div class="col-sm-10">
+		      <input type="email" name="email" id="email" class="form-control" placeholder="Email address" required="" value="${user.email}">
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="role" class="control-label col-sm-2">Role</label>
+		    <div class="col-sm-10">
+		      <select name="role" class="form-control">
+			      <option value="0" ${user.role == 0 ? 'selected' : ''}>Author/Reviewer</option>
+			      <option value="1" ${user.role == 1 ? 'selected' : ''}>Editor</option>
+			    </select>
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <div class="col-sm-offset-2 col-sm-10">
+		      <button class="btn btn-primary" type="submit">Update User</button>
+		    </div>
+		  </div>
+
+	  </form>
+  </c:if>
 </t:template>

@@ -25,8 +25,12 @@
               <td>${user.firstName}</td>
               <td>${user.lastName}</td>
               <td>${user.email}</td>
-              <td>${user.role}</td>
-              <td><a href="${pageContext.request.contextPath}/user?id=${user.id}">Edit</a></td>
+              <td>${user.roleName}</td>
+              <td>
+                <a href="${pageContext.request.contextPath}/users?id=${user.id}">View</a>
+                |
+                <a href="${pageContext.request.contextPath}/users/edit?id=${user.id}">Edit</a>
+              </td>
             </tr>
           </c:forEach>
         </tbody>

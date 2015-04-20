@@ -36,6 +36,10 @@ public class User implements Serializable {
 	public int getRole() {
 		return role;
 	}
+	
+	public String getRoleName() {
+		return (role == 1) ? "Editor" : "Author/Reviewer";
+	}
 
 	public void setRole(int role) {
 		this.role = role;
@@ -83,11 +87,25 @@ public class User implements Serializable {
 		}
 		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		Query query = session.createQuery("SELECT 1 FROM User u where u.email = :email");
+		
+		Query query = session.createQuery("SELECT 1 FROM User u where u.email = :email AND u.id <> :id");
 		query.setParameter("email", email);
+		query.setParameter("id", id);
 		if (query.uniqueResult() != null) { 
+			session.getTransaction().commit();
 			throw new InvalidModelException("This email has already been used.");
 		}
+		
+		if (role != EDITOR) {
+			Query editorQuery = session.createQuery("SELECT 1 FROM User u where u.role = :role AND u.id <> :id");
+			editorQuery.setParameter("role", EDITOR);
+			editorQuery.setParameter("id", id);
+			if (editorQuery.uniqueResult() == null) { 
+				session.getTransaction().commit();
+				throw new InvalidModelException("There must be at least one editor.");
+			}
+		}
+		session.getTransaction().commit();
 	}
 	
 	

@@ -9,6 +9,10 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <error-page>
+    <error-code>403</error-code>
+    <location>/jsp/403.jsp</location>
+  </error-page>
   <servlet>
     <description></description>
     <display-name>Login</display-name>
@@ -63,17 +67,17 @@
     <description></description>
     <display-name>UserEditor</display-name>
     <servlet-name>UserEditor</servlet-name>
-    <servlet-class>com.sheffield.ecommerce.servlets.UserEditor</servlet-class>
+    <servlet-class>com.sheffield.ecommerce.servlets.users.UserEditor</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>UserEditor</servlet-name>
-    <url-pattern>/user</url-pattern>
+    <url-pattern>/users/edit</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
     <display-name>UsersList</display-name>
     <servlet-name>UsersList</servlet-name>
-    <servlet-class>com.sheffield.ecommerce.servlets.UsersList</servlet-class>
+    <servlet-class>com.sheffield.ecommerce.servlets.users.UsersList</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>UsersList</servlet-name>
