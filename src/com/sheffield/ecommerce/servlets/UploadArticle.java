@@ -2,8 +2,6 @@ package com.sheffield.ecommerce.servlets;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,16 +10,9 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.FilenameUtils;
-import org.hibernate.Session;
-import org.hibernate.exception.ConstraintViolationException;
 
-import com.sheffield.ecommerce.exceptions.InvalidModelException;
-import com.sheffield.ecommerce.models.SessionFactoryUtil;
-import com.sheffield.ecommerce.models.User;
 
 public class UploadArticle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
