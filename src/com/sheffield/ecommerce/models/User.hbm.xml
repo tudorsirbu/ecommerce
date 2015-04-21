@@ -23,8 +23,12 @@
             <column name="email" length="100" not-null="true" unique="true" />
         </property>
         
-        <property name="password">
-            <column name="password" length="100" not-null="true"/>
+        <property name="passwordHash">
+            <column name="passwordHash" length="200" not-null="true"/>
+        </property>
+        
+        <property name="passwordSalt">
+            <column name="passwordSalt" length="200" not-null="true"/>
         </property>
         
         <property name="role">
