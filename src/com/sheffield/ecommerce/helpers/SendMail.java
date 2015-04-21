@@ -6,7 +6,7 @@ import com.sheffield.ecommerce.models.User;
 
 public class SendMail {
 	
-	public static void sendEmail(User user,String subject, String content){
+	public static void sendEmail(User user,String subject, String content) {
 		
 		  // Recipient's email
 	      String to = user.getEmail();
@@ -28,8 +28,7 @@ public class SendMail {
 	         MimeMessage message = new MimeMessage(session);
 
 	         // Set To: header field of the header.
-	         message.addRecipient(Message.RecipientType.TO,
-	                                  new InternetAddress(to));
+	         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
 	         // Set Subject: header field
 	         message.setSubject(subject);
@@ -39,7 +38,7 @@ public class SendMail {
 
 	         // Send email
 	         Transport.send(message);
-	      }catch (MessagingException mex) {
+	      } catch (MessagingException mex) {
 	         mex.printStackTrace();
 	      }
 	}
