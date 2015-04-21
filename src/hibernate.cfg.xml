@@ -10,13 +10,23 @@
  
  
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost/team160</property>
-        <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password"></property>
+        
+<!--         <property name="hibernate.connection.url">jdbc:mysql://localhost/team160</property> -->
+<!--         <property name="hibernate.connection.username">root</property> -->
+<!--         <property name="hibernate.connection.password"></property> -->
+
+        <property name="hibernate.connection.url">jdbc:mysql://stusql.dcs.shef.ac.uk/team160</property>
+        <property name="hibernate.connection.username">team160</property>
+        <property name="hibernate.connection.password">d5335d29</property>
+        
+<!--         <property name="hibernate.connection.url">jdbc:mysql://stusql.dcs.shef.ac.uk/aca11lh</property> -->
+<!--         <property name="hibernate.connection.username">aca11lh</property> -->
+<!--         <property name="hibernate.connection.password">14ff9799</property> -->
+        
         <property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
  
         <!-- Automatic schema creation (begin) === -->
-        <property name="hibernate.hbm2ddl.auto">create</property>
+<!--         <property name="hibernate.hbm2ddl.auto">create</property> -->
  
  
         <!-- Simple memory-only cache -->

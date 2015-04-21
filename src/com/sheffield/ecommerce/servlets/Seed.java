@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
 import com.sheffield.ecommerce.exceptions.*;
+import com.sheffield.ecommerce.helpers.PasswordHelper;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.User;
    
@@ -40,7 +41,9 @@ public class Seed extends HttpServlet {
 			user.setEmail("john.doe@test.co.uk");
 			user.setFirstName("john");
 			user.setLastName("doe");
-			user.setPassword("password");
+			PasswordHelper passwordHelper = new PasswordHelper("password");
+			user.setPasswordHash(passwordHelper.getPasswordHash());
+			user.setPasswordSalt(passwordHelper.getPasswordSalt());
 			user.validateModel();
 			
 			//Save the user to the database
