@@ -9,7 +9,6 @@ import javax.servlet.http.*;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.exception.ConstraintViolationException;
 
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
 import com.sheffield.ecommerce.helpers.PasswordHelper;
@@ -23,7 +22,7 @@ public class Register extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Attempt to get the current user
 		HttpSession httpSession = request.getSession(false);
-	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("user") : null;
+	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 	    
 	    //If a user is already logged in we redirect them to the homepage
 		if (currentUser != null) {

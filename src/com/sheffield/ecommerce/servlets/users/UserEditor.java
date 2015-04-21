@@ -35,7 +35,7 @@ public class UserEditor extends HttpServlet {
 		try {
 			//Attempt to get the current user
 			HttpSession httpSession = request.getSession(false);
-		    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("user") : null;
+		    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 			
 		    //If a user is logged in show the homepage, otherwise direct them to the login page
 			if (currentUser != null) {
@@ -71,7 +71,7 @@ public class UserEditor extends HttpServlet {
 		try {
 			//Attempt to get the current user
 			HttpSession httpSession = request.getSession(false);
-		    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("user") : null;
+		    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 			
 		    //If a user is logged in show the homepage, otherwise direct them to the login page
 			if (currentUser != null && currentUser.getRole() == User.EDITOR) {
@@ -88,6 +88,10 @@ public class UserEditor extends HttpServlet {
 					user.setEmail(request.getParameter("email"));
 					user.setRole(Integer.parseInt(request.getParameter("role")));
 					dao.updateUser(user);
+					
+					if (currentUser.getId() == id) {
+						httpSession.setAttribute("currentUser", user);
+					}
 					
 					response.sendRedirect("/ecommerce/users");
 				}

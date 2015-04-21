@@ -22,7 +22,7 @@ public class Home extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Attempt to get the current user
 		HttpSession httpSession = request.getSession(false);
-	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("user") : null;
+	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 		
 	    //If a user is logged in show the homepage, otherwise direct them to the login page //TODO change this so login isnt essential
 		if (currentUser != null) {

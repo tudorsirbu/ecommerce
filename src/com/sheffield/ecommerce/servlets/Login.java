@@ -22,7 +22,7 @@ public class Login extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		//Attempt to get the current user
 		HttpSession httpSession = request.getSession(false);
-	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("user") : null;
+	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 	    
 		//If a user is already logged in we redirect them to the homepage
 		if (currentUser != null) {
@@ -56,14 +56,14 @@ public class Login extends HttpServlet {
 			requestDispatcher.forward(request, response);
 		} else {
 			//Otherwise get the user object and authenticate the password
-			User user = results.get(0);
+			User currentUser = results.get(0);
 			boolean validPassword;
 			try {
-				validPassword = PasswordHelper.verifyPassword(password, user.getPasswordSalt(), user.getPasswordHash());
+				validPassword = PasswordHelper.verifyPassword(password, currentUser.getPasswordSalt(), currentUser.getPasswordHash());
 				//If the password is valid, add the user object to the session
 				if (validPassword) {
 					HttpSession httpSession = request.getSession(true); //Returns a new session if one does not exist
-					httpSession.setAttribute("user", user);
+					httpSession.setAttribute("currentUser", currentUser);
 					response.sendRedirect("/ecommerce/Home");
 				} else {
 					//Otherwise display an error

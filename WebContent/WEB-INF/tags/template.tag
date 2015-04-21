@@ -37,12 +37,12 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
 	          <c:choose>
-		          <c:when test="${sessionScope.user != null}">
+		          <c:when test="${sessionScope.currentUser != null}">
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Welcome back, ${sessionScope.user.firstName}<span class="caret"></span></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Welcome back, ${sessionScope.currentUser.firstName}<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="${pageContext.request.contextPath}/users?id=${sessionScope.user.id}">My Account</a></li>
-                    <c:if test="${sessionScope.user.role == 1}"><li><a href="${pageContext.request.contextPath}/users">Users</a></li></c:if>
+                    <li><a href="${pageContext.request.contextPath}/users?id=${sessionScope.currentUser.id}">My Account</a></li>
+                    <c:if test="${sessionScope.currentUser.role == 1}"><li><a href="${pageContext.request.contextPath}/users">Users</a></li></c:if>
                     <li class="divider"></li>
 										<li><a href="Logout" title="Log out of the system">Log out</a></li>
                   </ul>

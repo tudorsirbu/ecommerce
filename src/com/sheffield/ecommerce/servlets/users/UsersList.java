@@ -28,7 +28,7 @@ public class UsersList extends HttpServlet {
 		try {
 			//Attempt to get the current user
 			HttpSession httpSession = request.getSession(false);
-		    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("user") : null;
+		    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 			
 		    //If a user is logged in show the homepage, otherwise direct them to the login page
 			if (currentUser != null) {
@@ -40,7 +40,7 @@ public class UsersList extends HttpServlet {
 				if (idString != null && !idString.equals("")) {
 					int id = Integer.parseInt(idString);
 					
-					if (currentUser.getRole() != User.EDITOR && currentUser.getId() == id) {
+					if (currentUser.getRole() == User.EDITOR || (currentUser.getRole() != User.EDITOR && currentUser.getId() == id)) {
 						// Show page
 						User user = dao.getUserById(id);
 						
