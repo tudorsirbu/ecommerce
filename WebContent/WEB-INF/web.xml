@@ -58,7 +58,7 @@
     <description>Location to store uploaded articles</description> 
     <param-name>upload-articles</param-name> 
     <param-value>
-         c:\apache-tomcat-5.5.29\webapps\data\
+         ~/Desktop/uploads/
      </param-value> 
    </context-param>
 </web-app>
