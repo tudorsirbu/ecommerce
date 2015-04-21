@@ -4,7 +4,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import com.sheffield.ecommerce.models.User;
 
-public class SendMail {
+public class Mailer {
 	
 	public static void sendEmail(User user,String subject, String content) {
 		
