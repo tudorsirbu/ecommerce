@@ -9,7 +9,7 @@
   <div class="row">
     <div class="col-sm-4 col-sm-push-4">
       <h2>Login</h2>
-      <form name="testForm" action="Login" method="post" class="form-signin">
+      <form name="loginForm" action="Login" method="post" class="form-signin">
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>

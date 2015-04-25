@@ -18,7 +18,7 @@ import com.sheffield.ecommerce.servlets.Register;
 public class UsersList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(Register.class.getName());
-	private UserDao dao;
+	private UserDao dao; //Data access object
 	
 	public UsersList() {
 		dao = new UserDao();
