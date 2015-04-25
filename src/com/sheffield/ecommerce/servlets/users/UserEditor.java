@@ -137,7 +137,7 @@ public class UserEditor extends HttpServlet {
 				if (currentUser.getRole() == User.EDITOR) {
 					response.sendRedirect("/ecommerce/users");
 				} else {
-					response.sendRedirect("/ecommerce/");
+					response.sendRedirect("/ecommerce/Home");
 				}
 					
 			} else {

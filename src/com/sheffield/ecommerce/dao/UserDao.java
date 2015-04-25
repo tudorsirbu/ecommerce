@@ -108,4 +108,20 @@ public class UserDao {
 		User user = (User) query.uniqueResult();
 		return user;
 	}
+	
+	
+	/**
+	 * Fetch a specific user from the database by their email
+	 * @param id
+	 * @return The requested user
+	 */
+	public User getUserByEmail(String email) {
+		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from User u where u.email = :email");
+		query.setMaxResults(1);
+		query.setParameter("email", email);
+		User user = (User) query.uniqueResult();
+		return user;
+	}
 }
