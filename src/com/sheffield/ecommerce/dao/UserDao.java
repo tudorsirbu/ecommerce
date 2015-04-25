@@ -41,6 +41,22 @@ public class UserDao {
 		session.getTransaction().commit();
 	}
 	
+	public void updateUserWithPassword(User user) throws InvalidModelException {
+		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		user.validateModel();
+		session.beginTransaction();
+		Query query = session.createQuery("update User set first_name = :firstName, last_name = :lastName, email = :email, role = :role, passwordHash = :passwordHash, passwordSalt = :passwordSalt where id = :id");
+		query.setParameter("id", user.getId());
+		query.setParameter("firstName", user.getFirstName());
+		query.setParameter("lastName", user.getlastName());
+		query.setParameter("email", user.getEmail());
+		query.setParameter("role", user.getRole());
+		query.setParameter("passwordHash", user.getPasswordHash());
+		query.setParameter("passwordSalt", user.getPasswordSalt());
+		query.executeUpdate();
+		session.getTransaction().commit();
+	}
+	
 	public List<User> getAllUsers() {
 		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();

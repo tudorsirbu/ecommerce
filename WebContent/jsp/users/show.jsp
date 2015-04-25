@@ -1,11 +1,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<jsp:useBean id="cons" class="com.sheffield.ecommerce.helpers.Constant" scope="session"/>
 
 <t:template title="User Details">
   <div class="row">
     <div class="col-sm-12">
-      <div class="page-header">
+      <div class="page-header">       
+        <c:if test="${(currentUser.role == cons.editor) || (currentUser.id == user.id)}">
+          <a class="btn btn-primary pull-right" href="${pageContext.request.contextPath}/users/edit?id=${user.id}">Edit User</a>
+        </c:if>
         <h1>User Details</h1>
       </div>
       
