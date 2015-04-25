@@ -7,6 +7,7 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="page-header">       
+        <!-- Edit button should only be shown to editors or to the current user if this is their show page -->
         <c:if test="${(currentUser.role == cons.editor) || (currentUser.id == user.id)}">
           <a class="btn btn-primary pull-right" href="${pageContext.request.contextPath}/users/edit?id=${user.id}">Edit User</a>
         </c:if>

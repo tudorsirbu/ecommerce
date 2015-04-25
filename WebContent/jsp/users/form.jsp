@@ -46,6 +46,7 @@
         </div>
       </div> 
 		  
+		  <!-- Only allow editors to modify a users role -->
 		  <c:if test="${currentUser.role == cons.editor}">
 			  <div class="form-group">
 			    <label for="role" class="control-label col-sm-2">Role</label>

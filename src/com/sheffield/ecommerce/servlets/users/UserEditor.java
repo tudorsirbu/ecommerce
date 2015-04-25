@@ -20,7 +20,7 @@ import com.sheffield.ecommerce.models.User;
 import com.sheffield.ecommerce.servlets.Register;
 
 /**
- * Servlet implementation class Home
+ * Servlet for the user edit page
  */
 public class UserEditor extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -28,94 +28,112 @@ public class UserEditor extends HttpServlet {
 	private UserDao dao;
 	
 	public UserEditor() {
+		// Create a new instance of the data access object when the servlet is initialised
 		dao = new UserDao();
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Handle GET requests for the user edit page
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			//Attempt to get the current user
+			//Attempt to get the current user from the session
 			HttpSession httpSession = request.getSession(false);
 		    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 			
-		    //If a user is logged in show the homepage, otherwise direct them to the login page
+		    //If a user is not logged in, direct them to the login page
 			if (currentUser != null) {			
-				// Edit page
+				// Get the user from the id in the request parameters
 				int id = Integer.parseInt(request.getParameter("id"));
 				User user = dao.getUserById(id);
 				
+				// Only allow editors and the current user to access their edit page
 				if (currentUser.getRole() == User.EDITOR || currentUser.getId() == id) {	
 					
+					// Send the user object to the page if they exist
+					// Otherwise, display an error
 					if (user != null) { 
 						request.setAttribute("user", user);		
 					} else {
 						request.setAttribute("errorMsg", "No user exists with this id.");
 					}
 					
+					// Display the edit form
 					RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/users/form.jsp");
 					requestDispatcher.forward(request, response);
 						
 				} else {
+					// Display a 404 error if the user is not permitted to view this page
 					response.sendError(HttpServletResponse.SC_FORBIDDEN, "Current user is not permitted to access this page.");
 				}
 			} else {
+				// Redirect to the login page if the user is not logged in
 				response.sendRedirect("/ecommerce/Login");
 			}	
 		} catch (NumberFormatException e) {
+			// Display an error if the requested user does not exist
 			LOGGER.log(Level.SEVERE, e.getMessage());
 			request.setAttribute("errorMsg", "No user exists with this id.");
 			response.sendRedirect("/ecommerce/users");
 		}
 	}
 	
-	
+	/**
+	 * Handle POST requests for the user edit page
+	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		User user = null;
 		try {			
-			//Attempt to get the current user
+			//Attempt to get the current user from the session
 			HttpSession httpSession = request.getSession(false);
 		    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 			
 			// Get the id parameter from the URL
 		    int id = Integer.parseInt(request.getParameter("id"));
 				
-		    //If a user is logged in show the homepage, otherwise direct them to the login page
+		    // Only allow logged in editors and the current user to make changes to this user
 			if (currentUser != null && (currentUser.getRole() == User.EDITOR || currentUser.getId() == id)) {
 
-				// Update
+				// Update the user's parameters
 				user = dao.getUserById(id);
 				user.setFirstName(request.getParameter("firstName"));
 				user.setLastName(request.getParameter("lastName"));
 				user.setEmail(request.getParameter("email"));
+				
+				// If the current user is an editor, ensure that the role is updated
 				if (currentUser.getRole() == User.EDITOR) {
 					user.setRole(Integer.parseInt(request.getParameter("role")));
 				}
+				
 				// Check if a new password was entered 
 				if (request.getParameter("password") != null && !request.getParameter("password").equals("")) {
-					// Check if the passwords matched
+					// If the passwords don't match, display an error
 					if (!request.getParameter("password").equals(request.getParameter("passwordConfirmation"))){
 						request.setAttribute("errorMsg", "Password and confirmation do not match");
 						request.setAttribute("user", user);
 						RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/users/form.jsp");
 						requestDispatcher.forward(request, response);
 						return;
+						
 					} else {
+						// If the passwords do match, update the user object and save the changes to the database
 						PasswordHelper passwordHelper = new PasswordHelper(request.getParameter("password"));
 						user.setPasswordHash(passwordHelper.getPasswordHash());
 						user.setPasswordSalt(passwordHelper.getPasswordSalt());
 						dao.updateUserWithPassword(user);
 					}
-					
 				} else {
+					// If no password was entered, update the user in the database normally
 					dao.updateUser(user);
 				}
-
+				
+				// If the current user is being updated, also update the current user in the session
 				if (currentUser.getId() == id) {
 					httpSession.setAttribute("currentUser", user);
 				}
 				
+				// If the current user is an editor, redirect to the users index page
+				// Otherwise redirect to the root
 				if (currentUser.getRole() == User.EDITOR) {
 					response.sendRedirect("/ecommerce/users");
 				} else {
@@ -123,9 +141,12 @@ public class UserEditor extends HttpServlet {
 				}
 					
 			} else {
+				// Display a 404 error if the user is not permitted to view this page
 				response.sendError(HttpServletResponse.SC_FORBIDDEN, "Current user is not permitted to access this page.");
 			}	
+			
 		} catch (NumberFormatException e) {
+			// Display an error if the requested user does not exist
 			LOGGER.log(Level.WARNING, e.getMessage());
 			request.setAttribute("errorMsg", "No user exists with this id.");
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/users/form.jsp");

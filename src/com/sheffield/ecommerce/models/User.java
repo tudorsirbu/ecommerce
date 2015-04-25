@@ -79,15 +79,19 @@ public class User implements Serializable {
 	}
 	
 	public void validateModel() throws InvalidModelException {
+		// Check the first name is present
 		if (firstName == null || firstName.isEmpty()){
 			throw new InvalidModelException("First name cannot be empty.");
 		}
+		// Check the last name is present
 		if (lastName == null || lastName.isEmpty()){
 			throw new InvalidModelException("Surname cannot be empty.");
 		}
+		// Open a new database connection
 		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		
+		// Check that the email is unique if creating
 		Query query = session.createQuery("SELECT 1 FROM User u where u.email = :email AND u.id <> :id");
 		query.setParameter("email", email);
 		query.setParameter("id", id);
@@ -96,6 +100,7 @@ public class User implements Serializable {
 			throw new InvalidModelException("This email has already been used.");
 		}
 		
+		// Check that there is at least one editor in the database after this update
 		if (role != EDITOR) {
 			Query editorQuery = session.createQuery("SELECT 1 FROM User u where u.role = :role AND u.id <> :id");
 			editorQuery.setParameter("role", EDITOR);
@@ -105,6 +110,7 @@ public class User implements Serializable {
 				throw new InvalidModelException("There must be at least one editor.");
 			}
 		}
+		// Commit the transaction and close the connection
 		session.getTransaction().commit();
 	}
 	
