@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+<hibernate-mapping>
+ 
+    <class name="com.sheffield.ecommerce.models.Article" table="articles">
+ 
+        <id name="id" column="id">
+            <generator class="native" />
+        </id>
+ 
+        <property name="title">
+            <column name="title" length="100" not-null="true" />
+        </property>
+ 
+        <property name="article_abstract">
+            <column name="article_abstract" length="10000" not-null="true" unique="true" />
+        </property>
+        
+        <property name="main_contact_id">
+            <column name="main_contact_id" length="3" not-null="true"/>
+        </property>
+ 
+    </class>
+</hibernate-mapping>
