@@ -141,8 +141,7 @@ public class UploadArticle extends HttpServlet {
  
         // constructs the directory path to store upload file
         // this path is relative to application's directory
-        uploadPath = getServletContext().getRealPath("")
-                + File.separator + UPLOAD_DIRECTORY;
+        uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY;
          
         // creates the directory if it does not exist
         File uploadDir = new File(uploadPath);

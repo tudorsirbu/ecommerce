@@ -53,13 +53,6 @@
     <servlet-name>UploadArticle</servlet-name>
     <url-pattern>/UploadArticle</url-pattern>
   </servlet-mapping>
-  <context-param> 
-    <description>Location to store uploaded articles</description> 
-    <param-name>upload-articles</param-name> 
-    <param-value>
-         ~/Desktop/uploads/
-     </param-value> 
-  </context-param>
   <servlet>
     <description></description>
     <display-name>Logout</display-name>
@@ -99,5 +92,16 @@
   <servlet-mapping>
     <servlet-name>UsersList</servlet-name>
     <url-pattern>/users</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description></description>
+    <display-name>ArticlesList</display-name>
+    <servlet-name>ArticlesList</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.articles.ArticlesList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ArticlesList</servlet-name>
+    <url-pattern>/articles</url-pattern>
   </servlet-mapping>
 </web-app>
