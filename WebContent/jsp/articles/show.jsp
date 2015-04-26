@@ -16,6 +16,7 @@
       <div class="well well-sm">
       	<h5>
       		<b> Written by ${author.firstName}  ${author.lastName} </b>
+      		|
       		<a href="mailto:${author.email}">${author.email}</a>
    		</h5>
       </div>
