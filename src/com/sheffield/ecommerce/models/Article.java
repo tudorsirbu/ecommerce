@@ -10,6 +10,7 @@ public class Article implements Serializable {
 	int id;
 	String title;
 	String article_abstract;
+	String fileName;
 	int main_contact_id;
 	
 	public int getId() {
@@ -44,25 +45,33 @@ public class Article implements Serializable {
 		this.main_contact_id = main_contact_id;
 	}
 
-	//TODO Complete validation for model
-	public void validateModel() throws InvalidModelException {
-//		if (firstName == null || firstName.isEmpty()){
-//			throw new InvalidModelException("First name cannot be empty.");
-//		}
-//		if (lastName == null || lastName.isEmpty()){
-//			throw new InvalidModelException("Surname cannot be empty.");
-//		}
-//		if (password == null || password.isEmpty()){
-//			throw new InvalidModelException("Password cannot be empty.");
-//		}
-//		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
-//		session.beginTransaction();
-//		Query query = session.createQuery("SELECT 1 FROM User u where u.email = :email");
-//		query.setParameter("email", email);
-//		if (query.uniqueResult() != null) { 
-//			throw new InvalidModelException("This email has already been used.");
-//		}
+	public String getFileName() {
+		return fileName;
 	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public void validateModel() throws InvalidModelException {
+		if (title == null || title.isEmpty()){
+			throw new InvalidModelException("Article title cannot be empty.");
+		}
+		if (article_abstract == null || article_abstract.isEmpty()){
+			throw new InvalidModelException("Article abstract cannot be empty.");
+		}
+		if (fileName == null || fileName.isEmpty()){
+			throw new InvalidModelException("Article attachment cannot be missing.");
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "Article [id=" + id + ", title=" + title + ", article_abstract="
+				+ article_abstract + ", fileName=" + fileName
+				+ ", main_contact_id=" + main_contact_id + "]";
+	}
+	
 	
 	
 }

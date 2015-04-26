@@ -23,5 +23,8 @@
             <column name="main_contact_id" length="3" not-null="true"/>
         </property>
  
+ 		<property name="fileName">
+            <column name="fileName" length="150" not-null="true" />
+        </property>
     </class>
 </hibernate-mapping>

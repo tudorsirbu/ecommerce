@@ -41,6 +41,7 @@ public class Seed extends HttpServlet {
 			user.setEmail("john.doe@test.co.uk");
 			user.setFirstName("john");
 			user.setLastName("doe");
+			user.setRole(1);
 			PasswordHelper passwordHelper = new PasswordHelper("password");
 			user.setPasswordHash(passwordHelper.getPasswordHash());
 			user.setPasswordSalt(passwordHelper.getPasswordSalt());

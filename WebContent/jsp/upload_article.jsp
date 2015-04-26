@@ -10,8 +10,9 @@
 	    <div class="col-sm-4 col-sm-push-4">
 	      <form name="upload_article" action="UploadArticle" method="post" class="form-upload-article" enctype="multipart/form-data">
 				<h4>Article details</h4>
-				<label for="inputArticleTitle" class="sr-only">Article title</label>
-				<input type="text" name=""inputArticleTitle"" id="inputArticleTitle" class="form-control" placeholder="Article title" required="true" autofocus="">
+				
+				<label for="inputTitle" class="sr-only">Article title</label>
+        		<input type="text" name="inputTitle" id="inputTitle" class="form-control" placeholder="Article title" required="" autofocus="">
 				
 				<label for="inputArticleAbstract" class="sr-only">Article abstract</label>
 				<textarea name="inputArticleAbstract" id="inputArticleAbstract" class="form-control" placeholder="Please enter an article abstract" required="true" rows="10"></textarea>
