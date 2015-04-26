@@ -27,20 +27,28 @@ public class Test extends HttpServlet{
 				
 				try {		
 					//Create a new user with received user data
+					User author = new User();
+					author.setEmail("tudor.sirbu@gmail.com");
+					author.setFirstName("Tudor");
+					author.setLastName("Sirbu");
+					author.setPasswordHash("password");
+					author.setPasswordSalt("password");
+					author.setRole(0);
+					
 					Article article = new Article();
 					article.setTitle("My article");
 					article.setArticle_abstract("My abstract");
-					article.setMain_contact_id(1);
+					article.setAuthor(author);
 					
 					Article article1 = new Article();
 					article1.setTitle("My article1");
 					article1.setArticle_abstract("My abstract1");
-					article1.setMain_contact_id(1);
+					article1.setAuthor(author);
 					
 					Article article2 = new Article();
 					article2.setTitle("My article2");
 					article2.setArticle_abstract("My abstract2");
-					article2.setMain_contact_id(1);
+					article2.setAuthor(author);
 					
 					User user = new User();
 					user.setEmail("tudor.sirbu@gmail.com");
@@ -48,7 +56,7 @@ public class Test extends HttpServlet{
 					user.setLastName("Sirbu");
 					user.setPasswordHash("password");
 					user.setPasswordSalt("password");
-					user.setRole(1);
+					user.setRole(0);
 					
 					HashSet<Article> articlesToReview = new HashSet<Article>();
 					articlesToReview.add(article);
@@ -57,17 +65,9 @@ public class Test extends HttpServlet{
 					
 					user.setArticlesToReview(articlesToReview);
 					
-//					Review review1 = new Review();
-//					review1.setArticleSummary("Lalal");
-//					review1.setCommentsForEditor("lalal");
-//					review1.setOverallJudgement("champion");
-//					review1.setReviewerExpertise("expert");
-//					review1.setSmallErrors("Missed");
-//					review1.setSubstantiveCriticism("lalal!!");
-//					review1.setArticle(article);
-//					
 					//Save the user to the database
 					session.beginTransaction();
+					session.save(author);
 					session.save(article);
 					session.save(article1);
 					session.save(article2);

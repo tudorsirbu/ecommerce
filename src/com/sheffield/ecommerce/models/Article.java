@@ -10,7 +10,8 @@ public class Article implements Serializable {
 	int id;
 	String title;
 	String article_abstract;
-	int main_contact_id;
+	String fileName;
+	User author;
 	
 	public int getId() {
 		return id;
@@ -35,34 +36,35 @@ public class Article implements Serializable {
 	public void setArticle_abstract(String article_abstract) {
 		this.article_abstract = article_abstract;
 	}
-
-	public int getMain_contact_id() {
-		return main_contact_id;
+	
+	public User getAuthor() {
+		return author;
 	}
 
-	public void setMain_contact_id(int main_contact_id) {
-		this.main_contact_id = main_contact_id;
+	public void setAuthor(User author) {
+		this.author = author;
 	}
 
-	//TODO Complete validation for model
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
 	public void validateModel() throws InvalidModelException {
-//		if (firstName == null || firstName.isEmpty()){
-//			throw new InvalidModelException("First name cannot be empty.");
-//		}
-//		if (lastName == null || lastName.isEmpty()){
-//			throw new InvalidModelException("Surname cannot be empty.");
-//		}
-//		if (password == null || password.isEmpty()){
-//			throw new InvalidModelException("Password cannot be empty.");
-//		}
-//		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
-//		session.beginTransaction();
-//		Query query = session.createQuery("SELECT 1 FROM User u where u.email = :email");
-//		query.setParameter("email", email);
-//		if (query.uniqueResult() != null) { 
-//			throw new InvalidModelException("This email has already been used.");
-//		}
+		if (title == null || title.isEmpty()){
+			throw new InvalidModelException("Article title cannot be empty.");
+		}
+		if (article_abstract == null || article_abstract.isEmpty()){
+			throw new InvalidModelException("Article abstract cannot be empty.");
+		}
+		if (fileName == null || fileName.isEmpty()){
+			throw new InvalidModelException("Article attachment cannot be missing.");
+		}
 	}
+	
 	
 	
 }

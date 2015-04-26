@@ -26,11 +26,17 @@
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password"></property>
         
+		<!-- <property name="hibernate.connection.url">jdbc:mysql://localhost/team160</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password"></property>
+         -->
+         
         <property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
  
         <!-- Automatic schema creation (begin) === -->
 
-         <property name="hibernate.hbm2ddl.auto">create</property> 
+		<!-- <property name="hibernate.hbm2ddl.auto">create</property> -->
+
  
  
         <!-- Simple memory-only cache -->
