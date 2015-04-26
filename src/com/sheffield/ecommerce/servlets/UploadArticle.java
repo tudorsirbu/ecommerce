@@ -82,9 +82,17 @@ public class UploadArticle extends HttpServlet {
                 if (!item.isFormField()) {
                 	// generate the file name
                 	String currentTimestamp = String.valueOf(System.currentTimeMillis());
-                    String fileName = new File(currentTimestamp + "." + getFileExtension(item.getName())).getName();
+                	String extension = getFileExtension(item.getName());
+                	
+                	if(!extension.toLowerCase().equals("pdf")){
+                		request.setAttribute("errorMsg", "Uploaded article needs to be a PDF.");
+                        requestDispatcher = request.getRequestDispatcher("jsp/upload_article.jsp");
+                		requestDispatcher.forward(request, response);
+                		return;
+                	}
+                	
+                    String fileName = new File(currentTimestamp + "." + extension).getName();
                     String filePath = uploadPath + File.separator + fileName;
-                    LOGGER.log(Level.INFO, filePath);
                     File storeFile = new File(filePath);
 
                     // saves the file on disk
