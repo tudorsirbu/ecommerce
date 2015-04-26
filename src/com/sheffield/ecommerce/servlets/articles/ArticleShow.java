@@ -28,10 +28,11 @@ public class ArticleShow extends HttpServlet {
 	    //If a user is logged in show the homepage, otherwise direct them to the login page
 		if (currentUser != null ) {
 			int articleId = Integer.parseInt(request.getParameter("article_id"));
-			if(ArticleDao.doesArticleBelongToUser(articleId, currentUser.getId())){
+			if(ArticleDao.doesArticleBelongToUser(articleId, currentUser)){
 				Article article = ArticleDao.getArticleById(articleId);
 				
 				request.setAttribute("article", article);
+				request.setAttribute("author", article.getAuthor());
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/articles/show.jsp");
 				requestDispatcher.forward(request, response);
 			} else {

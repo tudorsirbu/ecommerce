@@ -28,7 +28,7 @@ public class ArticlesList extends HttpServlet {
 	    //If a user is logged in show the homepage, otherwise direct them to the login page
 		if (currentUser != null) {
 			// get the articles for the current user
-			List<Article> articles = ArticleDao.getArticlesForUser(currentUser.getId());
+			List<Article> articles = ArticleDao.getArticlesForUser(currentUser);
 			
 			request.setAttribute("articles", articles);
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/articles/list.jsp");

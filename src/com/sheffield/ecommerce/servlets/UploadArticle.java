@@ -98,7 +98,7 @@ public class UploadArticle extends HttpServlet {
                 		article.setArticle_abstract(item.getString());
                 }
             }
-            article.setMain_contact_id(currentUser.getId());
+            article.setAuthor(currentUser);
             LOGGER.log(Level.INFO, article.toString());
             ArticleDao.addArticle(article);
         } catch (Exception ex) {

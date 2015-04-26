@@ -20,26 +20,25 @@ public class ArticleDao {
 		session.getTransaction().commit();
 	}
 	
-	public static List<Article> getArticlesForUser(int userId) {
+	public static List<Article> getArticlesForUser(User author) {
 		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		Query query = session.createQuery("from Article a where a.main_contact_id = :id");
-		query.setParameter("id", userId);
+		Query query = session.createQuery("from Article a where a.author = :author");
+		query.setParameter("author", author);
 		@SuppressWarnings("unchecked")
 		List<Article> results = query.list();
 		session.getTransaction().commit();
 		return results;
 	}
 	
-	public static boolean doesArticleBelongToUser(int articleId, int userId){
+	public static boolean doesArticleBelongToUser(int articleId, User author){
 		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		Query query = session.createQuery("from Article a where a.id = :id AND a.main_contact_id = :userId");
+		Query query = session.createQuery("from Article a where a.id = :id AND a.author = :author");
 		query.setMaxResults(1);
 		query.setParameter("id", articleId);
-		query.setParameter("userId", userId);
+		query.setParameter("author", author);
 		Article article = (Article) query.uniqueResult();
-		
 		return article != null ? true : false;
 	}
 	

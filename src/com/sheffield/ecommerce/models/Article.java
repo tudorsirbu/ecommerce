@@ -11,7 +11,7 @@ public class Article implements Serializable {
 	String title;
 	String article_abstract;
 	String fileName;
-	int main_contact_id;
+	User author;
 	
 	public int getId() {
 		return id;
@@ -36,13 +36,13 @@ public class Article implements Serializable {
 	public void setArticle_abstract(String article_abstract) {
 		this.article_abstract = article_abstract;
 	}
-
-	public int getMain_contact_id() {
-		return main_contact_id;
+	
+	public User getAuthor() {
+		return author;
 	}
 
-	public void setMain_contact_id(int main_contact_id) {
-		this.main_contact_id = main_contact_id;
+	public void setAuthor(User author) {
+		this.author = author;
 	}
 
 	public String getFileName() {
@@ -63,13 +63,6 @@ public class Article implements Serializable {
 		if (fileName == null || fileName.isEmpty()){
 			throw new InvalidModelException("Article attachment cannot be missing.");
 		}
-	}
-
-	@Override
-	public String toString() {
-		return "Article [id=" + id + ", title=" + title + ", article_abstract="
-				+ article_abstract + ", fileName=" + fileName
-				+ ", main_contact_id=" + main_contact_id + "]";
 	}
 	
 	

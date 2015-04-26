@@ -18,13 +18,11 @@
         <property name="article_abstract">
             <column name="article_abstract" length="10000" not-null="true" unique="true" />
         </property>
-        
-        <property name="main_contact_id">
-            <column name="main_contact_id" length="3" not-null="true"/>
-        </property>
  
  		<property name="fileName">
             <column name="fileName" length="150" not-null="true" />
         </property>
+        
+        <many-to-one name="author" column="author_id" unique="false" class="com.sheffield.ecommerce.models.User" not-null="true"/>
     </class>
 </hibernate-mapping>
