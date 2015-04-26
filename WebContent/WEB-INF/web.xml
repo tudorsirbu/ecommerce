@@ -93,4 +93,14 @@
     <servlet-name>ManageJournal</servlet-name>
     <url-pattern>/ManageJournal</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ReviewForm</display-name>
+    <servlet-name>ReviewForm</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.reviews.ReviewForm</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviewForm</servlet-name>
+    <url-pattern>/ReviewForm</url-pattern>
+  </servlet-mapping>
 </web-app>
