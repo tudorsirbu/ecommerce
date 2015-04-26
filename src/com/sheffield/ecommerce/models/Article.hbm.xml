@@ -22,6 +22,7 @@
         <property name="main_contact_id">
             <column name="main_contact_id" length="3" not-null="true"/>
         </property>
- 
+        
+      	
     </class>
 </hibernate-mapping>

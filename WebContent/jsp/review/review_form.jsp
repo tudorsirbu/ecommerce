@@ -10,6 +10,7 @@
     <div class="col-sm-4 col-sm-push-4">
       <h2>Article review form</h2>
       <form name="articleReview" action="ReviewForm" method="post" class="form-signin">
+      	
       	<label for="overallJudgement">Overall judgement:</label>
       	<select name="overallJudgement" id="overallJudgement">
       		<option disabled selected>Please select</option>
@@ -20,22 +21,22 @@
 			<option value="indifferent">Indifferent</option>
 		</select><br>
 		
-      	<label for="expertise">Expertise level:</label>
-  		<select name="expertise" id="expertise">
+      	<label for="reviewerExpertise">Expertise level:</label>
+  		<select name="reviewerExpertise" id="expertise">
   			<option disabled selected>Please select</option>
       		<option value="expert">Expert</option>
 			<option value="knowledgeable">Knowledgeable</option>
 			<option value="outsider">Outsider</option>
 		</select><br>
 		
-		<label for="summary">Article summary:</label><br>
-		<textarea name="summary" rows="3" cols="48" placeholder="Please write a summary for the selected article and make sure to include any novel contributions of the article..."></textarea>
+		<label for="articleSummary">Article summary:</label><br>
+		<textarea name="articleSummary" rows="3" cols="48" placeholder="Please write a summary for the selected article and make sure to include any novel contributions of the article..."></textarea>
       	
-      	<label for="criticism">Substantive criticism:</label><br>
-		<textarea name="criticism" rows="3" cols="48" placeholder="Please write any substantial criticism for the selected article..."></textarea>
+      	<label for="articleCriticism">Substantive criticism:</label><br>
+		<textarea name="articleCriticism" rows="3" cols="48" placeholder="Please write any substantial criticism for the selected article..."></textarea>
       	
-      	<label for="errors">Small errors:</label><br>
-		<textarea name="errors" rows="3" cols="48" placeholder="Please write add any errors that were found (typographical,or grammatical mistakes, etc.)"></textarea>
+      	<label for="articleErrors">Small errors:</label><br>
+		<textarea name="articleErrors" rows="3" cols="48" placeholder="Please write add any errors that were found (typographical,or grammatical mistakes, etc.)"></textarea>
       	
       	<label for="secretComments">Comments for editor:</label><br>
 		<textarea name="secretComments" rows="3" cols="48" placeholder="Please write any comments that you wish only the editor to see..."></textarea>

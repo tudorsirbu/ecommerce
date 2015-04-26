@@ -16,7 +16,7 @@ import com.sheffield.ecommerce.models.User;
 
    
 public class ReviewForm extends HttpServlet{
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1473286239109165384L;
 	private static final Logger LOGGER = Logger.getLogger(ReviewForm.class.getName());
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,12 +39,6 @@ public class ReviewForm extends HttpServlet{
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		RequestDispatcher requestDispatcher;
 		
-		if (!arePasswordsMatching(request)){
-			request.setAttribute("errorMsg", "Password and confirmation do not match");
-			requestDispatcher = request.getRequestDispatcher("jsp/register.jsp");
-			requestDispatcher.forward(request, response);
-			return;
-		}
 		
 		//Start a database session
 		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
