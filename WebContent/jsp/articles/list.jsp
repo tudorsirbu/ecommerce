@@ -20,7 +20,7 @@
           <c:forEach var="a" items="${articles}">
             <tr>
               <td>
-              	<a href="#">${a.title}</a>
+              	<a href="${pageContext.request.contextPath}/article/show?article_id=${a.id}">${a.title}</a>
               </td>
               <td>
               	<a href="uploads/${a.fileName}">

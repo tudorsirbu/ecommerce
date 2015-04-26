@@ -104,4 +104,15 @@
     <servlet-name>ArticlesList</servlet-name>
     <url-pattern>/articles</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <description></description>
+    <display-name>ArticleShow</display-name>
+    <servlet-name>ArticleShow</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.articles.ArticleShow</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ArticleShow</servlet-name>
+    <url-pattern>/article/show</url-pattern>
+  </servlet-mapping>
 </web-app>

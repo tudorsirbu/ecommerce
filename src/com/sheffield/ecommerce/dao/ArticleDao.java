@@ -30,4 +30,26 @@ public class ArticleDao {
 		session.getTransaction().commit();
 		return results;
 	}
+	
+	public static boolean doesArticleBelongToUser(int articleId, int userId){
+		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from Article a where a.id = :id AND a.main_contact_id = :userId");
+		query.setMaxResults(1);
+		query.setParameter("id", articleId);
+		query.setParameter("userId", userId);
+		Article article = (Article) query.uniqueResult();
+		
+		return article != null ? true : false;
+	}
+	
+	public static Article getArticleById(int id) {
+		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from Article a where a.id = :id");
+		query.setMaxResults(1);
+		query.setParameter("id", id);
+		Article article = (Article) query.uniqueResult();
+		return article;
+	}
 }
