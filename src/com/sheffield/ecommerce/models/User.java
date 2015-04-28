@@ -9,13 +9,13 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 5999500982028327711L;
 	public static final int AUTHOR = 0;
 	public static final int EDITOR = 1;
-	int id;
-	String firstName;
-	String lastName;
-	String email;
-	String passwordHash;
-	String passwordSalt;
-	int role;
+	private int id;
+	private String firstName;
+	private String lastName;
+	private String email;
+	private String passwordHash;
+	private String passwordSalt;
+	private int role;
 	
 	public String getPasswordHash() {
 		return passwordHash;

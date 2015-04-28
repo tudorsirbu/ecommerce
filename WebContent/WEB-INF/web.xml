@@ -115,4 +115,14 @@
     <servlet-name>ArticleShow</servlet-name>
     <url-pattern>/article/show</url-pattern>
   </servlet-mapping>
+    <servlet>
+    <description></description>
+    <display-name>ManageJournal</display-name>
+    <servlet-name>ManageJournal</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.journal.ManageJournal</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ManageJournal</servlet-name>
+    <url-pattern>/ManageJournal</url-pattern>
+  </servlet-mapping>
 </web-app>

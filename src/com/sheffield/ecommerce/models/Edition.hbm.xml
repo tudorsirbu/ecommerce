@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+<hibernate-mapping>
+ 
+    <class name="com.sheffield.ecommerce.models.Edition" table="editions">
+ 
+        <id name="editionId">
+        	<column name="edition_id" />
+            <generator class="native" />
+        </id>
+ 
+        <many-to-one name="volume" class="com.sheffield.ecommerce.models.Volume" fetch="select">
+        	<column name="volume_id" not-null="true" />
+        </many-to-one>
+        
+        <property name="name">
+            <column name="name" length="100" not-null="true" />
+        </property>
+ 
+    </class>
+</hibernate-mapping>

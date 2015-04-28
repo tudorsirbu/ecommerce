@@ -1,6 +1,8 @@
 package com.sheffield.ecommerce.servlets;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,8 +14,11 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import com.sheffield.ecommerce.exceptions.*;
 import com.sheffield.ecommerce.helpers.PasswordHelper;
+import com.sheffield.ecommerce.models.Edition;
+import com.sheffield.ecommerce.models.Journal;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.User;
+import com.sheffield.ecommerce.models.Volume;
    
 public class Seed extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -47,9 +52,30 @@ public class Seed extends HttpServlet {
 			user.setPasswordSalt(passwordHelper.getPasswordSalt());
 			user.validateModel();
 			
+			Journal journal = new Journal();
+			journal.setTitle("Journal Title");
+			journal.setAcademicAims("Academic Aims");
+			
+			Volume volume = new Volume();
+			
+			Edition edition = new Edition();
+			edition.setName("Test Edition");
+			
+
+						
 			//Save the user to the database
 			session.beginTransaction();
 			session.save(user);
+			session.save(journal);
+			
+			volume.setJournal(journal);
+			journal.getVolumes().add(volume);
+			session.save(volume);
+			
+			edition.setVolume(volume);
+			volume.getEditions().add(edition);			
+			session.save(edition);
+			
 			session.getTransaction().commit();
 			LOGGER.log(Level.FINE, "Created seed user");
 			return;
