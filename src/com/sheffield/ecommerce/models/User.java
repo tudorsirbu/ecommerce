@@ -1,8 +1,11 @@
 package com.sheffield.ecommerce.models;
 
 import java.io.Serializable;
+import java.util.Set;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
+
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
 
 public class User implements Serializable {
@@ -16,6 +19,7 @@ public class User implements Serializable {
 	private String passwordHash;
 	private String passwordSalt;
 	private int role;
+	private Set<Article> articlesToReview;
 	
 	public String getPasswordHash() {
 		return passwordHash;
@@ -112,6 +116,14 @@ public class User implements Serializable {
 		}
 		// Commit the transaction and close the connection
 		session.getTransaction().commit();
+	}
+
+	public Set<Article> getArticlesToReview() {
+		return articlesToReview;
+	}
+
+	public void setArticlesToReview(Set<Article> articlesToReview) {
+		this.articlesToReview = articlesToReview;
 	}
 	
 	

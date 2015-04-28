@@ -34,6 +34,11 @@
         <property name="role">
             <column name="role" length="1" not-null="true"/>
         </property>
+        
+        <set name="articlesToReview" cascade="save-update" table="USER_ARTICLE">
+         <key column="user_id"/>
+         <many-to-many column="article_id" class="com.sheffield.ecommerce.models.Article"/>
+      	</set>
  
     </class>
 </hibernate-mapping>
