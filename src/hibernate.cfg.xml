@@ -4,6 +4,9 @@
  
 <hibernate-configuration>
     <session-factory>
+    
+        <!-- JDBC connection pool (use the built-in) -->
+        <property name="connection.pool_size">1</property>
  
         <!-- hibernate dialect -->
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>

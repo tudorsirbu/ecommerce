@@ -1,20 +1,23 @@
 package com.sheffield.ecommerce.servlets;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.*;
 import javax.servlet.http.*;
-import org.hibernate.Query;
-import org.hibernate.Session;
+import com.sheffield.ecommerce.dao.UserDao;
 import com.sheffield.ecommerce.helpers.PasswordHelper;
-import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.User;
    
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(Login.class.getName());
+	private UserDao dao;
+	
+	public Login() {
+		// Create a new instance of the data access object when the servlet is initialised
+		dao = new UserDao();
+	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		//Attempt to get the current user
@@ -36,24 +39,16 @@ public class Login extends HttpServlet {
 		String email = request.getParameter("inputEmail");
 		String password = request.getParameter("inputPassword");
 
-		//Attempt to get a user from the database with that email
-		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		String hql = "FROM User u WHERE u.email = :email";
-		Query query = session.createQuery(hql);
-		query.setParameter("email", email);
-		@SuppressWarnings("unchecked")
-		List<User> results = query.list();
-		session.getTransaction().commit();
+		// Attempt to get the user object
+		User currentUser = dao.getUserByEmail(email);
 		
 		//If no user is found then display an error
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/login.jsp");
-		if (results.isEmpty()) {
+		if (currentUser == null) {
 			request.setAttribute("errorMsg", "Email address not recognised");	
 			requestDispatcher.forward(request, response);
 		} else {
 			//Otherwise get the user object and authenticate the password
-			User currentUser = results.get(0);
 			boolean validPassword;
 			try {
 				validPassword = PasswordHelper.verifyPassword(password, currentUser.getPasswordSalt(), currentUser.getPasswordHash());
