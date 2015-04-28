@@ -1,6 +1,8 @@
 package com.sheffield.ecommerce.dao;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -31,6 +33,17 @@ public class ArticleDao {
 		return results;
 	}
 	
+	public static List<Article> getArticlesForReview(User user) {
+		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from Article a where a.author <> :user");
+		query.setParameter("user", user);
+		@SuppressWarnings("unchecked")
+		List<Article> results = query.list();
+		session.getTransaction().commit();
+		return results;
+	}
+	
 	public static boolean doesArticleBelongToUser(int articleId, User author){
 		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
@@ -51,4 +64,5 @@ public class ArticleDao {
 		Article article = (Article) query.uniqueResult();
 		return article;
 	}
+	
 }

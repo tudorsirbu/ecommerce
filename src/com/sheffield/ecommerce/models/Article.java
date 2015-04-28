@@ -12,7 +12,16 @@ public class Article implements Serializable {
 	String article_abstract;
 	String fileName;
 	User author;
+	Set<User> reviewers = new HashSet<User>();
 	
+	public Set<User> getReviewers() {
+		return reviewers;
+	}
+
+	public void setReviewers(Set<User> reviewers) {
+		this.reviewers = reviewers;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -52,6 +61,18 @@ public class Article implements Serializable {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
+	
+	public boolean equals(Object obj) {
+	      if (obj == null) return false;
+	      if (!this.getClass().equals(obj.getClass())) return false;
+
+	      Article obj2 = (Article)obj;
+	      if(this.id == obj2.getId())
+	      {
+	         return true;
+	      }
+	      return false;
+	   }
 
 	public void validateModel() throws InvalidModelException {
 		if (title == null || title.isEmpty()){

@@ -10,7 +10,13 @@
     <div class="col-sm-4 col-sm-push-4">
       <h2>Article review form</h2>
       <form name="articleReview" action="ReviewForm" method="post" class="form-signin">
-      	
+      	<label for="articleToReview">Article to review:</label>
+      	<select name="articleToReview" id="articleToReview">
+      		<option disabled selected>Please select</option>
+      		<c:forEach var="a" items="${articles}">	
+      			<option value ='${a.id}' >${a.title}</option>
+      		</c:forEach>
+      	</select><br>
       	<label for="overallJudgement">Overall judgement:</label>
       	<select name="overallJudgement" id="overallJudgement">
       		<option disabled selected>Please select</option>

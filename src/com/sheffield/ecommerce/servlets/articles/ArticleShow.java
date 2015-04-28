@@ -18,8 +18,6 @@ import com.sheffield.ecommerce.models.Article;
 
 public class ArticleShow extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(ArticleShow.class.getName());
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Attempt to get the current user
 		HttpSession httpSession = request.getSession(false);
@@ -28,16 +26,15 @@ public class ArticleShow extends HttpServlet {
 	    //If a user is logged in show the homepage, otherwise direct them to the login page
 		if (currentUser != null ) {
 			int articleId = Integer.parseInt(request.getParameter("article_id"));
-			if(ArticleDao.doesArticleBelongToUser(articleId, currentUser)){
+				boolean downloadable = ArticleDao.doesArticleBelongToUser(articleId, currentUser);
+				
 				Article article = ArticleDao.getArticleById(articleId);
 				
 				request.setAttribute("article", article);
 				request.setAttribute("author", article.getAuthor());
+				request.setAttribute("downloadable", downloadable);
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/articles/show.jsp");
 				requestDispatcher.forward(request, response);
-			} else {
-				response.sendError(HttpServletResponse.SC_FORBIDDEN, "You cannot access articles that do not belong to you.");
-			}
 			
 		} else {
 			response.sendRedirect("/ecommerce/Login");
