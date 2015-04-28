@@ -85,6 +85,7 @@ public class Article implements Serializable {
 			throw new InvalidModelException("Article attachment cannot be missing.");
 		}
 	}
+
 	
 	
 	

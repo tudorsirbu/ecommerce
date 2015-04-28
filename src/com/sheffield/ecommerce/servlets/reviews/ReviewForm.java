@@ -56,31 +56,40 @@ public class ReviewForm extends HttpServlet{
 		//Start a database session
 		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
 	
-		try {		
+		try {	
+			Article article = null;
 			//Create a new review with received user data
 			Review review = new Review();
-			Article article = ArticleDao.getArticleById(Integer.parseInt(request.getParameter("articleToReview")));
-			review.setArticle(article);
+			if(request.getParameter("articleToReview") != null){
+				article = ArticleDao.getArticleById(Integer.parseInt(request.getParameter("articleToReview")));
+				review.setArticle(article);
+			}
 			review.setOverallJudgement(request.getParameter("overallJudgement"));
 			review.setReviewerExpertise(request.getParameter("reviewerExpertise"));
 			review.setArticleSummary(request.getParameter("articleSummary"));
 			review.setSubstantiveCriticism(request.getParameter("articleCriticism"));
 			review.setSmallErrors(request.getParameter("articleErrors"));
 			review.setCommentsForEditor(request.getParameter("secretComments"));
-			
+			review.validateModel();
 			
 			
 			//Save the review to the database
 			session.beginTransaction();
-			dao.deleteReviewedArticle(article,currentUser);
+			if(article != null)
+				dao.deleteReviewedArticle(article,currentUser);
 			session.save(review);
 			session.getTransaction().commit();
 			
 			Mailer.sendEmail(currentUser, "Review Submission Successfull", "You have successfully submited a review for the article with the title:"+article.getTitle());
 			request.setAttribute("successMsg", "Review submitted successfully!");
+			LOGGER.log(Level.FINE, "New review submitted for article: " + article.getTitle());
 	        requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
 			requestDispatcher.forward(request, response);
 			return;
+		} catch (InvalidModelException ex) {
+			//If there was any invalid User information then log and throw the message up to the user
+			LOGGER.log(Level.INFO, ex.getMessage());
+			request.setAttribute("errorMsg", ex.getMessage()); 
 		} catch (HibernateException ex) {
 			//If an unexpected error occurred then log, attempt to rollback and then throw a user friendly error
 			LOGGER.log(Level.SEVERE, ex.getMessage());
