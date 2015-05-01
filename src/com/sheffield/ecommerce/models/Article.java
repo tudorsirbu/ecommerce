@@ -11,6 +11,7 @@ public class Article implements Serializable {
 	String title;
 	String article_abstract;
 	String fileName;
+	String fileNameRevision1;
 	User author;
 	
 	public int getId() {
@@ -51,6 +52,14 @@ public class Article implements Serializable {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+	
+	public String getFileNameRevision1() {
+		return fileNameRevision1;
+	}
+
+	public void setFileNameRevision1(String fileNameRevision1) {
+		this.fileNameRevision1 = fileNameRevision1;
 	}
 
 	public void validateModel() throws InvalidModelException {
