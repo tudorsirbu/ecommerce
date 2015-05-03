@@ -1,12 +1,17 @@
 package com.sheffield.ecommerce.servlets;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
+
+import com.sheffield.ecommerce.dao.ArticleDao;
 import com.sheffield.ecommerce.dao.UserDao;
 import com.sheffield.ecommerce.helpers.PasswordHelper;
+import com.sheffield.ecommerce.models.Article;
 import com.sheffield.ecommerce.models.User;
    
 public class Login extends HttpServlet {
@@ -56,7 +61,13 @@ public class Login extends HttpServlet {
 				if (validPassword) {
 					HttpSession httpSession = request.getSession(true); //Returns a new session if one does not exist
 					httpSession.setAttribute("currentUser", currentUser);
-					response.sendRedirect("/ecommerce/Home");
+					
+					List<Article> userArticles = ArticleDao.getArticlesForUser(currentUser);
+					
+					if(userArticles == null || userArticles.size() == 0)
+						response.sendRedirect("/ecommerce/UploadArticle");	
+					else
+						response.sendRedirect("/ecommerce/Home");					
 				} else {
 					//Otherwise display an error
 					request.setAttribute("errorMsg", "Invalid password");
