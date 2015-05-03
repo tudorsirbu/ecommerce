@@ -147,6 +147,7 @@ public class RevisionForm extends HttpServlet {
                     // saves the file on disk
                     item.write(storeFile);
                 } else {
+                	// Store the other values from the form
                 	if (fieldName.equals("revisionDetails")) {
                 		revisionDetails = item.getString();
                 	} else if (fieldName.equals("articleId")) {
@@ -158,7 +159,7 @@ public class RevisionForm extends HttpServlet {
         	// Find the article to be revised
         	Article article = ArticleDao.getArticleById(Integer.parseInt(articleId));
         	
-            // Update the correct column in the database
+            // Update the article in the database
             if (article.getFileNameRevision1() == null || article.getFileNameRevision1().equals("")) {
             	article.setFileNameRevision1(fileName);
             	article.setRevisionDetails1(revisionDetails);
@@ -166,7 +167,7 @@ public class RevisionForm extends HttpServlet {
             	article.setFileNameRevision2(fileName);
             	article.setRevisionDetails2(revisionDetails);
             }
-        			
+            
             ArticleDao.reviseArticle(article);
             
         } catch (Exception ex) {

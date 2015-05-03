@@ -27,6 +27,7 @@
       </div>
       <div class="well well-lg">${article.article_abstract}</div>
       
+      <!-- Only show reviews to the author or the editors -->
       <c:if test="${(currentUser.id == author.id or currentUser.role == cons.editor) and not empty article.reviews}">
         <h2>Reviews</h2>
         <div class="well well-lg">
@@ -52,6 +53,7 @@
             <div class="col-sm-3"><b>Small Errors</b></div>
             <div class="col-sm-9">${review.smallErrors}</div>
           </div>
+          <!-- Only show the comments for editors to the editors -->
           <c:if test="${currentUser.role == cons.editor}">
 	          <div class="row">
 	            <div class="col-sm-3"><b>Comments for Editors</b></div>
@@ -62,7 +64,8 @@
           <br>
 		        
 		      </c:forEach>
-		      
+		    
+		    <!-- Show the revision button only if there are more than 3 reviews -->
 		    <c:if test="${fn:length(article.reviews) >= 3}">
 		      <a href="${pageContext.request.contextPath}/RevisionForm?articleId=${article.id}" class="btn btn-primary">Revise Article</a>
 		    </c:if>

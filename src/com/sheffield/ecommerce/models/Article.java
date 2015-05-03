@@ -98,6 +98,10 @@ public class Article implements Serializable {
 		this.reviews = reviews;
 	}
 	
+	/**
+	 * Returns the file name of the latest revision
+	 * @return The file name as a string
+	 */
 	public String getLatestFileName() {
 		if (this.fileNameRevision2 != null && !this.fileNameRevision2.equals("")) {
 			return this.fileNameRevision2;
@@ -120,6 +124,10 @@ public class Article implements Serializable {
 		}
 	}
 	
+	/**
+	 * Returns the number of revisions made to this article
+	 * @return The number of revisions
+	 */
 	public int getNumberOfRevisions() {
 		int revisions = 0;
 		if (this.fileNameRevision1 != null && !this.fileNameRevision1.equals("")) { revisions++; }
