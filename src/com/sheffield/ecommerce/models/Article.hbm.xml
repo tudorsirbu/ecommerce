@@ -27,6 +27,25 @@
             <column name="fileNameRevision1" length="150" />
         </property>
         
+        <property name="fileNameRevision2">
+            <column name="fileNameRevision2" length="150" />
+        </property>
+        
+        <property name="revisionDetails1">
+            <column name="revisionDetails1" length="10000" />
+        </property>
+        
+        <property name="revisionDetails2">
+            <column name="revisionDetails2" length="10000" />
+        </property>
+        
         <many-to-one name="author" column="author_id" unique="false" class="com.sheffield.ecommerce.models.User" not-null="true"/>
+        
+        <set name="reviews" table="reviews" inverse="true" lazy="true" fetch="select">
+          <key>
+            <column name="article" not-null="true" />
+          </key>
+          <one-to-many class="com.sheffield.ecommerce.models.Review" />
+        </set>
     </class>
 </hibernate-mapping>
