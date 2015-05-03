@@ -97,6 +97,16 @@ public class Article implements Serializable {
 	public void setReviews(Set<Review> reviews) {
 		this.reviews = reviews;
 	}
+	
+	public String getLatestFileName() {
+		if (this.fileNameRevision2 != null && !this.fileNameRevision2.equals("")) {
+			return this.fileNameRevision2;
+		} else if (this.fileNameRevision1 != null && !this.fileNameRevision1.equals("")) {
+			return this.fileNameRevision1;
+		} else {
+			return this.fileName;
+		}
+	}
 
 	public void validateModel() throws InvalidModelException {
 		if (title == null || title.isEmpty()){
@@ -110,7 +120,7 @@ public class Article implements Serializable {
 		}
 	}
 	
-	public int numberOfRevisions() {
+	public int getNumberOfRevisions() {
 		int revisions = 0;
 		if (this.fileNameRevision1 != null && !this.fileNameRevision1.equals("")) { revisions++; }
 		if (this.fileNameRevision2 != null && !this.fileNameRevision2.equals("")) { revisions++; }

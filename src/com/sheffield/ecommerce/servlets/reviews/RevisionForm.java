@@ -45,12 +45,6 @@ public class RevisionForm extends HttpServlet {
 			return;
 		}
 		
-		if (currentUser.getRole() != User.AUTHOR) {
-			// Display a 403 error if the user is not permitted to view this page
-			response.sendError(HttpServletResponse.SC_FORBIDDEN, "Current user is not permitted to access this page.");
-			return;
-		}
-		
 		int articleId = 0;
 		try {
 			articleId = Integer.parseInt(request.getParameter("articleId"));
@@ -71,18 +65,24 @@ public class RevisionForm extends HttpServlet {
 			return;
 		}
 		
-		ReviewDao reviewDao = new ReviewDao();
-		if (reviewDao.getReviewsForArticle(articleId).size() < 3) {
-			// Display an error if less than 3 reviews have been submitted for this article
-			request.setAttribute("errorMsg", "This article does not have enough reviews to be revised.");
+		if (currentUser.getRole() != User.AUTHOR || currentUser.getId() != article.getAuthor().getId()) {
+			// Display a 403 error if the user is not permitted to view this page
+			response.sendError(HttpServletResponse.SC_FORBIDDEN, "Current user is not permitted to access this page.");
+			return;
+		}
+		
+		if (article.getNumberOfRevisions() >= 2) {
+			// Display an error if there has already been two revisions
+			request.setAttribute("errorMsg", "This article has already been revised twice and cannot be revised again.");
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/review/revision_form.jsp"); 
 			requestDispatcher.forward(request, response);
 			return;
 		}
 		
-		if (article.numberOfRevisions() >= 2) {
-			// Display an error if there has already been two revisions
-			request.setAttribute("errorMsg", "This article has already been revised twice and cannot be revised again.");
+		ReviewDao reviewDao = new ReviewDao();
+		if (reviewDao.getReviewsForArticle(articleId).size() % 3 != 0) {
+			// Display an error if less than 3 reviews have been submitted for this article
+			request.setAttribute("errorMsg", "This article does not have enough reviews to be revised.");
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/review/revision_form.jsp"); 
 			requestDispatcher.forward(request, response);
 			return;
