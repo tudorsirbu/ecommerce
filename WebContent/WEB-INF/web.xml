@@ -165,5 +165,15 @@
     <servlet-name>DownloadsManager</servlet-name>
     <url-pattern>/DownloadsManager</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RejectReviewerChoice</display-name>
+    <servlet-name>RejectReviewerChoice</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.articlesForReview.RejectReviewerChoice</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RejectReviewerChoice</servlet-name>
+    <url-pattern>/RejectReviewerChoice</url-pattern>
+  </servlet-mapping>
   
 </web-app>

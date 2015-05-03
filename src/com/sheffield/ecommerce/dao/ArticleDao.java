@@ -36,7 +36,7 @@ public class ArticleDao {
 	public static List<Article> getArticlesForReview(User user) {
 		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		Query query = session.createQuery("from Article a where a.author <> :user");
+		Query query = session.createQuery("from Article a where (a.author <> :user and :user not member of a.reviewers)");
 		query.setParameter("user", user);
 		@SuppressWarnings("unchecked")
 		List<Article> results = query.list();
@@ -63,6 +63,17 @@ public class ArticleDao {
 		query.setParameter("id", id);
 		Article article = (Article) query.uniqueResult();
 		return article;
+	}
+	
+	public static List<User> getReviewers(int id) {
+		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		Query query = session.createQuery("SELECT a.reviewers FROM Article a where a.id = :id");
+		query.setParameter("id", id);
+		@SuppressWarnings("unchecked")
+		List<User> result = query.list();
+		session.getTransaction().commit();
+		return result;
 	}
 	
 }
