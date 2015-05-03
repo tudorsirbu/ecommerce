@@ -16,6 +16,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.sheffield.ecommerce.dao.ArticleDao;
+import com.sheffield.ecommerce.helpers.Mailer;
 import com.sheffield.ecommerce.models.Article;
 import com.sheffield.ecommerce.models.User;
 
@@ -117,6 +118,7 @@ public class UploadArticle extends HttpServlet {
     		return;
         }
 
+        Mailer.sendEmail(currentUser, "Article uploaded successfully", "Your article has been uploaded successfully and it will soon be reviewed by other authors. \n Thank you!");
         request.setAttribute("successMsg", "Article submitted successfully!");
         requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
         requestDispatcher.forward(request, response);
