@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.sheffield.ecommerce.dao.ArticleDao;
+import com.sheffield.ecommerce.dao.UserDao;
 import com.sheffield.ecommerce.models.User;
 import com.sheffield.ecommerce.models.Article;
 
@@ -30,6 +31,11 @@ public class ArticleShow extends HttpServlet {
 				
 				Article article = ArticleDao.getArticleById(articleId);
 				
+				List <User> reviewers = ArticleDao.getReviewers(articleId); 
+				if(currentUser.getId() == 1)
+					request.setAttribute("editor",true);
+				request.setAttribute("reviewers", reviewers );
+					
 				request.setAttribute("article", article);
 				request.setAttribute("author", article.getAuthor());
 				request.setAttribute("downloadable", downloadable);

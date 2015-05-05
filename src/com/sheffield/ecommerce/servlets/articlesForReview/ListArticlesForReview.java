@@ -25,7 +25,8 @@ public class ListArticlesForReview extends HttpServlet {
 			if (currentUser != null) {
 				// get the articles for the current user
 				List<Article> articles = ArticleDao.getArticlesForReview(currentUser);
-				
+				if(currentUser.getId() == User.EDITOR)
+					request.setAttribute("editor",true);
 				request.setAttribute("articles", articles);
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/articlesForReview/listArticlesForReview.jsp");
 				requestDispatcher.forward(request, response);
