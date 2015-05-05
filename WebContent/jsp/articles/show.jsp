@@ -11,10 +11,6 @@
         <h1>
         	${article.title}
         	<c:choose>
-			      <c:when test="${editor == true}">
-			      </c:when>
-			      <c:otherwise>
-			      	<c:choose>
 					      <c:when test="${downloadable == true}">
 						      <a href="${pageContext.request.contextPath}/uploads/${article.fileName}" target="_blank">
 					          	<span class="glyphicon glyphicon-download-alt">&nbsp;</span>
@@ -28,8 +24,6 @@
 					      <br />
 					      </c:otherwise>
 					</c:choose>
-			      </c:otherwise>
-			</c:choose>
         	
 	        
         	<c:if test="${article.numberOfRevisions > 0}">
@@ -112,7 +106,12 @@
 			        </thead>
 			        <tbody>
 			          <c:forEach var="r" items="${reviewers}">
-		            	<tr>
+		            	<c:choose>
+		            		<c:when test = "${r.role == 1}">
+		            		
+		            		</c:when>
+		            		<c:otherwise>
+		            			<tr>
 		              		<td>
 		              			<b> ${r.firstName} ${r.lastName}</b>
 		              		</td>
@@ -122,6 +121,8 @@
 		              			</a>
 		              		</td>
 		            	</tr>
+		            		</c:otherwise>
+		            	</c:choose>
 		          	</c:forEach>
 			        </tbody>
 			      </table>
@@ -130,5 +131,4 @@
 	        </c:otherwise>
 	    </c:choose>
     </div>
-  </div>
 </t:template>

@@ -34,6 +34,7 @@ public class ArticleShow extends HttpServlet {
 				List <User> reviewers = ArticleDao.getReviewers(articleId); 
 				if(currentUser.getId() == 1)
 					request.setAttribute("editor",true);
+				request.setAttribute("current_user", currentUser );
 				request.setAttribute("reviewers", reviewers );
 					
 				request.setAttribute("article", article);

@@ -36,7 +36,11 @@ public class ArticleDao {
 	public static List<Article> getArticlesForReview(User user) {
 		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		Query query = session.createQuery("from Article a where (a.author <> :user and :user not member of a.reviewers)");
+		Query query;
+		if(user.getRole() == User.EDITOR)
+			query = session.createQuery("from Article a where a.author <> :user");
+		else
+			query = session.createQuery("from Article a where (a.author <> :user and :user not member of a.reviewers)");
 		query.setParameter("user", user);
 		@SuppressWarnings("unchecked")
 		List<Article> results = query.list();
