@@ -6,7 +6,7 @@
 
 <%@ attribute name="title"%>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<!DOCTYPE HTML>
 
 <html lang="en">
 <head>
@@ -34,11 +34,18 @@
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
-				<c:if test="${sessionScope.currentUser != null && sessionScope.currentUser.role == 1}">
-					<li class="${fn:endsWith(pageContext.request.requestURI, 'manage.jsp') ? 'active' : ''}"><a href="ManageJournal">Manage Journal</a></li>
+				<c:if test="${sessionScope.currentUser != null}">
+					<c:if test="${sessionScope.currentUser.role == 1}">
+						<li class="${fn:endsWith(pageContext.request.requestURI, 'manage.jsp') ? 'active' : ''}"><a href="${pageContext.request.contextPath}/ManageJournal">Manage Journal</a></li>
+						<li class="${fn:endsWith(pageContext.request.requestURI, 'listArticlesForReview.jsp') ? 'active' : ''}"><a href="${pageContext.request.contextPath}/articlesForReview">Review Articles</a></li>
+						<li class="${fn:endsWith(pageContext.request.requestURI, '') ? 'active' : ''}"><a href="${pageContext.request.contextPath}">Approve Articles</a></li>
+					</c:if>
+					<c:if test="${sessionScope.currentUser.role == 0}">
+						<li class="${fn:endsWith(pageContext.request.requestURI, 'upload_article.jsp') ? 'active' : ''}"><a href="${pageContext.request.contextPath}/UploadArticle">Upload Article</a></li>
+						<li class="${fn:endsWith(pageContext.request.requestURI, 'listArticlesForReview.jsp') ? 'active' : ''}"><a href="${pageContext.request.contextPath}/articlesForReview">Review Articles</a></li>
+						<li class="${fn:endsWith(pageContext.request.requestURI, 'articles/list.jsp') ? 'active' : ''}"><a href="${pageContext.request.contextPath}/articles">My Articles</a></li>
+					</c:if>
 				</c:if>
-				<li><a href="#">Link 1</a></li>
-				<li><a href="#">Link 2</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<c:choose>
@@ -53,11 +60,11 @@
 									<li><a href="${pageContext.request.contextPath}/users">Users</a></li>
 								</c:if>
 								<li class="divider"></li>
-								<li><a href="Logout" title="Log out of the system">Logout</a></li>
+								<li><a href="${pageContext.request.contextPath}/Logout" title="Log out of the system">Logout</a></li>
 							</ul></li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="Login">Login</a></li>
+						<li><a href="${pageContext.request.contextPath}/Login">Upload Article/Login</a></li>
 					</c:otherwise>
 				</c:choose>
 			</ul>

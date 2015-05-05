@@ -1,23 +1,17 @@
 package com.sheffield.ecommerce.servlets.reviews;
+
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
-
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
-
 import com.sheffield.ecommerce.dao.ArticleDao;
 import com.sheffield.ecommerce.dao.UserDao;
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
 import com.sheffield.ecommerce.helpers.Mailer;
-import com.sheffield.ecommerce.helpers.PasswordHelper;
 import com.sheffield.ecommerce.models.Article;
 import com.sheffield.ecommerce.models.Review;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;

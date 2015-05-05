@@ -55,13 +55,17 @@ public class Seed extends HttpServlet {
 			journal.setTitle("Test Journal Title");
 			journal.setAcademicAims("Test content for academic aims");
 			journal.setSubmissionGuidelines("Test content for submission guidelines");
+			journal.validateModel();
 			
 			Volume volume = new Volume();
 			volume.setPublicationDate(new Date());
+			volume.setVolumeNumber(1);
+			volume.validateModel();
 			
 			Edition edition = new Edition();
 			edition.setPublicationDate(new Date());
-			
+			edition.setEditionNumber(1);
+			edition.validateModel();
 
 						
 			//Save the user to the database

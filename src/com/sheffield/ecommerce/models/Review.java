@@ -1,9 +1,6 @@
 package com.sheffield.ecommerce.models;
+
 import java.io.Serializable;
-
-import org.hibernate.Query;
-import org.hibernate.Session;
-
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
 
 public class Review implements Serializable {

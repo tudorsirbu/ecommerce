@@ -5,14 +5,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
-
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-
 import com.sheffield.ecommerce.dao.ArticleDao;
 import com.sheffield.ecommerce.helpers.Mailer;
 import com.sheffield.ecommerce.models.Article;
@@ -21,8 +18,7 @@ import com.sheffield.ecommerce.models.User;
 
 public class UploadArticle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(UploadArticle.class
-			.getName());
+	private static final Logger LOGGER = Logger.getLogger(UploadArticle.class.getName());
 
 	// location to store file uploaded
     private static final String UPLOAD_DIRECTORY = "uploads";
@@ -127,13 +123,6 @@ public class UploadArticle extends HttpServlet {
         request.setAttribute("successMsg", "Article submitted successfully!");
         requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
         requestDispatcher.forward(request, response);
-	}
-	
-	
-	private Article createArticleFromRequestParams(HttpServletRequest request){
-		Article article = new Article();
-		
-		return article;
 	}
 	
 	private void initUpload(){
