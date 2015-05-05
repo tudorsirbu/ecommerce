@@ -3,6 +3,7 @@ package com.sheffield.ecommerce.servlets.reviews;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -44,22 +45,47 @@ public class RevisionForm extends HttpServlet {
 			return;
 		}
 		
-		if (currentUser.getRole() != User.AUTHOR) {
+		int articleId = 0;
+		try {
+			articleId = Integer.parseInt(request.getParameter("articleId"));
+		} catch (Exception e) {
+			// Display an error if the article doesn't exist
+			request.setAttribute("errorMsg", "No article exists with that id.");
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/review/revision_form.jsp"); 
+			requestDispatcher.forward(request, response);
+			return;
+		}
+		
+		Article article = ArticleDao.getArticleById(articleId);
+		if (article == null) {
+			// Display an error if the article doesn't exist
+			request.setAttribute("errorMsg", "No article exists with that id.");
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/review/revision_form.jsp"); 
+			requestDispatcher.forward(request, response);
+			return;
+		}
+		
+		if (currentUser.getRole() != User.AUTHOR || currentUser.getId() != article.getAuthor().getId()) {
 			// Display a 403 error if the user is not permitted to view this page
 			response.sendError(HttpServletResponse.SC_FORBIDDEN, "Current user is not permitted to access this page.");
 			return;
 		}
 		
-		int articleId = Integer.parseInt(request.getParameter("articleId"));
-		if (ArticleDao.getArticleById(articleId) == null) {
-			// Display an error if the article doesn't exist
-			request.setAttribute("errorMsg", "No article exists with that id.");
+		if (article.getNumberOfRevisions() >= 2) {
+			// Display an error if there has already been two revisions
+			request.setAttribute("errorMsg", "This article has already been revised twice and cannot be revised again.");
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/review/revision_form.jsp"); 
+			requestDispatcher.forward(request, response);
+			return;
 		}
 		
 		ReviewDao reviewDao = new ReviewDao();
-		if (reviewDao.getReviewsForArticle(articleId).size() < 3) {
+		if (reviewDao.getReviewsForArticle(articleId).size() % 3 != 0) {
 			// Display an error if less than 3 reviews have been submitted for this article
 			request.setAttribute("errorMsg", "This article does not have enough reviews to be revised.");
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/review/revision_form.jsp"); 
+			requestDispatcher.forward(request, response);
+			return;
 		}
 
 		//Otherwise the user is shown the revision page
@@ -68,7 +94,7 @@ public class RevisionForm extends HttpServlet {
 	}
 	
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher requestDispatcher;
 		
 		// Attempt to get the current user
@@ -89,16 +115,18 @@ public class RevisionForm extends HttpServlet {
         // configure & initialize the file upload
         initUpload();
         
+        String articleId = null;
+        String revisionDetails = null;
+        String fileName = null;
+        
         try {
-        	// Find the article to be revised
-        	int articleId = Integer.parseInt(request.getParameter("articleId"));
-        	Article article = ArticleDao.getArticleById(articleId);
-        	
-            // parses the request's content to extract file data
-            List<FileItem> formItems = upload.parseRequest(request);
+        	// parses the request's content to extract file data
+            List<FileItem> formItems = upload.parseRequest(request);      	 
  
             // iterates over form's fields
             for (FileItem item : formItems) {
+            	String fieldName = item.getFieldName();
+            	
             	// processes only fields that are not form fields
                 if (!item.isFormField()) {
                 	// generate the file name
@@ -112,26 +140,44 @@ public class RevisionForm extends HttpServlet {
                 		return;
                 	}
                 	
-                    String fileName = new File(currentTimestamp + "." + extension).getName();
+                    fileName = new File(currentTimestamp + "." + extension).getName();
                     String filePath = uploadPath + File.separator + fileName;
                     File storeFile = new File(filePath);
 
                     // saves the file on disk
                     item.write(storeFile);
-                    article.setFileNameRevision1(fileName);
+                } else {
+                	// Store the other values from the form
+                	if (fieldName.equals("revisionDetails")) {
+                		revisionDetails = item.getString();
+                	} else if (fieldName.equals("articleId")) {
+                		articleId = item.getString();
+                	}
                 }
             }
+            
+        	// Find the article to be revised
+        	Article article = ArticleDao.getArticleById(Integer.parseInt(articleId));
+        	
+            // Update the article in the database
+            if (article.getFileNameRevision1() == null || article.getFileNameRevision1().equals("")) {
+            	article.setFileNameRevision1(fileName);
+            	article.setRevisionDetails1(revisionDetails);
+            } else {
+            	article.setFileNameRevision2(fileName);
+            	article.setRevisionDetails2(revisionDetails);
+            }
+            
             ArticleDao.reviseArticle(article);
             
         } catch (Exception ex) {
             request.setAttribute("errorMsg", ex.getMessage());
-            requestDispatcher = request
-    				.getRequestDispatcher("jsp/upload_article.jsp");
+            requestDispatcher = request.getRequestDispatcher("jsp/review/revision_form.jsp");
     		requestDispatcher.forward(request, response);
     		return;
         }
 
-        request.setAttribute("successMsg", "Article submitted revised!");
+        request.setAttribute("successMsg", "Article revised!");
         requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
         requestDispatcher.forward(request, response);
 	}
