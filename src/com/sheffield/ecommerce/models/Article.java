@@ -11,6 +11,7 @@ public class Article implements Serializable {
 	String title;
 	String article_abstract;
 	String fileName;
+	String fileNameRevision1;
 	User author;
 	Set<User> reviewers = new HashSet<User>();
 	
@@ -73,6 +74,14 @@ public class Article implements Serializable {
 	      }
 	      return false;
 	   }
+
+	public String getFileNameRevision1() {
+		return fileNameRevision1;
+	}
+
+	public void setFileNameRevision1(String fileNameRevision1) {
+		this.fileNameRevision1 = fileNameRevision1;
+	}
 
 	public void validateModel() throws InvalidModelException {
 		if (title == null || title.isEmpty()){

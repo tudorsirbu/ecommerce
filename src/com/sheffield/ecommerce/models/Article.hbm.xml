@@ -19,8 +19,12 @@
             <column name="article_abstract" length="10000" not-null="true" unique="true" />
         </property>
  
- 		<property name="fileName">
+ 		   <property name="fileName">
             <column name="fileName" length="150" not-null="true" />
+        </property>
+        
+        <property name="fileNameRevision1">
+            <column name="fileNameRevision1" length="150" />
         </property>
         
         <many-to-one name="author" column="author_id" unique="false" class="com.sheffield.ecommerce.models.User" not-null="true"/>

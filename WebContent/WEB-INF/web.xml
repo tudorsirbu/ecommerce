@@ -168,4 +168,15 @@
     <servlet-name>DownloadsManager</servlet-name>
     <url-pattern>/DownloadsManager</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RevisionForm</display-name>
+    <servlet-name>RevisionForm</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.reviews.RevisionForm</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RevisionForm</servlet-name>
+    <url-pattern>/RevisionForm</url-pattern>
+  </servlet-mapping>
 </web-app>
+

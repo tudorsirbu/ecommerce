@@ -64,5 +64,15 @@ public class ArticleDao {
 		Article article = (Article) query.uniqueResult();
 		return article;
 	}
-	
+
+	public static void reviseArticle(Article article) throws InvalidModelException {
+		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		article.validateModel();
+		session.beginTransaction();
+		Query query = session.createQuery("update Article set fileNameRevision1 = :fileNameRevision1 where id = :id");
+		query.setParameter("id", article.getId());
+		query.setParameter("fileNameRevision1", article.getFileNameRevision1());
+		query.executeUpdate();
+		session.getTransaction().commit();
+	}
 }
