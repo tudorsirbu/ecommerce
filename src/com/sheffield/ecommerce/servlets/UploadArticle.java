@@ -2,8 +2,6 @@ package com.sheffield.ecommerce.servlets;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,7 +70,6 @@ public class UploadArticle extends HttpServlet {
         
         try {
             // parses the request's content to extract file data
-            @SuppressWarnings("unchecked")
             List<FileItem> formItems = upload.parseRequest(request);
  
             // iterates over form's fields

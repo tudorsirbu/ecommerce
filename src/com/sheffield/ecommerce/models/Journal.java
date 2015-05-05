@@ -11,6 +11,7 @@ public class Journal implements Serializable {
 	private int journalId;
 	private String title;
 	private String academicAims;
+	private String submissionGuidelines;
 	private Set<Volume> volumes = new HashSet<Volume>(0);
 
 	public int getJournalId() {
@@ -37,6 +38,14 @@ public class Journal implements Serializable {
 		this.academicAims = academicAims;
 	}
 
+	public String getSubmissionGuidelines() {
+		return submissionGuidelines;
+	}
+
+	public void setSubmissionGuidelines(String submissionGuidelines) {
+		this.submissionGuidelines = submissionGuidelines;
+	}
+
 	public Set<Volume> getVolumes() {
 		return volumes;
 	}
@@ -46,6 +55,20 @@ public class Journal implements Serializable {
 	}
 
 	public void validateModel() throws InvalidModelException {
-		// TODO validate this model
+		if (title == null || title.isEmpty()){
+			throw new InvalidModelException("Journal title cannot be empty.");
+		}
+		if (academicAims == null || academicAims.isEmpty()){
+			throw new InvalidModelException("Academic aims cannot be empty.");
+		}
+		if (submissionGuidelines == null || submissionGuidelines.isEmpty()){
+			throw new InvalidModelException("Submission guidelines cannot be empty.");
+		}
+		if (academicAims.length() > 500){
+			throw new InvalidModelException("Academic aims must be less than 500 characters.");
+		}
+		if (submissionGuidelines.length() > 500){
+			throw new InvalidModelException("Submission guidelines must be less than 500 characters.");
+		}
 	}
 }

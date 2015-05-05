@@ -17,14 +17,13 @@ import com.sheffield.ecommerce.dao.UserDao;
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
 import com.sheffield.ecommerce.helpers.PasswordHelper;
 import com.sheffield.ecommerce.models.User;
-import com.sheffield.ecommerce.servlets.Register;
 
 /**
  * Servlet for the user edit page
  */
 public class UserEditor extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(Register.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(UserEditor.class.getName());
 	private UserDao dao;
 	
 	public UserEditor() {

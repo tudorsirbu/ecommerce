@@ -20,6 +20,10 @@
             <column name="academic_aims" length="500" not-null="true" />
         </property>
         
+        <property name="submissionGuidelines">
+            <column name="submission_guidlines" length="500" not-null="true" />
+        </property>
+        
         <set name="volumes" table="volumes" inverse="true" lazy="true" fetch="select">
         	<key>
         		<column name="journal_id" not-null="true" />

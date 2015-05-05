@@ -1,7 +1,8 @@
 package com.sheffield.ecommerce.models;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
 

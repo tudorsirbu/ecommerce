@@ -3,25 +3,19 @@ package com.sheffield.ecommerce.servlets.journal;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-
 import com.sheffield.ecommerce.dao.JournalDao;
-import com.sheffield.ecommerce.dao.UserDao;
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
-import com.sheffield.ecommerce.helpers.PasswordHelper;
 import com.sheffield.ecommerce.models.Journal;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.User;
-import com.sheffield.ecommerce.servlets.Register;
 
 public class ManageJournal extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -47,7 +41,7 @@ public class ManageJournal extends HttpServlet {
 			//Otherwise the editor is shown the manage journal page
 			request.setAttribute("journal", dao.getJournal());
 			request.setAttribute("volumes", dao.getAllVolumesWithEditions());
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/journal/manage.jsp"); //TODO add actions to table
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/journal/manage.jsp");
 			requestDispatcher.forward(request, response);
 		}
 	}
@@ -73,6 +67,7 @@ public class ManageJournal extends HttpServlet {
 				Journal journal = new Journal();
 				journal.setTitle(request.getParameter("journalTitle"));
 				journal.setAcademicAims(request.getParameter("journalAims"));
+				journal.setSubmissionGuidelines(request.getParameter("submissionGuidelines"));
 				journal.validateModel();
 				
 				//Update database

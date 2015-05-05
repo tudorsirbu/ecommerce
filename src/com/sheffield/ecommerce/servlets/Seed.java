@@ -1,8 +1,7 @@
 package com.sheffield.ecommerce.servlets;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -53,13 +52,15 @@ public class Seed extends HttpServlet {
 			user.validateModel();
 			
 			Journal journal = new Journal();
-			journal.setTitle("Journal Title");
-			journal.setAcademicAims("Academic Aims");
+			journal.setTitle("Test Journal Title");
+			journal.setAcademicAims("Test content for academic aims");
+			journal.setSubmissionGuidelines("Test content for submission guidelines");
 			
 			Volume volume = new Volume();
+			volume.setPublicationDate(new Date());
 			
 			Edition edition = new Edition();
-			edition.setName("Test Edition");
+			edition.setPublicationDate(new Date());
 			
 
 						
