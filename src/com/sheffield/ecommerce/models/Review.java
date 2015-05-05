@@ -1,6 +1,11 @@
 package com.sheffield.ecommerce.models;
 import java.io.Serializable;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+import com.sheffield.ecommerce.exceptions.InvalidModelException;
+
 public class Review implements Serializable {
 
 	private static final long serialVersionUID = 6849934273148906689L;
@@ -60,6 +65,29 @@ public class Review implements Serializable {
 	}
 	public void setArticle(Article article) {
 		this.article = article;
+	}
+	public void validateModel() throws InvalidModelException {
+		if (article == null){
+			throw new InvalidModelException("You must select an article to review.");
+		}
+		
+		if (overallJudgement == null || overallJudgement.isEmpty()){
+			throw new InvalidModelException("You must select an overall judgement.");
+		}
+		if (reviewerExpertise == null || reviewerExpertise.isEmpty()){
+			throw new InvalidModelException("You must select expertise level.");
+		}
+		if (articleSummary == null || articleSummary.isEmpty()){
+			throw new InvalidModelException("You must write an article summary.");
+		}
+		if (substantiveCriticism == null || substantiveCriticism.isEmpty()){
+			throw new InvalidModelException("You must write some criticism.");
+		}
+		if (smallErrors == null || smallErrors.isEmpty()){
+			throw new InvalidModelException("You must write any errors you found.");
+		}
+		
+		
 	}
 	
 }

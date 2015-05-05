@@ -10,6 +10,8 @@ import javax.servlet.http.*;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
+import com.sheffield.ecommerce.dao.ArticleDao;
+import com.sheffield.ecommerce.dao.UserDao;
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
 import com.sheffield.ecommerce.helpers.PasswordHelper;
 import com.sheffield.ecommerce.models.Article;
@@ -28,7 +30,7 @@ public class Test extends HttpServlet{
 				try {		
 					//Create a new user with received user data
 					User author = new User();
-					author.setEmail("tudor.sirbu@gmail.com");
+					author.setEmail("tudor@gmail.com");
 					author.setFirstName("Tudor");
 					author.setLastName("Sirbu");
 					author.setPasswordHash("password");
@@ -39,31 +41,32 @@ public class Test extends HttpServlet{
 					article.setTitle("My article");
 					article.setArticle_abstract("My abstract");
 					article.setAuthor(author);
+					article.setFileName("lalal");
 					
 					Article article1 = new Article();
 					article1.setTitle("My article1");
 					article1.setArticle_abstract("My abstract1");
 					article1.setAuthor(author);
+					article1.setFileName("lala");
 					
 					Article article2 = new Article();
 					article2.setTitle("My article2");
 					article2.setArticle_abstract("My abstract2");
 					article2.setAuthor(author);
+					article2.setFileName("aksasd");
 					
-					User user = new User();
-					user.setEmail("tudor.sirbu@gmail.com");
-					user.setFirstName("Tudor");
-					user.setLastName("Sirbu");
-					user.setPasswordHash("password");
-					user.setPasswordSalt("password");
-					user.setRole(0);
+//					UserDao userdao = new UserDao();
+//					User user = userdao.getUserById(2);
+//					
+//					HashSet<Article> articlesToReview = new HashSet<Article>();
+//					Article article = ArticleDao.getArticleById(1);
+//					Article article1 = ArticleDao.getArticleById(2);
+//					Article article2 = ArticleDao.getArticleById(3);
+//					articlesToReview.add(article);
+//					articlesToReview.add(article1);
+//					articlesToReview.add(article2);
 					
-					HashSet<Article> articlesToReview = new HashSet<Article>();
-					articlesToReview.add(article);
-					articlesToReview.add(article1);
-					articlesToReview.add(article2);
-					
-					user.setArticlesToReview(articlesToReview);
+//					user.setArticlesToReview(articlesToReview);
 					
 					//Save the user to the database
 					session.beginTransaction();
@@ -71,7 +74,7 @@ public class Test extends HttpServlet{
 					session.save(article);
 					session.save(article1);
 					session.save(article2);
-					session.save(user);
+//					session.update(user);
 					session.getTransaction().commit();
 					
 					return;

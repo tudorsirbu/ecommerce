@@ -1,6 +1,7 @@
 package com.sheffield.ecommerce.models;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.hibernate.Query;
@@ -19,7 +20,7 @@ public class User implements Serializable {
 	private String passwordHash;
 	private String passwordSalt;
 	private int role;
-	private Set<Article> articlesToReview;
+	private Set<Article> articlesToReview = new HashSet<Article>();
 	
 	public String getPasswordHash() {
 		return passwordHash;
@@ -27,6 +28,16 @@ public class User implements Serializable {
 
 	public void setPasswordHash(String passwordHash) {
 		this.passwordHash = passwordHash;
+	}
+	
+	public void deleteReviewedArticle(Article article){
+		Set<Article> articles = new HashSet<Article>();
+		for(Article a : getArticlesToReview()){
+			if(a.getId() != article.getId())
+				articles.add(a);	
+		}
+		setArticlesToReview(articles);
+		    
 	}
 
 	public String getPasswordSalt() {
@@ -81,6 +92,18 @@ public class User implements Serializable {
 	public void setEmail(String email) throws InvalidModelException {
 		this.email = email;
 	}
+	
+	public boolean equals(Object obj) {
+	      if (obj == null) return false;
+	      if (!this.getClass().equals(obj.getClass())) return false;
+
+	      User obj2 = (User)obj;
+	      if(this.id == obj2.getId())
+	      {
+	         return true;
+	      }
+	      return false;
+	   }
 	
 	public void validateModel() throws InvalidModelException {
 		// Check the first name is present

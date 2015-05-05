@@ -148,4 +148,24 @@
     <servlet-name>ManageJournal</servlet-name>
     <url-pattern>/ManageJournal</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ListArticlesForReview</display-name>
+    <servlet-name>ListArticlesForReview</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.articlesForReview.ListArticlesForReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListArticlesForReview</servlet-name>
+    <url-pattern>/articlesForReview</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DownloadsManager</display-name>
+    <servlet-name>DownloadsManager</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.downloads.DownloadsManager</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DownloadsManager</servlet-name>
+    <url-pattern>/DownloadsManager</url-pattern>
+  </servlet-mapping>
 </web-app>

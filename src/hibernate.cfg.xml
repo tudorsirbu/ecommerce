@@ -64,6 +64,7 @@
         <mapping resource="com/sheffield/ecommerce/models/Edition.hbm.xml" />
         <mapping resource="com/sheffield/ecommerce/models/Article.hbm.xml" />
         <mapping resource="com/sheffield/ecommerce/models/Review.hbm.xml" />
+        
  
     </session-factory>
 </hibernate-configuration>

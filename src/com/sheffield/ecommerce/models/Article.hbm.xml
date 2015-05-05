@@ -24,5 +24,10 @@
         </property>
         
         <many-to-one name="author" column="author_id" unique="false" class="com.sheffield.ecommerce.models.User" not-null="true"/>
+        
+    	<set  name="reviewers"  table="user_article" inverse="true"  fetch="select">
+    	 <key column="article_id" />
+         <many-to-many class="com.sheffield.ecommerce.models.User" column="user_id"/>
+  		</set>
     </class>
 </hibernate-mapping>

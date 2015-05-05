@@ -1,11 +1,14 @@
 package com.sheffield.ecommerce.dao;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
+import com.sheffield.ecommerce.models.Article;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.User;
 
@@ -123,5 +126,37 @@ public class UserDao {
 		query.setParameter("email", email);
 		User user = (User) query.uniqueResult();
 		return user;
+	}
+	
+	public Set<Article> getArticlesToReview(int id) {
+		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		Query query = session.createQuery("SELECT u.articlesToReview FROM User u where u.id = :id");
+		query.setParameter("id", id);
+		@SuppressWarnings("unchecked")
+		List<Article> articles = query.list();
+		Set<Article> results = new HashSet<Article>(articles);
+		session.getTransaction().commit();
+		return results;
+	}
+	
+	public void setArticleToReview(Article article, User user) {
+		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		Set<Article> articles = getArticlesToReview(user.getId());
+		articles.add(article);
+		user.setArticlesToReview(articles);
+		session.update(user);
+		session.getTransaction().commit();
+		
+	}
+	
+	public void deleteReviewedArticle(Article article, User user) {
+		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		user.deleteReviewedArticle(article);
+		session.update(user);
+		session.getTransaction().commit();
+		
 	}
 }

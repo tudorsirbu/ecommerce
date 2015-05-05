@@ -8,9 +8,21 @@
       <div class="page-header">
         <h1>
         	${article.title}
-	        <a href="${pageContext.request.contextPath}/uploads/${article.fileName}" target="_blank">
-	        	<span class="glyphicon glyphicon-download-alt">&nbsp;</span>
-	        </a>
+        	<c:choose>
+			      <c:when test="${downloadable == true}">
+				      <a href="${pageContext.request.contextPath}/uploads/${article.fileName}" target="_blank">
+			          	<span class="glyphicon glyphicon-download-alt">&nbsp;</span>
+			          </a>
+				      <br />
+			      </c:when>
+			      <c:otherwise>
+			      <a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${article.id}">
+	              		<span class="glyphicon glyphicon-download-alt">&nbsp;Download</span>
+	              </a>
+			      <br />
+			      </c:otherwise>
+			</c:choose>
+	        
         </h1>
       </div>
       <div class="well well-sm">
