@@ -38,8 +38,16 @@ public class UploadArticle extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// checks if there is a user logged in
-		if(isUserLoggedIn(request, response) != null){
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/upload_article.jsp");
+		User currentUser = isUserLoggedIn(request, response);
+		
+		if(currentUser != null){
+			RequestDispatcher requestDispatcher;
+			if(currentUser.getRole() == 0){
+				requestDispatcher = request.getRequestDispatcher("jsp/upload_article.jsp");
+			} else { 
+				request.setAttribute("errorMsg", "You do not have the necessary rights to upload articles.");
+				requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
+			}
 			requestDispatcher.forward(request, response);
 		} else {
 			response.sendRedirect("/ecommerce/Login");

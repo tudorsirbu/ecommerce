@@ -64,7 +64,7 @@ public class Login extends HttpServlet {
 					
 					List<Article> userArticles = ArticleDao.getArticlesForUser(currentUser);
 					
-					if(userArticles == null || userArticles.size() == 0)
+					if(currentUser.getRole() == 0 && (userArticles == null || userArticles.size() == 0))
 						response.sendRedirect("/ecommerce/UploadArticle");	
 					else
 						response.sendRedirect("/ecommerce/Home");					
