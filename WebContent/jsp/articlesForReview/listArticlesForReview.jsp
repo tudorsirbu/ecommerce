@@ -8,7 +8,7 @@
       <c:choose>
 			<c:when test="${editor != true}">
 				<div class="page-header">
-				  <h1>Articles under review</h1>
+				  <h1>Articles available for review</h1>
 				</div>
 				<table class="table">
 					<thead>
@@ -35,7 +35,7 @@
 			</c:when>
 			<c:otherwise>
 				<div class="page-header">
-				  <h1>Articles for review</h1>
+				  <h1>Articles under review</h1>
 				</div>
 				<table class="table">
 					<thead>
