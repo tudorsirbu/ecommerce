@@ -47,7 +47,11 @@
 									<tr>
 										<td>${volume.volumeId}</td>
 										<td>${edition.name}</td>
-										<td></td>
+										<td>
+											<a href="${pageContext.request.contextPath}/VolumeEditor">Edit Volume</a>
+											|
+											<a href="${pageContext.request.contextPath}/EditionEditor">Edit Edition</a>
+										</td>
 									</tr>
 								</c:forEach>
 							</c:forEach>

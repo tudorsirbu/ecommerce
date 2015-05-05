@@ -116,7 +116,7 @@
   <servlet-mapping>
     <servlet-name>Test</servlet-name>
     <url-pattern>/Test</url-pattern>
-  </servlet-mapping>  
+  </servlet-mapping>
   <servlet>
     <description></description>
     <display-name>ArticlesList</display-name>
@@ -127,7 +127,6 @@
     <servlet-name>ArticlesList</servlet-name>
     <url-pattern>/articles</url-pattern>
   </servlet-mapping>
-
   <servlet>
     <description></description>
     <display-name>ArticleShow</display-name>
@@ -138,7 +137,7 @@
     <servlet-name>ArticleShow</servlet-name>
     <url-pattern>/article/show</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <description></description>
     <display-name>ManageJournal</display-name>
     <servlet-name>ManageJournal</servlet-name>
@@ -178,5 +177,23 @@
     <servlet-name>RevisionForm</servlet-name>
     <url-pattern>/RevisionForm</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <display-name>VolumeEditor</display-name>
+    <servlet-name>VolumeEditor</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.journal.VolumeEditor</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>VolumeEditor</servlet-name>
+    <url-pattern>/VolumeEditor</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>EditionEditor</display-name>
+    <servlet-name>EditionEditor</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.journal.EditionEditor</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditionEditor</servlet-name>
+    <url-pattern>/EditionEditor</url-pattern>
+  </servlet-mapping>
 </web-app>
-
