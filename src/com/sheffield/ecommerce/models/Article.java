@@ -1,7 +1,6 @@
 package com.sheffield.ecommerce.models;
 
 import java.io.Serializable;
-import java.util.*;
 
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
 

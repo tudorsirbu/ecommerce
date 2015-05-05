@@ -16,7 +16,15 @@
         	<column name="journal_id" not-null="true" />
         </many-to-one>
         
-        <set name="editions" table="editions" inverse="true" lazy="true" fetch="select">
+        <property name="volumeNumber">
+            <column name="volume_number" not-null="true" />
+        </property>
+        
+        <property name="publicationDate" type="timestamp">
+            <column name="publication_date" not-null="true" />
+        </property>
+        
+        <set name="editions" table="editions" inverse="true" lazy="false" fetch="select">
         	<key>
         		<column name="volume_id" not-null="true" />
         	</key>

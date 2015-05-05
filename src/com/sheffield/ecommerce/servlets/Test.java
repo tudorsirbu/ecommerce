@@ -3,17 +3,13 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
 import com.sheffield.ecommerce.helpers.PasswordHelper;
 import com.sheffield.ecommerce.models.Article;
-import com.sheffield.ecommerce.models.Review;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.User;
 
