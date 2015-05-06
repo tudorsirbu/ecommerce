@@ -99,8 +99,8 @@
 
 					</c:forEach>
 
-					Show the revision button only if there are more than 3 reviews
-					<c:if test="${fn:length(article.reviews) >= 3 or currentUser.role == cons.editor}">
+          <!-- Show the revision button only if there are more than 3 reviews -->
+					<c:if test="${fn:length(reviews) >= 3 or currentUser.role == cons.editor}">
 						<a
 							href="${pageContext.request.contextPath}/RevisionForm?articleId=${article.id}"
 							class="btn btn-primary">Revise Article</a>
