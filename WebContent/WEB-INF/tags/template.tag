@@ -39,6 +39,7 @@
 						<li class="${fn:endsWith(pageContext.request.requestURI, '') ? 'active' : ''}"><a href="${pageContext.request.contextPath}">Approve Articles</a></li>
 					</c:if>
 					<c:if test="${sessionScope.currentUser.role == 0}">
+						<li class="${fn:endsWith(pageContext.request.requestURI, 'journal/about.jsp') ? 'active' : ''}"><a href="${pageContext.request.contextPath}/AboutJournal">About Journal</a></li>
 						<li class="${fn:endsWith(pageContext.request.requestURI, 'upload_article.jsp') ? 'active' : ''}"><a href="${pageContext.request.contextPath}/UploadArticle">Upload Article</a></li>
 						<li class="${fn:endsWith(pageContext.request.requestURI, 'listArticlesForReview.jsp') ? 'active' : ''}"><a href="${pageContext.request.contextPath}/articlesForReview">Review Articles</a></li>
 						<li class="${fn:endsWith(pageContext.request.requestURI, 'articles/list.jsp') ? 'active' : ''}"><a href="${pageContext.request.contextPath}/articles">My Articles</a></li>

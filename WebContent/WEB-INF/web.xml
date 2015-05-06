@@ -206,4 +206,14 @@
     <servlet-name>RejectReviewerChoice</servlet-name>
     <url-pattern>/RejectReviewerChoice</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AboutJournal</display-name>
+    <servlet-name>AboutJournal</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.journal.AboutJournal</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AboutJournal</servlet-name>
+    <url-pattern>/AboutJournal</url-pattern>
+  </servlet-mapping>
 </web-app>

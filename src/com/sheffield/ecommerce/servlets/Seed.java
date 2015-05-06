@@ -38,7 +38,7 @@ public class Seed extends HttpServlet {
 
 	private void createTestUser() throws InvalidModelException, ConnectionProblemException{
 		//Start a database session
-		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		
 		try {
 			//Create a new user with seed data
@@ -99,6 +99,8 @@ public class Seed extends HttpServlet {
 			LOGGER.log(Level.SEVERE, ex.getMessage());
 			session.getTransaction().rollback();
 			throw new ConnectionProblemException("A problem occurred and seeding could not be completed.");
+		} finally {
+			session.close();
 		}
 	}
 }
