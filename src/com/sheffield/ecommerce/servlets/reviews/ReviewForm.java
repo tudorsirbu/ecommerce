@@ -69,13 +69,17 @@ public class ReviewForm extends HttpServlet{
 			
 			//Save the review to the database
 			session.beginTransaction();
+			//No longer delete the link between user and article until the article has been published.
+			//If the article has already been revised, when submittin the second review, delete the link beetween reviewer and article
+			
 			if(article != null)
-				dao.deleteReviewedArticle(article,currentUser);
+				if(article.getTitle().toLowerCase().contains("(revised)"))
+					dao.deleteReviewedArticle(article,currentUser);
 			session.save(review);
 			session.getTransaction().commit();
 			
 			Mailer.sendEmail(currentUser, "Review Submission Successfull", "You have successfully submited a review for the article with the title:"+article.getTitle());
-			request.setAttribute("successMsg", "Review submitted successfully!");
+			httpSession.setAttribute("successMsg", "Review submitted successfully!");
 			LOGGER.log(Level.FINE, "New review submitted for article: " + article.getTitle());
 	        requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
 			requestDispatcher.forward(request, response);
@@ -83,17 +87,17 @@ public class ReviewForm extends HttpServlet{
 		} catch (InvalidModelException ex) {
 			//If there was any invalid User information then log and throw the message up to the user
 			LOGGER.log(Level.INFO, ex.getMessage());
-			request.setAttribute("errorMsg", ex.getMessage()); 
+			httpSession.setAttribute("errorMsg", ex.getMessage()); 
 		} catch (HibernateException ex) {
 			//If an unexpected error occurred then log, attempt to rollback and then throw a user friendly error
 			LOGGER.log(Level.SEVERE, ex.getMessage());
 			session.getTransaction().rollback();
-			request.setAttribute("errorMsg", "The data entered is invalid, please check and try again.");
+			httpSession.setAttribute("errorMsg", "The data entered is invalid, please check and try again.");
 		} catch (Exception ex) {
 			//If an unexpected error occurred then log, attempt to rollback and then throw a user friendly error
 			LOGGER.log(Level.SEVERE, ex.getMessage());
 			session.getTransaction().rollback();
-			request.setAttribute("errorMsg", "A problem occurred and your action could not be completed.");
+			httpSession.setAttribute("errorMsg", "A problem occurred and your action could not be completed.");
 		}
 		
 		requestDispatcher = request.getRequestDispatcher("jsp/review/review_form.jsp");

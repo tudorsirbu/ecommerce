@@ -7,20 +7,18 @@ import org.hibernate.service.ServiceRegistry;
 
 public class SessionFactoryUtil {
 
-	private static SessionFactory sessionFactory;
-	private static ServiceRegistry serviceRegistry;
+	private static final SessionFactory sessionFactory;
 
-	public static SessionFactory createSessionFactory() {
+	static {
 	    Configuration configuration = new Configuration();
 	    configuration.configure();
-	    serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
+	    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
 	            configuration.getProperties()).build();
 	    sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-	    return sessionFactory;
 	}
 	
     public static SessionFactory getSessionFactory() {
-    	return createSessionFactory();
+    	return sessionFactory;
     }
 
 }

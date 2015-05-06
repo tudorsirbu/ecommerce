@@ -35,9 +35,9 @@ public class UserEditor extends HttpServlet {
 	 * Handle GET requests for the user edit page
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession httpSession = request.getSession(false);
 		try {
 			//Attempt to get the current user from the session
-			HttpSession httpSession = request.getSession(false);
 		    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 			
 		    //If a user is not logged in, direct them to the login page
@@ -54,7 +54,7 @@ public class UserEditor extends HttpServlet {
 					if (user != null) { 
 						request.setAttribute("user", user);		
 					} else {
-						request.setAttribute("errorMsg", "No user exists with this id.");
+						httpSession.setAttribute("errorMsg", "No user exists with this id.");
 					}
 					
 					// Display the edit form
@@ -67,13 +67,13 @@ public class UserEditor extends HttpServlet {
 				}
 			} else {
 				// Redirect to the login page if the user is not logged in
-				response.sendRedirect("/ecommerce/Login");
+				response.sendRedirect(request.getContextPath() + "/Login");
 			}	
 		} catch (NumberFormatException e) {
 			// Display an error if the requested user does not exist
 			LOGGER.log(Level.SEVERE, e.getMessage());
-			request.setAttribute("errorMsg", "No user exists with this id.");
-			response.sendRedirect("/ecommerce/users");
+			httpSession.setAttribute("errorMsg", "No user exists with this id.");
+			response.sendRedirect(request.getContextPath() + "/users");
 		}
 	}
 	
@@ -82,9 +82,9 @@ public class UserEditor extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		User user = null;
+		HttpSession httpSession = request.getSession(false);
 		try {			
 			//Attempt to get the current user from the session
-			HttpSession httpSession = request.getSession(false);
 		    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 			
 			// Get the id parameter from the URL
@@ -108,7 +108,7 @@ public class UserEditor extends HttpServlet {
 				if (request.getParameter("password") != null && !request.getParameter("password").equals("")) {
 					// If the passwords don't match, display an error
 					if (!request.getParameter("password").equals(request.getParameter("passwordConfirmation"))){
-						request.setAttribute("errorMsg", "Password and confirmation do not match");
+						httpSession.setAttribute("errorMsg", "Password and confirmation do not match");
 						request.setAttribute("user", user);
 						RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/users/form.jsp");
 						requestDispatcher.forward(request, response);
@@ -134,9 +134,9 @@ public class UserEditor extends HttpServlet {
 				// If the current user is an editor, redirect to the users index page
 				// Otherwise redirect to the root
 				if (currentUser.getRole() == User.EDITOR) {
-					response.sendRedirect("/ecommerce/users");
+					response.sendRedirect(request.getContextPath() + "/users");
 				} else {
-					response.sendRedirect("/ecommerce/Home");
+					response.sendRedirect(request.getContextPath() + "/Home");
 				}
 					
 			} else {
@@ -147,20 +147,20 @@ public class UserEditor extends HttpServlet {
 		} catch (NumberFormatException e) {
 			// Display an error if the requested user does not exist
 			LOGGER.log(Level.WARNING, e.getMessage());
-			request.setAttribute("errorMsg", "No user exists with this id.");
+			httpSession.setAttribute("errorMsg", "No user exists with this id.");
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/users/form.jsp");
 			requestDispatcher.forward(request, response);
 		} catch (InvalidModelException e) {
 			//If there was any invalid User information then log and throw the message up to the user
 			LOGGER.log(Level.INFO, e.getMessage());
-			request.setAttribute("errorMsg", e.getMessage());
+			httpSession.setAttribute("errorMsg", e.getMessage());
 			request.setAttribute("user", user);
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/users/form.jsp");
 			requestDispatcher.forward(request, response);
 		} catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
 			//If there was an error updating the password, show an error
 			LOGGER.log(Level.SEVERE, e.getMessage());
-			request.setAttribute("errorMsg", "There was an error updating the password");
+			httpSession.setAttribute("errorMsg", "There was an error updating the password");
 			request.setAttribute("user", user);
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/users/form.jsp");
 			requestDispatcher.forward(request, response);

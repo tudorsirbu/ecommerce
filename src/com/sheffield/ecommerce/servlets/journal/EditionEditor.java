@@ -65,8 +65,8 @@ public class EditionEditor extends HttpServlet {
 						RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/journal/editionForm.jsp");
 						requestDispatcher.forward(request, response);
 					} else {
-						request.setAttribute("errorMsg", "No edition exists with this id.");
-						response.sendRedirect("/ecommerce/ManageJournal");
+						httpSession.setAttribute("errorMsg", "No edition exists with this id.");
+						response.sendRedirect(request.getContextPath() + "/ManageJournal");
 					}	
 				} else {
 					//If we are making a new edition we need to know which volume it should below too
@@ -75,8 +75,8 @@ public class EditionEditor extends HttpServlet {
 						RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/journal/editionForm.jsp");
 						requestDispatcher.forward(request, response);
 					} else {
-						request.setAttribute("errorMsg", "Unknown volume.");
-						response.sendRedirect("/ecommerce/ManageJournal");	
+						httpSession.setAttribute("errorMsg", "Unknown volume.");
+						response.sendRedirect(request.getContextPath() + "/ManageJournal");	
 					}
 				}
 			} else {
@@ -85,7 +85,7 @@ public class EditionEditor extends HttpServlet {
 			}
 		} else {
 			// Redirect to the login page if the user is not logged in
-			response.sendRedirect("/ecommerce/Login");
+			response.sendRedirect(request.getContextPath() + "/Login");
 		}	
 
 	}
@@ -94,9 +94,10 @@ public class EditionEditor extends HttpServlet {
 	 * Handle POST requests for the edition editor
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		HttpSession httpSession = request.getSession(false);
+
 		try {
 			//Attempt to get the current user from the session
-			HttpSession httpSession = request.getSession(false);
 		    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 			
 		    //If a user is not logged in, direct them to the login page
@@ -117,7 +118,7 @@ public class EditionEditor extends HttpServlet {
 							dao.updateEdition(edition);
 							urlString = "VolumeEditor?id=" + edition.getVolume().getVolumeId();
 						} else {
-							request.setAttribute("errorMsg", "Unable to edit edition with this id.");
+							httpSession.setAttribute("errorMsg", "Unable to edit edition with this id.");
 						}
 					} else {
 						// Get the edition from the id in the request parameters
@@ -135,34 +136,34 @@ public class EditionEditor extends HttpServlet {
 							dao.addNewEdition(edition);
 							urlString = "VolumeEditor?id=" + vol;
 						} else {
-							request.setAttribute("errorMsg", "No volume exists with this id.");
-							response.sendRedirect("/ecommerce/ManageJournal");
+							httpSession.setAttribute("errorMsg", "No volume exists with this id.");
+							response.sendRedirect(request.getContextPath() + "/ManageJournal");
 						}	
 					}
-					response.sendRedirect("/ecommerce/"+urlString);
+					response.sendRedirect(request.getContextPath() + "/" + urlString);
 				} else {
 					// Display a 404 error if the user is not permitted to view this page
 					response.sendError(HttpServletResponse.SC_FORBIDDEN, "Current user is not permitted to access this page.");
 				}
 			} else {
 				// Redirect to the login page if the user is not logged in
-				response.sendRedirect("/ecommerce/Login");
+				response.sendRedirect(request.getContextPath() + "/Login");
 			}
 		} catch (InvalidModelException | ParseException ex) {
 			//If there was any invalid model information then log and throw the message up to the user
 			LOGGER.log(Level.INFO, ex.getMessage());
-			request.setAttribute("errorMsg", ex.getMessage());
-			response.sendRedirect(request.getRequestURI()+"?"+request.getQueryString());
+			httpSession.setAttribute("errorMsg", ex.getMessage());
+			response.sendRedirect(request.getContextPath() + request.getServletPath() + request.getQueryString());
 		} catch (HibernateException ex) {
 			//If an unexpected error occurred then log, throw a user friendly error
 			LOGGER.log(Level.SEVERE, ex.getCause().getMessage());
-			request.setAttribute("errorMsg", "The data entered is invalid, please check and try again.");
-			response.sendRedirect("/ecommerce/ManageJournal");
+			httpSession.setAttribute("errorMsg", "The data entered is invalid, please check and try again.");
+			response.sendRedirect(request.getContextPath() + "/ManageJournal");
 		} catch (Exception ex) {
 			//If an unexpected error occurred then log, attempt to rollback and then throw a user friendly error
 			LOGGER.log(Level.SEVERE, ex.getMessage());
-			request.setAttribute("errorMsg", "A problem occurred and your action could not be completed.");
-			response.sendRedirect("/ecommerce/ManageJournal");
+			httpSession.setAttribute("errorMsg", "A problem occurred and your action could not be completed.");
+			response.sendRedirect(request.getContextPath() + "/ManageJournal");
 		}
 		
 	}

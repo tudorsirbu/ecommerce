@@ -58,14 +58,14 @@ public class VolumeEditor extends HttpServlet {
 					// Send the volume object to the page if they exist
 					// Otherwise, display an error
 					if (volume != null) { 
-						request.setAttribute("volume", volume);
+						httpSession.setAttribute("volume", volume);
 						
 						// Display the edit form
 						RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/journal/volumeForm.jsp");
 						requestDispatcher.forward(request, response);
 					} else {
-						request.setAttribute("errorMsg", "No volume exists with this id.");
-						response.sendRedirect("/ecommerce/ManageJournal");
+						httpSession.setAttribute("errorMsg", "No volume exists with this id.");
+						response.sendRedirect(request.getContextPath() + "/ManageJournal");
 					}	
 				} else {
 					RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/journal/volumeForm.jsp");
@@ -77,7 +77,7 @@ public class VolumeEditor extends HttpServlet {
 			}
 		} else {
 			// Redirect to the login page if the user is not logged in
-			response.sendRedirect("/ecommerce/Login");
+			response.sendRedirect(request.getContextPath() + "/Login");
 		}	
 
 	}
@@ -86,9 +86,9 @@ public class VolumeEditor extends HttpServlet {
 	 * Handle POST requests for the volume editor
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		HttpSession httpSession = request.getSession(false);
 		try {
 			//Attempt to get the current user from the session
-			HttpSession httpSession = request.getSession(false);
 		    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 			
 		    //If a user is not logged in, direct them to the login page
@@ -107,7 +107,7 @@ public class VolumeEditor extends HttpServlet {
 							volume.setPublicationDate(date);
 							dao.updateVolume(volume);
 						} else {
-							request.setAttribute("errorMsg", "Unable to edit volume with this id.");
+							httpSession.setAttribute("errorMsg", "Unable to edit volume with this id.");
 						}
 					} else {
 						Volume volume = new Volume();
@@ -116,31 +116,31 @@ public class VolumeEditor extends HttpServlet {
 						volume.setPublicationDate(date);
 						dao.addNewVolume(volume);
 					}
-					response.sendRedirect("/ecommerce/ManageJournal");
+					response.sendRedirect(request.getContextPath() + "/ManageJournal");
 				} else {
 					// Display a 404 error if the user is not permitted to view this page
 					response.sendError(HttpServletResponse.SC_FORBIDDEN, "Current user is not permitted to access this page.");
 				}
 			} else {
 				// Redirect to the login page if the user is not logged in
-				response.sendRedirect("/ecommerce/Login");
+				response.sendRedirect(request.getContextPath() + "/Login");
 			}
 		} catch (InvalidModelException | ParseException ex) {
 			//If there was any invalid model information then log and throw the message up to the user
 			LOGGER.log(Level.INFO, ex.getMessage());
-			request.setAttribute("errorMsg", ex.getMessage());
+			httpSession.setAttribute("errorMsg", ex.getMessage());
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/journal/volumeForm.jsp");
 			requestDispatcher.forward(request, response);
 		} catch (HibernateException ex) {
 			//If an unexpected error occurred then log, throw a user friendly error
 			LOGGER.log(Level.SEVERE, ex.getCause().getMessage());
-			request.setAttribute("errorMsg", "The data entered is invalid, please check and try again.");
-			response.sendRedirect("/ecommerce/ManageJournal");
+			httpSession.setAttribute("errorMsg", "The data entered is invalid, please check and try again.");
+			response.sendRedirect(request.getContextPath() + "/ManageJournal");
 		} catch (Exception ex) {
 			//If an unexpected error occurred then log, attempt to rollback and then throw a user friendly error
 			LOGGER.log(Level.SEVERE, ex.getMessage());
-			request.setAttribute("errorMsg", "A problem occurred and your action could not be completed.");
-			response.sendRedirect("/ecommerce/ManageJournal");
+			httpSession.setAttribute("errorMsg", "A problem occurred and your action could not be completed.");
+			response.sendRedirect(request.getContextPath() + "/ManageJournal");
 		}
 		
 	}

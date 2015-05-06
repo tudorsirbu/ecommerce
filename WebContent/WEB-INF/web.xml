@@ -12,6 +12,9 @@
     <error-code>404</error-code>
     <location>/jsp/404.jsp</location>
   </error-page>
+  <listener>
+    <listener-class>com.sheffield.ecommerce.servlets.ServletListener</listener-class>
+  </listener>
   <servlet>
     <description></description>
     <display-name>Login</display-name>
@@ -200,5 +203,35 @@
   <servlet-mapping>
     <servlet-name>RejectReviewerChoice</servlet-name>
     <url-pattern>/RejectReviewerChoice</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AboutJournal</display-name>
+    <servlet-name>AboutJournal</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.journal.AboutJournal</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AboutJournal</servlet-name>
+    <url-pattern>/AboutJournal</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Accessibility</display-name>
+    <servlet-name>Accessibility</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.Accessibility</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Accessibility</servlet-name>
+    <url-pattern>/Accessibility</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SearchForArticle</display-name>
+    <servlet-name>SearchForArticle</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.articles.SearchForArticle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SearchForArticle</servlet-name>
+    <url-pattern>/SearchForArticle</url-pattern>
   </servlet-mapping>
 </web-app>
