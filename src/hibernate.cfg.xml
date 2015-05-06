@@ -6,7 +6,7 @@
     <session-factory>
     
         <!-- JDBC connection pool (use the built-in) -->
-        <property name="connection.pool_size">1</property>
+<!--         <property name="connection.pool_size">3</property> -->
  
         <!-- hibernate dialect -->
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
@@ -43,6 +43,15 @@
  
         <!-- Enable Hibernate's automatic session context management -->
         <property name="current_session_context_class">thread</property>
+        
+        
+				<property name="hibernate.c3p0.acquire_increment">1</property> 
+				<property name="hibernate.c3p0.idle_test_period">100</property>
+				<property name="hibernate.c3p0.max_size">100</property> 
+				<property name="hibernate.c3p0.max_statements">100</property> 
+				<property name="hibernate.c3p0.min_size">10</property>
+				<property name="hibernate.c3p0.timeout">180</property>
+				
  
         <!-- ############################################ -->
         <!-- # mapping files with external dependencies # -->
