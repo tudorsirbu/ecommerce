@@ -14,21 +14,21 @@
 	    <div class="form-group">
 	     <label for="firstName" class="control-label col-sm-2">First name</label>
 	     <div class="col-sm-10">
-	       <input type="text" name="firstName" id="firstName" class="form-control" placeholder="First name" required="" autofocus="" value="${user.firstName}">
+	       <input type="text" name="firstName" id="firstName" class="form-control" placeholder="First name" required="required" autofocus="autofocus" value="${user.firstName}">
 	     </div>
 	    </div>
 	    
 	    <div class="form-group">
 	      <label for="lastName" class="control-label col-sm-2">Last name</label>
 	      <div class="col-sm-10">
-	        <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Last name" required="" value="${user.lastName}">
+	        <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Last name" required="required" value="${user.lastName}">
 	      </div>
       </div>
 	     
 		  <div class="form-group">
 		    <label for="email" class="control-label col-sm-2">Email address</label>
 		    <div class="col-sm-10">
-		      <input type="email" name="email" id="email" class="form-control" placeholder="Email address" required="" value="${user.email}">
+		      <input type="email" name="email" id="email" class="form-control" placeholder="Email address" required="required" value="${user.email}">
 		    </div>
 		  </div>
 		  

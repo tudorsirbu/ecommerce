@@ -15,7 +15,7 @@
 	        <input name="articleId" type="hidden" value="${param.articleId}" />
 	
 	      	<label for="revisionDetails">Revision details:</label><br>
-	        <textarea name="revisionDetails" id="revisionDetails" rows="3" cols="48" placeholder="Please write in detail the corrections you have made based on the feedback from the reviewers..." required=""></textarea>
+	        <textarea name="revisionDetails" id="revisionDetails" rows="3" cols="48" placeholder="Please write in detail the corrections you have made based on the feedback from the reviewers..." required="required"></textarea>
 	        
 	      	<label for="fileUploadArticle" class="sr-only">Upload article</label>
 	        <input type="file" name="fileUploadArticle" id="fileUploadArticle" class="form-control" size="50" />
