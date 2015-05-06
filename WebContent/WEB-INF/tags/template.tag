@@ -12,10 +12,8 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${title}</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/application.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/application.css">
 </head>
 
 <body>
@@ -75,12 +73,14 @@
 
 	<!-- Begin page content -->
 	<div class="container">
-		<c:if test="${not empty errorMsg}">
-			<div class="alert alert-danger" role="alert">Error: ${errorMsg}</div>
+		<c:if test="${not empty sessionScope.errorMsg}">
+			<div class="alert alert-danger" role="alert">Error: ${sessionScope.errorMsg}</div>
 		</c:if>
-		<c:if test="${not empty successMsg}">
-			<div class="alert alert-success" role="alert">${successMsg}</div>
+		<c:if test="${not empty sessionScope.successMsg}">
+			<div class="alert alert-success" role="alert">${sessionScope.successMsg}</div>
 		</c:if>
+		<c:remove var="errorMsg" scope="session" />
+		<c:remove var="successMsg" scope="session" />
 		<jsp:doBody />
 	</div>
 

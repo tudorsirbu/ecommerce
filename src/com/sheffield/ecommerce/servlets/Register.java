@@ -40,9 +40,10 @@ public class Register extends HttpServlet {
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		RequestDispatcher requestDispatcher;
+		HttpSession httpSession = request.getSession(false);
 		
 		if (!arePasswordsMatching(request)){
-			request.setAttribute("errorMsg", "Password and confirmation do not match");
+			httpSession.setAttribute("errorMsg", "Password and confirmation do not match");
 			requestDispatcher = request.getRequestDispatcher("jsp/register.jsp");
 			requestDispatcher.forward(request, response);
 			return;
@@ -68,15 +69,15 @@ public class Register extends HttpServlet {
 		} catch (InvalidModelException ex) {
 			//If there was any invalid User information then log and throw the message up to the user
 			LOGGER.log(Level.INFO, ex.getMessage());
-			request.setAttribute("errorMsg", ex.getMessage());
+			httpSession.setAttribute("errorMsg", ex.getMessage());
 		} catch (HibernateException ex) {
 			//If an unexpected error occurred then log, throw a user friendly error
 			LOGGER.log(Level.SEVERE, ex.getCause().getMessage());
-			request.setAttribute("errorMsg", "The data entered is invalid, please check and try again.");
+			httpSession.setAttribute("errorMsg", "The data entered is invalid, please check and try again.");
 		} catch (Exception ex) {
 			//If an unexpected error occurred then log, attempt to rollback and then throw a user friendly error
 			LOGGER.log(Level.SEVERE, ex.getMessage());
-			request.setAttribute("errorMsg", "A problem occurred and your action could not be completed.");
+			httpSession.setAttribute("errorMsg", "A problem occurred and your action could not be completed.");
 		}
 		
 		requestDispatcher = request.getRequestDispatcher("jsp/register.jsp");

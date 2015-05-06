@@ -40,6 +40,8 @@ public class Login extends HttpServlet {
 	}
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		HttpSession httpSession = request.getSession(false);
+		
 		//Get the email and password from the login form
 		String email = request.getParameter("inputEmail");
 		String password = request.getParameter("inputPassword");
@@ -50,7 +52,7 @@ public class Login extends HttpServlet {
 		//If no user is found then display an error
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/login.jsp");
 		if (currentUser == null) {
-			request.setAttribute("errorMsg", "Email address not recognised");	
+			httpSession.setAttribute("errorMsg", "Email address not recognised");	
 			requestDispatcher.forward(request, response);
 		} else {
 			//Otherwise get the user object and authenticate the password
@@ -59,9 +61,8 @@ public class Login extends HttpServlet {
 				validPassword = PasswordHelper.verifyPassword(password, currentUser.getPasswordSalt(), currentUser.getPasswordHash());
 				//If the password is valid, add the user object to the session
 				if (validPassword) {
-					HttpSession httpSession = request.getSession(true); //Returns a new session if one does not exist
 					httpSession.setAttribute("currentUser", currentUser);
-					
+					httpSession.setAttribute("successMsg", "Successfully logged in!");
 					List<Article> userArticles = ArticleDao.getArticlesForUser(currentUser);
 					
 					if(currentUser.getRole() == 0 && (userArticles == null || userArticles.size() == 0))
@@ -70,12 +71,12 @@ public class Login extends HttpServlet {
 						response.sendRedirect(request.getContextPath() + "/Home");					
 				} else {
 					//Otherwise display an error
-					request.setAttribute("errorMsg", "Invalid password");
+					httpSession.setAttribute("errorMsg", "Invalid password");
 					requestDispatcher.forward(request, response);
 				}
 			} catch (Exception ex) {
 				LOGGER.log(Level.SEVERE, ex.getCause().getMessage());
-				request.setAttribute("errorMsg", "Unable to verify password");
+				httpSession.setAttribute("errorMsg", "Unable to verify password");
 				requestDispatcher.forward(request, response);
 			}
 		}
