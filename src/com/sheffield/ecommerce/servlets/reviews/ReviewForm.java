@@ -69,8 +69,12 @@ public class ReviewForm extends HttpServlet{
 			
 			//Save the review to the database
 			session.beginTransaction();
+			//No longer delete the link between user and article until the article has been published.
+			//If the article has already been revised, when submittin the second review, delete the link beetween reviewer and article
+			
 			if(article != null)
-				dao.deleteReviewedArticle(article,currentUser);
+				if(article.getTitle().toLowerCase().contains("(revised)"))
+					dao.deleteReviewedArticle(article,currentUser);
 			session.save(review);
 			session.getTransaction().commit();
 			
