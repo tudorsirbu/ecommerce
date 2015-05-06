@@ -9,8 +9,7 @@
 				<h1>${journal.title}</h1>
 			</div>
 			<div class="well well-sm">
-				<form name="find_article" action="SearchForArticle" method="post"
-					class="" enctype="multipart/form-data">
+				<form name="find_article" action="SearchForArticle" method="get">
 					<h5 style="padding-left: 2%">Search for an article</h5>
 					<div class="col-md-6">
 						<input type="text" name="inputTitle" id="inputTitle"

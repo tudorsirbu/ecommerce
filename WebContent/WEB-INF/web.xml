@@ -229,4 +229,14 @@
     <servlet-name>Accessibility</servlet-name>
     <url-pattern>/Accessibility</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SearchForArticle</display-name>
+    <servlet-name>SearchForArticle</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.articles.SearchForArticle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SearchForArticle</servlet-name>
+    <url-pattern>/SearchForArticle</url-pattern>
+  </servlet-mapping>
 </web-app>

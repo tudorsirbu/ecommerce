@@ -45,6 +45,19 @@ public class ArticleDao {
 		return results;
 	}
 	
+	public static List<Article> getArticlesWithTitle(String title) {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from Article a where a.title LIKE :title");
+		query.setParameter("title", "%" + title + "%");
+		@SuppressWarnings("unchecked")
+		List<Article> results = query.list();
+		session.getTransaction().commit();
+		session.close();
+		return results;
+	}
+	
+	
 	public static List<Article> getArticlesForReview(User user) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
