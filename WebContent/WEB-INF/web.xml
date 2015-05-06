@@ -77,10 +77,6 @@
     <servlet-name>Home</servlet-name>
     <url-pattern>/Home</url-pattern>
   </servlet-mapping>
-    <servlet-mapping>
-    <servlet-name>Home</servlet-name>
-    <url-pattern>/</url-pattern>
-  </servlet-mapping>
   <servlet>
     <description></description>
     <display-name>UserEditor</display-name>

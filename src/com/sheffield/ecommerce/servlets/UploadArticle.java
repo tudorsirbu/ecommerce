@@ -46,7 +46,7 @@ public class UploadArticle extends HttpServlet {
 			}
 			requestDispatcher.forward(request, response);
 		} else {
-			response.sendRedirect("/ecommerce/Login");
+			response.sendRedirect(request.getContextPath() + "/Login");
 		}
 	}
 
@@ -58,7 +58,7 @@ public class UploadArticle extends HttpServlet {
 		// checks if there is a user logged in and if 
 		// the user is not logged in send him/her to login page
 		if(currentUser == null){
-			response.sendRedirect("/ecommerce/Login");
+			response.sendRedirect(request.getContextPath() + "/Login");
 		}
 
 		// checks if the request actually contains a file

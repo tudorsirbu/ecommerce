@@ -30,7 +30,7 @@ public class Register extends HttpServlet {
 	    
 	    //If a user is already logged in we redirect them to the homepage
 		if (currentUser != null) {
-			response.sendRedirect("/ecommerce/Home");
+			response.sendRedirect(request.getContextPath() + "/Home");
 		} else {
 			//Otherwise the user is not logged in and they are allowed to register
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/register.jsp");

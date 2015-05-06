@@ -21,6 +21,6 @@ public class Logout extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession httpSession = request.getSession(false); //Returns null if no session exists
 		if (httpSession != null) {httpSession.invalidate();}
-		response.sendRedirect("/ecommerce/Login");
+		response.sendRedirect(request.getContextPath() + "/Login");
 	}
 }

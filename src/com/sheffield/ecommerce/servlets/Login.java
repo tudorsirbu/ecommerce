@@ -31,7 +31,7 @@ public class Login extends HttpServlet {
 	    
 		//If a user is already logged in we redirect them to the homepage
 		if (currentUser != null) {
-			response.sendRedirect("/ecommerce/Home");
+			response.sendRedirect(request.getContextPath() + "/Home");
 		} else {
 			//Otherwise the user is not logged in and they are allowed to register
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/login.jsp");
@@ -65,9 +65,9 @@ public class Login extends HttpServlet {
 					List<Article> userArticles = ArticleDao.getArticlesForUser(currentUser);
 					
 					if(currentUser.getRole() == 0 && (userArticles == null || userArticles.size() == 0))
-						response.sendRedirect("/ecommerce/UploadArticle");	
+						response.sendRedirect(request.getContextPath() + "/UploadArticle");	
 					else
-						response.sendRedirect("/ecommerce/Home");					
+						response.sendRedirect(request.getContextPath() + "/Home");					
 				} else {
 					//Otherwise display an error
 					request.setAttribute("errorMsg", "Invalid password");
