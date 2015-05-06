@@ -60,7 +60,7 @@ public class EditionEditor extends HttpServlet {
 					// Otherwise, display an error
 					if (edition != null) { 
 						request.setAttribute("edition", edition);
-						
+						request.setAttribute("articles", dao.getArticlesForEdition(edition.getEditionId()));
 						// Display the edit form
 						RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/journal/editionForm.jsp");
 						requestDispatcher.forward(request, response);

@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
+import com.sheffield.ecommerce.models.Article;
 import com.sheffield.ecommerce.models.Journal;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.Volume;
@@ -182,6 +184,18 @@ public class JournalDao {
 		query.executeUpdate();
 		session.getTransaction().commit();
 		session.close();
+	}
+
+	public List<Article> getArticlesForEdition(int editionId) {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from Article where edition_id = :id");
+		query.setParameter("id", editionId);
+		@SuppressWarnings("unchecked")
+		List<Article> results = query.list();
+		session.getTransaction().commit();
+		session.close();
+		return results;
 	}
 
 }

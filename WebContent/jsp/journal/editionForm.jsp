@@ -43,10 +43,14 @@
 						<tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td></td>
-							<td></td>
-						</tr>
+						<c:forEach items="${articles}" var="article">
+							<tr>
+								<td>${article.title}</td>
+								<td>
+									<a href="${pageContext.request.contextPath}/article/show?article_id=${article.id}">View Article</a>
+								</td>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>
