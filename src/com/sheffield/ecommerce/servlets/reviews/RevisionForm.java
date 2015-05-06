@@ -41,7 +41,7 @@ public class RevisionForm extends HttpServlet {
 	    
 		if (currentUser == null) {
 			// Redirect to the login if the user is not logged in
-			response.sendRedirect("/ecommerce/Login");
+			response.sendRedirect(request.getContextPath() + "/Login");
 			return;
 		}
 		
@@ -50,7 +50,7 @@ public class RevisionForm extends HttpServlet {
 			articleId = Integer.parseInt(request.getParameter("articleId"));
 		} catch (Exception e) {
 			// Display an error if the article doesn't exist
-			request.setAttribute("errorMsg", "No article exists with that id.");
+			httpSession.setAttribute("errorMsg", "No article exists with that id.");
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/review/revision_form.jsp"); 
 			requestDispatcher.forward(request, response);
 			return;
@@ -59,7 +59,7 @@ public class RevisionForm extends HttpServlet {
 		Article article = ArticleDao.getArticleById(articleId);
 		if (article == null) {
 			// Display an error if the article doesn't exist
-			request.setAttribute("errorMsg", "No article exists with that id.");
+			httpSession.setAttribute("errorMsg", "No article exists with that id.");
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/review/revision_form.jsp"); 
 			requestDispatcher.forward(request, response);
 			return;
@@ -73,7 +73,7 @@ public class RevisionForm extends HttpServlet {
 		
 		if (article.getNumberOfRevisions() >= 2) {
 			// Display an error if there has already been two revisions
-			request.setAttribute("errorMsg", "This article has already been revised twice and cannot be revised again.");
+			httpSession.setAttribute("errorMsg", "This article has already been revised twice and cannot be revised again.");
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/review/revision_form.jsp"); 
 			requestDispatcher.forward(request, response);
 			return;
@@ -82,7 +82,7 @@ public class RevisionForm extends HttpServlet {
 		ReviewDao reviewDao = new ReviewDao();
 		if (reviewDao.getReviewsForArticle(articleId).size() % 3 != 0) {
 			// Display an error if less than 3 reviews have been submitted for this article
-			request.setAttribute("errorMsg", "This article does not have enough reviews to be revised.");
+			httpSession.setAttribute("errorMsg", "This article does not have enough reviews to be revised.");
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/review/revision_form.jsp"); 
 			requestDispatcher.forward(request, response);
 			return;
@@ -134,7 +134,7 @@ public class RevisionForm extends HttpServlet {
                 	String extension = getFileExtension(item.getName());
                 	
                 	if(!extension.toLowerCase().equals("pdf")){
-                		request.setAttribute("errorMsg", "Uploaded article needs to be a PDF.");
+                		httpSession.setAttribute("errorMsg", "Uploaded article needs to be a PDF.");
                         requestDispatcher = request.getRequestDispatcher("jsp/review/revision_form.jsp");
                 		requestDispatcher.forward(request, response);
                 		return;
@@ -171,13 +171,13 @@ public class RevisionForm extends HttpServlet {
             ArticleDao.reviseArticle(article);
             
         } catch (Exception ex) {
-            request.setAttribute("errorMsg", ex.getMessage());
+        	httpSession.setAttribute("errorMsg", ex.getMessage());
             requestDispatcher = request.getRequestDispatcher("jsp/review/revision_form.jsp");
     		requestDispatcher.forward(request, response);
     		return;
         }
 
-        request.setAttribute("successMsg", "Article revised!");
+        httpSession.setAttribute("successMsg", "Article revised!");
         requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
         requestDispatcher.forward(request, response);
 	}

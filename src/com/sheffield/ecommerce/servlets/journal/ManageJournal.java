@@ -77,20 +77,20 @@ public class ManageJournal extends HttpServlet {
 			} catch (InvalidModelException ex) {
 				//If there was any invalid information then log and throw the message up to the user
 				LOGGER.log(Level.INFO, ex.getMessage());
-				request.setAttribute("errorMsg", ex.getMessage());
+				httpSession.setAttribute("errorMsg", ex.getMessage());
 			} catch (HibernateException ex) {
 				//If an unexpected error occurred then log, attempt to rollback and then throw a user friendly error
 				LOGGER.log(Level.SEVERE, ex.getCause().getMessage());
 				session.getTransaction().rollback();
-				request.setAttribute("errorMsg", "The data entered is invalid, please check and try again.");
+				httpSession.setAttribute("errorMsg", "The data entered is invalid, please check and try again.");
 			} catch (Exception ex) {
 				//If an unexpected error occurred then log, attempt to rollback and then throw a user friendly error
 				LOGGER.log(Level.SEVERE, ex.getMessage());
 				session.getTransaction().rollback();
-				request.setAttribute("errorMsg", "A problem occurred and your action could not be completed.");
+				httpSession.setAttribute("errorMsg", "A problem occurred and your action could not be completed.");
 			}
 			//Otherwise the editor is shown the manage journal page
-			request.setAttribute("successMsg", "Journal updated successfully");
+			httpSession.setAttribute("successMsg", "Journal updated successfully");
 			request.setAttribute("journal", dao.getJournal());
 			request.setAttribute("volumes", dao.getAllVolumesWithEditions());
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/journal/manage.jsp");

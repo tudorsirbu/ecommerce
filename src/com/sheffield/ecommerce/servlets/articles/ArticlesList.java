@@ -29,7 +29,7 @@ public class ArticlesList extends HttpServlet {
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/articles/list.jsp");
 			requestDispatcher.forward(request, response);
 		} else {
-			response.sendRedirect("/ecommerce/Login");
+			response.sendRedirect(request.getContextPath() + "/Login");
 		}
 	}
 }

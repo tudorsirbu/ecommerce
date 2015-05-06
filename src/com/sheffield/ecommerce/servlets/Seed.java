@@ -24,11 +24,12 @@ public class Seed extends HttpServlet {
 	private static final Logger LOGGER = Logger.getLogger(Seed.class.getName());
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession httpSession = request.getSession(false);
 		try {
 			createTestUser();
-			request.setAttribute("successMsg", "Seeding completed successfully");
+			httpSession.setAttribute("successMsg", "Seeding completed successfully");
 		} catch (InvalidModelException | ConnectionProblemException ex) {
-			request.setAttribute("errorMsg", ex.getMessage());
+			httpSession.setAttribute("errorMsg", ex.getMessage());
 		}
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/login.jsp");
 		requestDispatcher.forward(request, response);

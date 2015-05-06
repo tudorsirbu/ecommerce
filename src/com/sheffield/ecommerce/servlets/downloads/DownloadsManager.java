@@ -31,18 +31,15 @@ public class DownloadsManager extends HttpServlet {
 			if(articlesToReviewSize <3){
 				dao.setArticleToReview(article, currentUser);
 				response.sendRedirect(request.getContextPath()+"/uploads/"+article.getFileName());
-				request.setAttribute("successMsg", "Article draft downloaded successfully!");
+				httpSession.setAttribute("successMsg", "Article draft downloaded successfully!");
 				return;
 			}else{
-				request.setAttribute("errorMsg", "You already downloaded three articles for review! Please finish reviewing those before downloading other articles!");
-				
+				httpSession.setAttribute("errorMsg", "You already downloaded three articles for review! Please finish reviewing those before downloading other articles!");	
 			}
-			
-			
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/articlesForReview/listArticlesForReview.jsp");
 			requestDispatcher.forward(request, response);
 		} else {
-			response.sendRedirect("/ecommerce/Login");
+			response.sendRedirect(request.getContextPath() + "/Login");
 		}
 	}
 }

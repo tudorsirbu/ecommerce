@@ -28,8 +28,9 @@ public class ArticleShow extends HttpServlet {
 				Article article = ArticleDao.getArticleById(articleId);
 				
 				List <User> reviewers = ArticleDao.getReviewers(articleId); 
-				if(currentUser.getId() == 1)
+				if(currentUser.getId() == 1) {
 					request.setAttribute("editor",true);
+				}
 				request.setAttribute("reviewers", reviewers );
 					
 				request.setAttribute("article", article);
@@ -39,7 +40,7 @@ public class ArticleShow extends HttpServlet {
 				requestDispatcher.forward(request, response);
 			
 		} else {
-			response.sendRedirect("/ecommerce/Login");
+			response.sendRedirect(request.getContextPath() + "/Login");
 		}
 	}
 }
