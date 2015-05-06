@@ -17,6 +17,9 @@
     <error-code>404</error-code>
     <location>/jsp/404.jsp</location>
   </error-page>
+  <listener>
+    <listener-class>com.sheffield.ecommerce.servlets.ServletListener</listener-class> 
+  </listener>
   <servlet>
     <description></description>
     <display-name>Login</display-name>
