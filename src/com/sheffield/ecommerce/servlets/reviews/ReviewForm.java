@@ -1,23 +1,17 @@
 package com.sheffield.ecommerce.servlets.reviews;
+
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
-
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
-
 import com.sheffield.ecommerce.dao.ArticleDao;
 import com.sheffield.ecommerce.dao.UserDao;
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
 import com.sheffield.ecommerce.helpers.Mailer;
-import com.sheffield.ecommerce.helpers.PasswordHelper;
 import com.sheffield.ecommerce.models.Article;
 import com.sheffield.ecommerce.models.Review;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
@@ -81,7 +75,7 @@ public class ReviewForm extends HttpServlet{
 			session.getTransaction().commit();
 			
 			Mailer.sendEmail(currentUser, "Review Submission Successfull", "You have successfully submited a review for the article with the title:"+article.getTitle());
-			request.setAttribute("successMsg", "Review submitted successfully!");
+			httpSession.setAttribute("successMsg", "Review submitted successfully!");
 			LOGGER.log(Level.FINE, "New review submitted for article: " + article.getTitle());
 	        requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
 			requestDispatcher.forward(request, response);
@@ -89,17 +83,17 @@ public class ReviewForm extends HttpServlet{
 		} catch (InvalidModelException ex) {
 			//If there was any invalid User information then log and throw the message up to the user
 			LOGGER.log(Level.INFO, ex.getMessage());
-			request.setAttribute("errorMsg", ex.getMessage()); 
+			httpSession.setAttribute("errorMsg", ex.getMessage()); 
 		} catch (HibernateException ex) {
 			//If an unexpected error occurred then log, attempt to rollback and then throw a user friendly error
 			LOGGER.log(Level.SEVERE, ex.getMessage());
 			session.getTransaction().rollback();
-			request.setAttribute("errorMsg", "The data entered is invalid, please check and try again.");
+			httpSession.setAttribute("errorMsg", "The data entered is invalid, please check and try again.");
 		} catch (Exception ex) {
 			//If an unexpected error occurred then log, attempt to rollback and then throw a user friendly error
 			LOGGER.log(Level.SEVERE, ex.getMessage());
 			session.getTransaction().rollback();
-			request.setAttribute("errorMsg", "A problem occurred and your action could not be completed.");
+			httpSession.setAttribute("errorMsg", "A problem occurred and your action could not be completed.");
 		}
 		
 		requestDispatcher = request.getRequestDispatcher("jsp/review/review_form.jsp");

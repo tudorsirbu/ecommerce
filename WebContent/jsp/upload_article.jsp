@@ -12,10 +12,10 @@
 				<h4>Article details</h4>
 				
 				<label for="inputTitle" class="sr-only">Article title</label>
-        		<input type="text" name="inputTitle" id="inputTitle" class="form-control" placeholder="Article title" required="" autofocus="">
+        		<input type="text" name="inputTitle" id="inputTitle" class="form-control" placeholder="Article title" required="required" autofocus="autofocus">
 				
 				<label for="inputArticleAbstract" class="sr-only">Article abstract</label>
-				<textarea name="inputArticleAbstract" id="inputArticleAbstract" class="form-control" placeholder="Please enter an article abstract" required="true" rows="10"></textarea>
+				<textarea name="inputArticleAbstract" id="inputArticleAbstract" class="form-control" placeholder="Please enter an article abstract" required="required" rows="10"></textarea>
 				 
 				<label for="fileUploadArticle" class="sr-only">Upload article</label>
 				<input type="file" name="fileUploadArticle" id="fileUploadArticle" class="form-control" size="50" />

@@ -6,7 +6,7 @@
     <session-factory>
     
         <!-- JDBC connection pool (use the built-in) -->
-        <property name="connection.pool_size">1</property>
+<!--         <property name="connection.pool_size">3</property> -->
  
         <!-- hibernate dialect -->
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
@@ -20,19 +20,15 @@
         <property name="hibernate.connection.password"></property> -->
 
         <!-- <property name="hibernate.connection.url">jdbc:mysql://stusql.dcs.shef.ac.uk/team160</property>
+        <property name="hibernate.connection.url">jdbc:mysql://stusql.dcs.shef.ac.uk/team160</property>
         <property name="hibernate.connection.username">team160</property>
         <property name="hibernate.connection.password">d5335d29</property> -->
         
-<!--         <property name="hibernate.connection.url">jdbc:mysql://stusql.dcs.shef.ac.uk/aca11lh</property> -->
-<!--         <property name="hibernate.connection.username">aca11lh</property> -->
-<!--         <property name="hibernate.connection.password">14ff9799</property> -->
-        
-		<!-- 
-        <property name="hibernate.connection.url">jdbc:mysql://stusql.dcs.shef.ac.uk/team160</property>
-        <property name="hibernate.connection.username">team160</property>
-        <property name="hibernate.connection.password">d5335d29</property>
-         -->
+      
         <property name="hibernate.connection.url">jdbc:mysql://localhost/ecommerce</property>
+
+        <!-- property name="hibernate.connection.url">jdbc:mysql://localhost/ecommerce</property>-->
+
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password"></property>
         
@@ -46,7 +42,6 @@
         <!-- Automatic schema creation (begin) === -->
 <!-- 		<property name="hibernate.hbm2ddl.auto">create</property> -->
 
-
  
  
         <!-- Simple memory-only cache -->
@@ -54,6 +49,15 @@
  
         <!-- Enable Hibernate's automatic session context management -->
         <property name="current_session_context_class">thread</property>
+        
+        
+				<property name="hibernate.c3p0.acquire_increment">1</property> 
+				<property name="hibernate.c3p0.idle_test_period">100</property>
+				<property name="hibernate.c3p0.max_size">100</property> 
+				<property name="hibernate.c3p0.max_statements">100</property> 
+				<property name="hibernate.c3p0.min_size">10</property>
+				<property name="hibernate.c3p0.timeout">180</property>
+				
  
         <!-- ############################################ -->
         <!-- # mapping files with external dependencies # -->
@@ -65,7 +69,6 @@
         <mapping resource="com/sheffield/ecommerce/models/Edition.hbm.xml" />
         <mapping resource="com/sheffield/ecommerce/models/Article.hbm.xml" />
         <mapping resource="com/sheffield/ecommerce/models/Review.hbm.xml" />
-        
  
     </session-factory>
 </hibernate-configuration>

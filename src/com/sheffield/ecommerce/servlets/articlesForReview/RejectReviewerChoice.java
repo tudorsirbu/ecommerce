@@ -31,12 +31,12 @@ public class RejectReviewerChoice extends HttpServlet {
 			User user = dao.getUserById(Integer.parseInt(request.getParameter("reviewer_id")));
 			Article article = ArticleDao.getArticleById(Integer.parseInt(request.getParameter("article_id")));
 			dao.deleteReviewedArticle(article, user);
-			request.setAttribute("successMsg", "Reviewer's choice rejected! The reviewer has been notified.");
+			httpSession.setAttribute("successMsg", "Reviewer's choice rejected! The reviewer has been notified.");
 			Mailer.sendEmail(user, "Your article for review", "The editor has rejected your choice of article to review. Please select another article.");
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/articlesForReview/listArticlesForReview.jsp");
 			requestDispatcher.forward(request, response);
 		} else {
-			response.sendRedirect("/ecommerce/Login");
+			response.sendRedirect(request.getContextPath() + "/Login");
 		}
 	}
 }

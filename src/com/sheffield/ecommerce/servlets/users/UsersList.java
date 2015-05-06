@@ -33,9 +33,10 @@ public class UsersList extends HttpServlet {
 	 * Handle GET requests for the user edit page
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession httpSession = request.getSession(false);
+		
 		try {
 			// Attempt to get the current user from the session
-			HttpSession httpSession = request.getSession(false);
 		    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 			
 		    // If a user is not logged in, direct them to the login page
@@ -59,7 +60,7 @@ public class UsersList extends HttpServlet {
 						if (user != null) { 
 							request.setAttribute("user", user);
 						} else {
-							request.setAttribute("errorMsg", "No user exists with this id.");
+							httpSession.setAttribute("errorMsg", "No user exists with this id.");
 						}
 						
 						// Redirect to the show page for this user
@@ -88,12 +89,12 @@ public class UsersList extends HttpServlet {
 				}
 			} else {
 				// If the user is not logged in, redirect them to the login page
-				response.sendRedirect("/ecommerce/Login");
+				response.sendRedirect(request.getContextPath() + "/Login");
 			}	
 		} catch (NumberFormatException e) {
 			// Display an error if the requested user does not exist
 			LOGGER.log(Level.SEVERE, e.getMessage());
-			request.setAttribute("errorMsg", "No user exists with this id.");
+			httpSession.setAttribute("errorMsg", "No user exists with this id.");
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/users/list.jsp");
 			requestDispatcher.forward(request, response);
 		}

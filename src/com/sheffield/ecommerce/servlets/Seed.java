@@ -24,11 +24,12 @@ public class Seed extends HttpServlet {
 	private static final Logger LOGGER = Logger.getLogger(Seed.class.getName());
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession httpSession = request.getSession(false);
 		try {
 			createTestUser();
-			request.setAttribute("successMsg", "Seeding completed successfully");
+			httpSession.setAttribute("successMsg", "Seeding completed successfully");
 		} catch (InvalidModelException | ConnectionProblemException ex) {
-			request.setAttribute("errorMsg", ex.getMessage());
+			httpSession.setAttribute("errorMsg", ex.getMessage());
 		}
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/login.jsp");
 		requestDispatcher.forward(request, response);
@@ -37,7 +38,7 @@ public class Seed extends HttpServlet {
 
 	private void createTestUser() throws InvalidModelException, ConnectionProblemException{
 		//Start a database session
-		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		
 		try {
 			//Create a new user with seed data
@@ -55,13 +56,17 @@ public class Seed extends HttpServlet {
 			journal.setTitle("Test Journal Title");
 			journal.setAcademicAims("Test content for academic aims");
 			journal.setSubmissionGuidelines("Test content for submission guidelines");
+			journal.validateModel();
 			
 			Volume volume = new Volume();
 			volume.setPublicationDate(new Date());
+			volume.setVolumeNumber(1);
+			volume.validateModel();
 			
 			Edition edition = new Edition();
 			edition.setPublicationDate(new Date());
-			
+			edition.setEditionNumber(1);
+			edition.validateModel();
 
 						
 			//Save the user to the database
@@ -94,6 +99,8 @@ public class Seed extends HttpServlet {
 			LOGGER.log(Level.SEVERE, ex.getMessage());
 			session.getTransaction().rollback();
 			throw new ConnectionProblemException("A problem occurred and seeding could not be completed.");
+		} finally {
+			session.close();
 		}
 	}
 }

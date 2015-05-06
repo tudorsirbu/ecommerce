@@ -21,8 +21,7 @@ import com.sheffield.ecommerce.models.User;
 
 public class UploadArticle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(UploadArticle.class
-			.getName());
+	private static final Logger LOGGER = Logger.getLogger(UploadArticle.class.getName());
 
 	// location to store file uploaded
     private static final String UPLOAD_DIRECTORY = "uploads";
@@ -35,26 +34,35 @@ public class UploadArticle extends HttpServlet {
     private ServletFileUpload upload;
     private String uploadPath;
     
-	public void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// checks if there is a user logged in
-		if(isUserLoggedIn(request, response) != null){
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/upload_article.jsp");
+	public void doGet(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
+		//Attempt to get the current user from the session
+		HttpSession httpSession = request.getSession(false);
+	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
+		
+		if(currentUser != null){
+			RequestDispatcher requestDispatcher;
+			if(currentUser.getRole() == 0){
+				requestDispatcher = request.getRequestDispatcher("jsp/upload_article.jsp");
+			} else { 
+				httpSession.setAttribute("errorMsg", "You do not have the necessary rights to upload articles.");
+				requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
+			}
 			requestDispatcher.forward(request, response);
 		} else {
-			response.sendRedirect("/ecommerce/Login");
+			response.sendRedirect(request.getContextPath() + "/Login");
 		}
 	}
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher requestDispatcher;
-		User currentUser = isUserLoggedIn(request, response);
+		//Attempt to get the current user from the session
+		HttpSession httpSession = request.getSession(false);
+	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 		
 		// checks if there is a user logged in and if 
 		// the user is not logged in send him/her to login page
 		if(currentUser == null){
-			response.sendRedirect("/ecommerce/Login");
+			response.sendRedirect(request.getContextPath() + "/Login");
 		}
 
 		// checks if the request actually contains a file
@@ -83,7 +91,7 @@ public class UploadArticle extends HttpServlet {
                 	String extension = getFileExtension(item.getName());
                 	
                 	if(!extension.toLowerCase().equals("pdf")){
-                		request.setAttribute("errorMsg", "Uploaded article needs to be a PDF.");
+                		httpSession.setAttribute("errorMsg", "Uploaded article needs to be a PDF.");
                         requestDispatcher = request.getRequestDispatcher("jsp/upload_article.jsp");
                 		requestDispatcher.forward(request, response);
                 		return;
@@ -108,7 +116,7 @@ public class UploadArticle extends HttpServlet {
             LOGGER.log(Level.INFO, article.toString());
             ArticleDao.addArticle(article);
         } catch (Exception ex) {
-            request.setAttribute("errorMsg", ex.getMessage());
+        	httpSession.setAttribute("errorMsg", ex.getMessage());
             requestDispatcher = request
     				.getRequestDispatcher("jsp/upload_article.jsp");
     		requestDispatcher.forward(request, response);
@@ -116,16 +124,9 @@ public class UploadArticle extends HttpServlet {
         }
 
         Mailer.sendEmail(currentUser, "Article uploaded successfully", "Your article has been uploaded successfully and it will soon be reviewed by other authors. \n Thank you!");
-        request.setAttribute("successMsg", "Article submitted successfully!");
+        httpSession.setAttribute("successMsg", "Article submitted successfully!");
         requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
         requestDispatcher.forward(request, response);
-	}
-	
-	
-	private Article createArticleFromRequestParams(HttpServletRequest request){
-		Article article = new Article();
-		
-		return article;
 	}
 	
 	private void initUpload(){
@@ -165,11 +166,5 @@ public class UploadArticle extends HttpServlet {
 	private String getFileExtension(String fileName){
 		String[] terms = fileName.split("\\.");
 		return terms[terms.length-1];
-	}
-	
-	private User isUserLoggedIn(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		//Attempt to get the current user
-		HttpSession httpSession = request.getSession(false);
-		return (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 	}
 }
