@@ -8,9 +8,16 @@
       <c:choose>
 			<c:when test="${editor != true}">
 				<div class="page-header">
-				  <h1>Articles available for review</h1>
+				  <h1>Articles you can review</h1>
 				</div>
-				<table class="table">
+			</c:when>
+			<c:otherwise>
+				<div class="page-header">
+				  <h1>Articles you can review or reject reviewers for</h1>
+				</div>
+			</c:otherwise>
+	  </c:choose>
+	  <table class="table">
 					<thead>
 						<tr>
 							<th>Title</th>
@@ -32,29 +39,6 @@
 						</c:forEach>
 			        </tbody>
 		        </table>
-			</c:when>
-			<c:otherwise>
-				<div class="page-header">
-				  <h1>Articles under review</h1>
-				</div>
-				<table class="table">
-					<thead>
-						<tr>
-							<th>Title (click to see reviewers)</th>  
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="a" items="${articles}">
-							<tr>
-							<td>
-							<a href="${pageContext.request.contextPath}/article/show?article_id=${a.id}">${a.title}</a>
-							</td>
-							</tr>
-						</c:forEach>
-			        </tbody>
-		        </table>
-			</c:otherwise>
-	  </c:choose>
     </div>
   </div>
 </t:template>

@@ -121,14 +121,21 @@
 						</thead>
 						<tbody>
 							<c:forEach var="r" items="${reviewers}">
-								<tr>
-									<td><b> ${r.firstName} ${r.lastName}</b></td>
-									<td>
-									  <a aria-label="Left Align" href="${pageContext.request.contextPath}/RejectReviewerChoice?reviewer_id=${r.id}&article_id=${article.id}">
-									    <span class="glyphicon glyphicon-remove"></span> Remove
-									  </a>
-									</td>
-								</tr>
+								<c:when test = "${r.role == 1}">
+		            		
+		            		</c:when>
+		            		<c:otherwise>
+			            			<tr>
+			              		<td>
+			              			<b> ${r.firstName} ${r.lastName}</b>
+			              		</td>
+			              		<td>
+			              			<a aria-label="Left Align" href="${pageContext.request.contextPath}/RejectReviewerChoice?reviewer_id=${r.id}&article_id=${article.id}">
+			              				<span class="glyphicon glyphicon-remove"></span> Remove
+			              			</a>
+			              		</td>
+			            	</tr>
+		            		</c:otherwise>
 							</c:forEach>
 						</tbody>
 					</table>
