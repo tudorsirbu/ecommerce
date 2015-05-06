@@ -157,5 +157,4 @@ public class Article implements Serializable {
 		if (this.fileNameRevision2 != null && !this.fileNameRevision2.equals("")) { revisions++; }
 		return revisions;
 	}
-	
 }
