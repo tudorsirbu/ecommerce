@@ -111,7 +111,7 @@ public class EditionEditor extends HttpServlet {
 						Edition edition = dao.getEditionById(id);
 						
 						if (edition != null) { 
-							SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+							SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 							Date date = format.parse(request.getParameter("publicationDate"));
 							edition.setPublicationDate(date);
 							dao.updateEdition(edition);
@@ -128,7 +128,7 @@ public class EditionEditor extends HttpServlet {
 						// Otherwise, display an error
 						if (volume != null) { 
 							Edition edition = new Edition();
-							SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+							SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 							Date date = format.parse(request.getParameter("publicationDate"));
 							edition.setPublicationDate(date);
 							edition.setVolume(volume);
@@ -152,8 +152,7 @@ public class EditionEditor extends HttpServlet {
 			//If there was any invalid model information then log and throw the message up to the user
 			LOGGER.log(Level.INFO, ex.getMessage());
 			request.setAttribute("errorMsg", ex.getMessage());
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/journal/editionForm.jsp");
-			requestDispatcher.forward(request, response);
+			response.sendRedirect(request.getRequestURI()+"?"+request.getQueryString());
 		} catch (HibernateException ex) {
 			//If an unexpected error occurred then log, throw a user friendly error
 			LOGGER.log(Level.SEVERE, ex.getCause().getMessage());

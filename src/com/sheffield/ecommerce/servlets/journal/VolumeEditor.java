@@ -102,7 +102,7 @@ public class VolumeEditor extends HttpServlet {
 						Volume volume = dao.getVolumeById(id);
 						
 						if (volume != null) { 
-							SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+							SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 							Date date = format.parse(request.getParameter("publicationDate"));
 							volume.setPublicationDate(date);
 							dao.updateVolume(volume);
@@ -111,7 +111,7 @@ public class VolumeEditor extends HttpServlet {
 						}
 					} else {
 						Volume volume = new Volume();
-						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+						SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 						Date date = format.parse(request.getParameter("publicationDate"));
 						volume.setPublicationDate(date);
 						dao.addNewVolume(volume);

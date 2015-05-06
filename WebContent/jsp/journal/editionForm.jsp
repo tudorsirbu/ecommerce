@@ -13,7 +13,7 @@
 	    <div class="form-group">
 	     <label for="publicationDate" class="control-label col-sm-2">Publication Date</label>
 	     <div class="col-sm-4">
-	       <input type="date" name="publicationDate" id="publicationDate" class="form-control" required="required" autofocus="autofocus" value="<fmt:formatDate value='${edition.publicationDate}' type='date' pattern='yyyy-MM-dd'/>">
+	       <input type="date" name="publicationDate" id="publicationDate" class="form-control" required="required" value="<fmt:formatDate value='${edition.publicationDate}' type='date' pattern='dd/MM/yyyy'/>">
 	     </div>
 	    </div>
   		<div class="row">
@@ -52,4 +52,5 @@
 			</div>
 		</div>		
 	</c:if>
+
 </t:template>

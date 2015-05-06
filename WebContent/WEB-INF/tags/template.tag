@@ -12,10 +12,9 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${title}</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/application.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery-ui.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/application.css">
 </head>
 
 <body>
@@ -92,6 +91,14 @@
 
 	<!-- Import scripts at the bottom of the page to increase page load times -->
 	<script type="text/javascript"	src="${pageContext.request.contextPath}/js/jquery-2.1.3.min.js"></script>
+	<c:if test="${fn:endsWith(pageContext.request.requestURI, 'editionForm.jsp') || fn:endsWith(pageContext.request.requestURI, 'volumeForm.jsp')}">
+		<script type="text/javascript"	src="${pageContext.request.contextPath}/js/jquery-ui.min.js"></script>
+		<script>
+			$(function(){
+				if ( $('#publicationDate')[0].type != 'date' ) $('#publicationDate').datepicker({dateFormat: "dd/mm/yy"});
+			});
+		</script>
+	</c:if>
 	<script type="text/javascript"	src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 </body>
 </html>
