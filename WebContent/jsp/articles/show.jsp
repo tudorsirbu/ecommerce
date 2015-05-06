@@ -50,10 +50,10 @@
 
 
 			<!-- Only show reviews to the author or the editors -->
-			<c:if test="${(currentUser.id == author.id or currentUser.role == cons.editor) and not empty article.reviews}">
+			<c:if test="${(currentUser.id == author.id or currentUser.role == cons.editor) and not empty reviews}">
 				<h2>Reviews</h2>
 				<div class="well well-lg">
-					<c:forEach items="${article.reviews}" var="review">
+					<c:forEach items="${reviews}" var="review">
 
 						<div class="row">
 							<div class="col-sm-3">
@@ -85,7 +85,7 @@
 							</div>
 							<div class="col-sm-9">${review.smallErrors}</div>
 						</div>
-						<!-- Only show the comments for editors to the editors -->
+						Only show the comments for editors to the editors
 						<c:if test="${currentUser.role == cons.editor}">
 							<div class="row">
 								<div class="col-sm-3">
@@ -99,7 +99,7 @@
 
 					</c:forEach>
 
-					<!-- Show the revision button only if there are more than 3 reviews -->
+					Show the revision button only if there are more than 3 reviews
 					<c:if test="${fn:length(article.reviews) >= 3 or currentUser.role == cons.editor}">
 						<a
 							href="${pageContext.request.contextPath}/RevisionForm?articleId=${article.id}"

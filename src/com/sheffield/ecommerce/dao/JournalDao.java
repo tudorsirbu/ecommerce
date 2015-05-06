@@ -20,12 +20,13 @@ public class JournalDao {
 	 * @return Returns a list of volume objects
 	 */
 	public List<Volume> getAllVolumesWithEditions() {
-		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("from Volume");
 		@SuppressWarnings("unchecked")
 		List<Volume> results = query.list();
 		session.getTransaction().commit();
+		session.close();
 		return results;
 	}
 
@@ -34,11 +35,12 @@ public class JournalDao {
 	 * @returns The journal object
 	 */
 	public Journal getJournal() {
-		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("from Journal");
 		Journal journal = (Journal) query.uniqueResult();
 		session.getTransaction().commit();
+		session.close();
 		return journal;
 	}
 	
@@ -48,7 +50,7 @@ public class JournalDao {
 	 * @throws InvalidModelException
 	 */
 	public void updateJournal(Journal journal) throws InvalidModelException {
-		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		journal.validateModel();
 		session.beginTransaction();
 		Query query = session.createQuery("update Journal set title = :title, academic_aims = :academicAims where id = 1");
@@ -56,6 +58,7 @@ public class JournalDao {
 		query.setParameter("academicAims", journal.getAcademicAims());
 		query.executeUpdate();
 		session.getTransaction().commit();
+		session.close();
 	}
 
 	/**
@@ -64,12 +67,13 @@ public class JournalDao {
 	 * @return The requested volume
 	 */
 	public Volume getVolumeById(int id) {
-		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("from Volume v where v.volumeId = :id");
 		query.setMaxResults(1);
 		query.setParameter("id", id);
 		Volume volume = (Volume) query.uniqueResult();
+		session.close();
 		return volume;
 	}
 
@@ -79,13 +83,14 @@ public class JournalDao {
 	 * @throws InvalidModelException
 	 */
 	public void addNewVolume(Volume volume) throws InvalidModelException {
-		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		volume.setJournal(getJournal());
 		volume.setVolumeNumber(numberOfCurrentVolumes() + 1);
 		volume.validateModel();
 		session.beginTransaction();
 		session.save(volume);
 		session.getTransaction().commit();
+		session.close();
 	}
 
 	/**
@@ -94,7 +99,7 @@ public class JournalDao {
 	 * @throws InvalidModelException
 	 */
 	public void updateVolume(Volume volume) throws InvalidModelException {
-		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		volume.validateModel();
 		session.beginTransaction();
 		Query query = session.createQuery("update Volume set publication_date = :date where volume_id = :id");
@@ -102,6 +107,7 @@ public class JournalDao {
 		query.setParameter("date", volume.getPublicationDate());
 		query.executeUpdate();
 		session.getTransaction().commit();
+		session.close();
 	}
 	
 	/**
@@ -109,10 +115,11 @@ public class JournalDao {
 	 * @return number of volumes
 	 */
 	public int numberOfCurrentVolumes() {
-		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("select count(*) from Volume");
 		query.setMaxResults(1);
+		session.close();
 		return ((Long)query.uniqueResult()).intValue();
 	}
 	
@@ -121,10 +128,11 @@ public class JournalDao {
 	 * @return number of volumes
 	 */
 	public int numberOfCurrentEditions() {
-		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("select count(*) from Edition");
 		query.setMaxResults(1);
+		session.close();
 		return ((Long)query.uniqueResult()).intValue();
 	}
 
@@ -134,12 +142,13 @@ public class JournalDao {
 	 * @return The requested edition
 	 */
 	public Edition getEditionById(int id) {
-		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("from Edition e where e.editionId = :id");
 		query.setMaxResults(1);
 		query.setParameter("id", id);
 		Edition edition = (Edition) query.uniqueResult();
+		session.close();
 		return edition;
 	}
 
@@ -149,12 +158,13 @@ public class JournalDao {
 	 * @throws InvalidModelException
 	 */
 	public void addNewEdition(Edition edition) throws InvalidModelException {
-		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		edition.setEditionNumber(numberOfCurrentEditions() + 1);
 		edition.validateModel();
 		session.beginTransaction();
 		session.save(edition);
 		session.getTransaction().commit();
+		session.close();
 	}
 
 	/**
@@ -163,7 +173,7 @@ public class JournalDao {
 	 * @throws InvalidModelException
 	 */
 	public void updateEdition(Edition edition) throws InvalidModelException {
-		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		edition.validateModel();
 		session.beginTransaction();
 		Query query = session.createQuery("update Edition set publication_date = :date where edition_id = :id");
@@ -171,6 +181,7 @@ public class JournalDao {
 		query.setParameter("date", edition.getPublicationDate());
 		query.executeUpdate();
 		session.getTransaction().commit();
+		session.close();
 	}
 
 }
