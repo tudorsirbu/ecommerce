@@ -41,7 +41,7 @@ public class VolumeEditor extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Attempt to get the current user from the session
-		HttpSession httpSession = request.getSession(false);
+		HttpSession httpSession = request.getSession(true);
 	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 		
 	    //If a user is not logged in, direct them to the login page
@@ -86,7 +86,7 @@ public class VolumeEditor extends HttpServlet {
 	 * Handle POST requests for the volume editor
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		HttpSession httpSession = request.getSession(false);
+		HttpSession httpSession = request.getSession(true);
 		try {
 			//Attempt to get the current user from the session
 		    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;

@@ -25,7 +25,7 @@ public class Seed extends HttpServlet {
 	private static final Logger LOGGER = Logger.getLogger(Seed.class.getName());
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession httpSession = request.getSession(false);
+		HttpSession httpSession = request.getSession(true);
 		try {
 			createTestUser();
 			httpSession.setAttribute("successMsg", "Seeding completed successfully");

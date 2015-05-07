@@ -25,7 +25,7 @@ public class Register extends HttpServlet {
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Attempt to get the current user
-		HttpSession httpSession = request.getSession(false);
+		HttpSession httpSession = request.getSession(true);
 	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 	    
 	    //If a user is already logged in we redirect them to the homepage
@@ -40,7 +40,7 @@ public class Register extends HttpServlet {
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		RequestDispatcher requestDispatcher;
-		HttpSession httpSession = request.getSession(false);
+		HttpSession httpSession = request.getSession(true);
 		
 		if (!arePasswordsMatching(request)){
 			httpSession.setAttribute("errorMsg", "Password and confirmation do not match");

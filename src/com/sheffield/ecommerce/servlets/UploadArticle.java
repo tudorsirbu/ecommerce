@@ -36,7 +36,7 @@ public class UploadArticle extends HttpServlet {
     
 	public void doGet(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 		//Attempt to get the current user from the session
-		HttpSession httpSession = request.getSession(false);
+		HttpSession httpSession = request.getSession(true);
 	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 		
 		if(currentUser != null){
@@ -56,7 +56,7 @@ public class UploadArticle extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher requestDispatcher;
 		//Attempt to get the current user from the session
-		HttpSession httpSession = request.getSession(false);
+		HttpSession httpSession = request.getSession(true);
 	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 		
 		// checks if there is a user logged in and if 

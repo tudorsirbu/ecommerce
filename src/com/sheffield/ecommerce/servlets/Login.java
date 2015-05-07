@@ -26,7 +26,7 @@ public class Login extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		//Attempt to get the current user
-		HttpSession httpSession = request.getSession(false);
+		HttpSession httpSession = request.getSession(true);
 	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 	    
 		//If a user is already logged in we redirect them to the homepage
@@ -40,7 +40,7 @@ public class Login extends HttpServlet {
 	}
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		HttpSession httpSession = request.getSession(false);
+		HttpSession httpSession = request.getSession(true);
 		
 		//Get the email and password from the login form
 		String email = request.getParameter("inputEmail");

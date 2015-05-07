@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.sheffield.ecommerce.dao.ArticleDao;
+import com.sheffield.ecommerce.dao.ReviewDao;
 import com.sheffield.ecommerce.dao.UserDao;
 import com.sheffield.ecommerce.models.Article;
 import com.sheffield.ecommerce.models.User;
@@ -20,7 +21,7 @@ public class DownloadsManager extends HttpServlet {
 	private static final long serialVersionUID = 3350776160576001632L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Attempt to get the current user
-		HttpSession httpSession = request.getSession(false);
+		HttpSession httpSession = request.getSession(true);
 	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 		
 	    //If a user is logged in show the homepage, otherwise direct them to the login page
@@ -29,8 +30,12 @@ public class DownloadsManager extends HttpServlet {
 			Article article = ArticleDao.getArticleById(Integer.parseInt(request.getParameter("article_id")));
 			int articlesToReviewSize = dao.getArticlesToReview(currentUser.getId()).size();
 			if(articlesToReviewSize <3){
-				dao.setArticleToReview(article, currentUser);
-				response.sendRedirect(request.getContextPath()+"/uploads/"+article.getFileName());
+				ReviewDao reviewDao = new ReviewDao();
+				if (!reviewDao.isUserReviewingArticle(currentUser,article.getId())) {
+					// Assign user to review this article if not done so already
+					dao.setArticleToReview(article, currentUser);
+				}
+				response.sendRedirect(request.getContextPath()+"/uploads/"+article.getLatestFileName());
 				httpSession.setAttribute("successMsg", "Article draft downloaded successfully!");
 				return;
 			}else{

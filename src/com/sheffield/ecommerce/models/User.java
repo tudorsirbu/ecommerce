@@ -21,6 +21,7 @@ public class User implements Serializable {
 	private String passwordSalt;
 	private int role;
 	private Set<Article> articlesToReview = new HashSet<Article>();
+	private Set<Review> reviews = new HashSet<Review>();
 	
 	public String getPasswordHash() {
 		return passwordHash;
@@ -148,6 +149,15 @@ public class User implements Serializable {
 	public void setArticlesToReview(Set<Article> articlesToReview) {
 		this.articlesToReview = articlesToReview;
 	}
+
+	public Set<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(Set<Review> reviews) {
+		this.reviews = reviews;
+	}
+	
 	
 	
 }

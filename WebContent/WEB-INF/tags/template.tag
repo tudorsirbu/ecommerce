@@ -81,9 +81,9 @@
 		<c:if test="${not empty sessionScope.successMsg}">
 			<div class="alert alert-success" role="alert">${sessionScope.successMsg}</div>
 		</c:if>
+		<jsp:doBody />
 		<c:remove var="errorMsg" scope="session" />
 		<c:remove var="successMsg" scope="session" />
-		<jsp:doBody />
 	</div>
 
 	<footer class="footer">
