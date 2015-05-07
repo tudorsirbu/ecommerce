@@ -2,6 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <t:template title="Edition Editor">
     <div class="page-header">
@@ -39,7 +40,7 @@
 						<tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${articles}" var="article">
+						<c:forEach items="${editionArticles}" var="article">
 							<tr>
 								<td>${article.title}</td>
 								<td>
@@ -47,30 +48,26 @@
 								</td>
 							</tr>
 						</c:forEach>
-						<form name="assignArticleForm" method="post" class="form-horizontal">
-						<tr>
-							
-	  							<td>
-	  								<div class="form-group">
-		  								<label for="approvedArticle" class="control-label col-sm-2">Approved Articles</label>	
-		  								<select name="approvedArticle" id="approvedArticle" class="form-control">
-										  	<option>1</option>
-										  	<option>2</option>
-										  	<option>3</option>
-										  	<option>4</option>
-											<option>5</option>
-										</select>
-									</div>
-								</td>
-								<td>
-									<div class="form-actions">
-								      <button class="btn btn-primary" type="submit">Assign Article</button>
-									</div>
-								</td>
-						</tr>
-						</form>
 					</tbody>
 				</table>
+				<c:choose>
+					<c:when test="${empty approvedArticles}">
+						<p>There are no articles suitable for publishing at this time.</p>
+					</c:when>
+					<c:otherwise>
+						<form name="assignArticleForm" method="post" class="form-inline">
+							<div class="form-group">
+								<label for="approvedArticle" class="control-label">Select an approved article to assign to this edition:</label>
+								<select name="approvedArticle" id="approvedArticle" class="form-control">
+									<c:forEach items="${editionArticles}" var="article">
+										<option value="${article.id}">${fn:substring(article.title, 0, 75)}</option>
+									</c:forEach>
+								</select>
+							</div>
+						    <button class="btn btn-primary" type="submit">Assign Article</button>
+						</form>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>		
 	</c:if>

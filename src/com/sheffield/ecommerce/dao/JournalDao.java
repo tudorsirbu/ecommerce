@@ -186,11 +186,38 @@ public class JournalDao {
 		session.close();
 	}
 
+	/**
+	 * Gets all the articles for the given edition
+	 * @param editionId
+	 * @return A list of articles
+	 */
 	public List<Article> getArticlesForEdition(int editionId) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("from Article where edition_id = :id");
 		query.setParameter("id", editionId);
+		@SuppressWarnings("unchecked")
+		List<Article> results = query.list();
+		session.getTransaction().commit();
+		session.close();
+		return results;
+	}
+	
+	public void assignArticleToEdition(int articleId, int editionId) throws InvalidModelException {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("update Article set edition_id = :editionId where id = :articleId");
+		query.setParameter("editionId", editionId);
+		query.setParameter("articleId", articleId);
+		query.executeUpdate();
+		session.getTransaction().commit();
+		session.close();
+	}
+
+	public List<Article> getApprovedArticles() {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from Article where edition_id = null");
 		@SuppressWarnings("unchecked")
 		List<Article> results = query.list();
 		session.getTransaction().commit();

@@ -60,7 +60,8 @@ public class EditionEditor extends HttpServlet {
 					// Otherwise, display an error
 					if (edition != null) { 
 						request.setAttribute("edition", edition);
-						request.setAttribute("articles", dao.getArticlesForEdition(edition.getEditionId()));
+						request.setAttribute("editionArticles", dao.getArticlesForEdition(edition.getEditionId()));
+						request.setAttribute("approvedArticles", dao.getApprovedArticles());
 						// Display the edit form
 						RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/journal/editionForm.jsp");
 						requestDispatcher.forward(request, response);
@@ -112,11 +113,17 @@ public class EditionEditor extends HttpServlet {
 						Edition edition = dao.getEditionById(id);
 						
 						if (edition != null) { 
-							SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-							Date date = format.parse(request.getParameter("publicationDate"));
-							edition.setPublicationDate(date);
-							dao.updateEdition(edition);
-							urlString = "VolumeEditor?id=" + edition.getVolume().getVolumeId();
+							if (request.getParameterMap().containsKey("editionForm")) {
+								SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+								Date date = format.parse(request.getParameter("publicationDate"));
+								edition.setPublicationDate(date);
+								dao.updateEdition(edition);
+							} else if (request.getParameterMap().containsKey("assignArticleForm")){
+								int articleId = Integer.parseInt(request.getParameter("approvedArticle"));
+								dao.assignArticleToEdition(articleId, id);
+							}
+							int vol = Integer.parseInt(request.getParameter("vol"));
+							urlString = "EditionEditor?id=" + edition.getVolume().getVolumeId() + "&vol=" + vol;
 						} else {
 							httpSession.setAttribute("errorMsg", "Unable to edit edition with this id.");
 						}
