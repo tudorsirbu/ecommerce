@@ -159,8 +159,6 @@ public class RevisionForm extends HttpServlet {
             
         	// Find the article to be revised
         	Article article = ArticleDao.getArticleById(Integer.parseInt(articleId));
-        	String articleTitle = article.getTitle();
-        	article.setTitle(articleTitle + "(Revised)"); 
             // Update the article in the database
         	article.setFileNameRevision1(fileName);
         	article.setRevisionDetails1(revisionDetails);
