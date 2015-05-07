@@ -13,8 +13,15 @@
       	<label for="articleToReview">Article to review:</label>
       	<select name="articleToReview" id="articleToReview">
       		<option disabled selected>Please select</option>
-      		<c:forEach var="a" items="${articles}">	
-      			<option value ='${a.id}' >${a.title}</option>
+      		<c:forEach var="a" items="${articles}">
+      			<c:choose>
+      				<c:when test="${(empty a.revisionDetails1)}">
+      					<option value ='${a.id}' >${a.title}</option>
+	      			</c:when>
+	      			<c:otherwise>
+	      				<option value ='${a.id}' >${a.title}(Revised)</option>
+	      			</c:otherwise>	
+      			</c:choose>
       		</c:forEach>
       	</select><br>
       	<label for="overallJudgement">Overall judgement:</label>

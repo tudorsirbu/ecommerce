@@ -78,10 +78,9 @@ public class ArticleDao {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		article.validateModel();
 		session.beginTransaction();
-		Query query = session.createQuery("update Article set title = :title, fileNameRevision1 = :fileNameRevision1, revisionDetails1 = :revisionDetails1, fileNameRevision2 = :fileNameRevision2, revisionDetails2 = :revisionDetails2 where id = :id");
+		Query query = session.createQuery("update Article set fileNameRevision1 = :fileNameRevision1, revisionDetails1 = :revisionDetails1, fileNameRevision2 = :fileNameRevision2, revisionDetails2 = :revisionDetails2 where id = :id");
 		query.setParameter("id", article.getId());
 		query.setParameter("fileNameRevision1", article.getFileNameRevision1());
-		query.setParameter("title", article.getTitle());
 		query.setParameter("revisionDetails1", article.getRevisionDetails1());
 		query.setParameter("fileNameRevision2", article.getFileNameRevision2());
 		query.setParameter("revisionDetails2", article.getRevisionDetails2());
