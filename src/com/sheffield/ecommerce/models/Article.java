@@ -8,15 +8,14 @@ import com.sheffield.ecommerce.exceptions.InvalidModelException;
 
 public class Article implements Serializable {
 	private static final long serialVersionUID = 6924059181624616239L;
-	private Set<User> reviewers = new HashSet<User>();
+	private Set<User> reviewers = new HashSet<User>(0);
 	private int id;
 	private String title;
+	private Edition edition;
 	private String article_abstract;
 	private String fileName;
 	private String fileNameRevision1;
-	private String fileNameRevision2;
 	private String revisionDetails1;
-	private String revisionDetails2;
 	private User author;
 	private Set<Review> reviews = new HashSet<Review>(0);
 	
@@ -42,6 +41,14 @@ public class Article implements Serializable {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public Edition getEdition() {
+		return edition;
+	}
+
+	public void setEdition(Edition edition) {
+		this.edition = edition;
 	}
 
 	public String getArticle_abstract() {
@@ -87,14 +94,6 @@ public class Article implements Serializable {
 	public void setFileNameRevision1(String fileNameRevision1) {
 		this.fileNameRevision1 = fileNameRevision1;
 	}
-
-	public String getFileNameRevision2() {
-		return fileNameRevision2;
-	}
-
-	public void setFileNameRevision2(String fileNameRevision2) {
-		this.fileNameRevision2 = fileNameRevision2;
-	}
 	
 	public String getRevisionDetails1() {
 		return revisionDetails1;
@@ -102,14 +101,6 @@ public class Article implements Serializable {
 
 	public void setRevisionDetails1(String revisionDetails1) {
 		this.revisionDetails1 = revisionDetails1;
-	}
-
-	public String getRevisionDetails2() {
-		return revisionDetails2;
-	}
-
-	public void setRevisionDetails2(String revisionDetails2) {
-		this.revisionDetails2 = revisionDetails2;
 	}
 
 	public Set<Review> getReviews() {
@@ -125,9 +116,7 @@ public class Article implements Serializable {
 	 * @return The file name as a string
 	 */
 	public String getLatestFileName() {
-		if (this.fileNameRevision2 != null && !this.fileNameRevision2.equals("")) {
-			return this.fileNameRevision2;
-		} else if (this.fileNameRevision1 != null && !this.fileNameRevision1.equals("")) {
+		if (this.fileNameRevision1 != null && !this.fileNameRevision1.equals("")) {
 			return this.fileNameRevision1;
 		} else {
 			return this.fileName;
@@ -154,8 +143,6 @@ public class Article implements Serializable {
 	public int getNumberOfRevisions() {
 		int revisions = 0;
 		if (this.fileNameRevision1 != null && !this.fileNameRevision1.equals("")) { revisions++; }
-		if (this.fileNameRevision2 != null && !this.fileNameRevision2.equals("")) { revisions++; }
 		return revisions;
 	}
-	
 }

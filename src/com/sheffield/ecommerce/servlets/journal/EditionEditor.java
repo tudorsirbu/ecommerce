@@ -42,7 +42,7 @@ public class EditionEditor extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Attempt to get the current user from the session
-		HttpSession httpSession = request.getSession(false);
+		HttpSession httpSession = request.getSession(true);
 	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 		
 	    //If a user is not logged in, direct them to the login page
@@ -60,7 +60,7 @@ public class EditionEditor extends HttpServlet {
 					// Otherwise, display an error
 					if (edition != null) { 
 						request.setAttribute("edition", edition);
-						
+						request.setAttribute("articles", dao.getArticlesForEdition(edition.getEditionId()));
 						// Display the edit form
 						RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/journal/editionForm.jsp");
 						requestDispatcher.forward(request, response);
@@ -94,7 +94,7 @@ public class EditionEditor extends HttpServlet {
 	 * Handle POST requests for the edition editor
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		HttpSession httpSession = request.getSession(false);
+		HttpSession httpSession = request.getSession(true);
 
 		try {
 			//Attempt to get the current user from the session
@@ -112,7 +112,7 @@ public class EditionEditor extends HttpServlet {
 						Edition edition = dao.getEditionById(id);
 						
 						if (edition != null) { 
-							SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+							SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 							Date date = format.parse(request.getParameter("publicationDate"));
 							edition.setPublicationDate(date);
 							dao.updateEdition(edition);
@@ -129,7 +129,7 @@ public class EditionEditor extends HttpServlet {
 						// Otherwise, display an error
 						if (volume != null) { 
 							Edition edition = new Edition();
-							SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+							SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 							Date date = format.parse(request.getParameter("publicationDate"));
 							edition.setPublicationDate(date);
 							edition.setVolume(volume);

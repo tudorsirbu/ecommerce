@@ -24,5 +24,12 @@
             <column name="publication_date" not-null="true" />
         </property>
  
+         <set name="articles" table="articles" inverse="true" lazy="false" fetch="select">
+        	<key>
+        		<column name="edition_id" not-null="true" />
+        	</key>
+        	<one-to-many class="com.sheffield.ecommerce.models.Article" />
+        </set>
+        
     </class>
 </hibernate-mapping>

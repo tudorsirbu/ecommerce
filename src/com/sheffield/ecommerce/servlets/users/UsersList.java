@@ -33,7 +33,7 @@ public class UsersList extends HttpServlet {
 	 * Handle GET requests for the user edit page
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession httpSession = request.getSession(false);
+		HttpSession httpSession = request.getSession(true);
 		
 		try {
 			// Attempt to get the current user from the session

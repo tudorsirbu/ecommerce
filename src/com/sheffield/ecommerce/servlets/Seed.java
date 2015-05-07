@@ -13,6 +13,7 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import com.sheffield.ecommerce.exceptions.*;
 import com.sheffield.ecommerce.helpers.PasswordHelper;
+import com.sheffield.ecommerce.models.Article;
 import com.sheffield.ecommerce.models.Edition;
 import com.sheffield.ecommerce.models.Journal;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
@@ -24,7 +25,7 @@ public class Seed extends HttpServlet {
 	private static final Logger LOGGER = Logger.getLogger(Seed.class.getName());
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession httpSession = request.getSession(false);
+		HttpSession httpSession = request.getSession(true);
 		try {
 			createTestUser();
 			httpSession.setAttribute("successMsg", "Seeding completed successfully");
@@ -42,15 +43,30 @@ public class Seed extends HttpServlet {
 		
 		try {
 			//Create a new user with seed data
-			User user = new User();
-			user.setEmail("john.doe@test.co.uk");
-			user.setFirstName("john");
-			user.setLastName("doe");
-			user.setRole(1);
+			User editor = new User();
+			editor.setEmail("editor@sheffield.ac.uk");
+			editor.setFirstName("The");
+			editor.setLastName("Editor");
+			editor.setRole(1);
 			PasswordHelper passwordHelper = new PasswordHelper("password");
-			user.setPasswordHash(passwordHelper.getPasswordHash());
-			user.setPasswordSalt(passwordHelper.getPasswordSalt());
-			user.validateModel();
+			editor.setPasswordHash(passwordHelper.getPasswordHash());
+			editor.setPasswordSalt(passwordHelper.getPasswordSalt());
+			editor.validateModel();
+			
+			session.beginTransaction();
+			session.save(editor);	
+			session.getTransaction().commit();
+			
+			//Create a new user with seed data
+			User author = new User();
+			author.setEmail("author@sheffield.ac.uk");
+			author.setFirstName("An");
+			author.setLastName("Author");
+			author.setRole(0);
+			passwordHelper = new PasswordHelper("password");
+			author.setPasswordHash(passwordHelper.getPasswordHash());
+			author.setPasswordSalt(passwordHelper.getPasswordSalt());
+			author.validateModel();
 			
 			Journal journal = new Journal();
 			journal.setTitle("Test Journal Title");
@@ -67,11 +83,16 @@ public class Seed extends HttpServlet {
 			edition.setPublicationDate(new Date());
 			edition.setEditionNumber(1);
 			edition.validateModel();
-
+			
+			Article article = new Article();
+			article.setTitle("Test Article Title");
+			article.setArticle_abstract("Test article abstract");
+			article.setFileName("TestFileName");
+			article.validateModel();
 						
 			//Save the user to the database
 			session.beginTransaction();
-			session.save(user);
+			session.save(author);
 			session.save(journal);
 			
 			volume.setJournal(journal);
@@ -81,6 +102,11 @@ public class Seed extends HttpServlet {
 			edition.setVolume(volume);
 			volume.getEditions().add(edition);			
 			session.save(edition);
+			
+			article.setAuthor(author);
+			article.setEdition(edition);
+			edition.getArticles().add(article);
+			session.save(article);
 			
 			session.getTransaction().commit();
 			LOGGER.log(Level.FINE, "Created seed user");

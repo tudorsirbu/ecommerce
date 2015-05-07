@@ -34,6 +34,30 @@ public class ArticleDao {
 		return results;
 	}
 	
+	public static List<Article> getAllArticles() {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from Article a");
+		@SuppressWarnings("unchecked")
+		List<Article> results = query.list();
+		session.getTransaction().commit();
+		session.close();
+		return results;
+	}
+	
+	public static List<Article> getArticlesWithTitle(String title) {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from Article a where a.title LIKE :title");
+		query.setParameter("title", "%" + title + "%");
+		@SuppressWarnings("unchecked")
+		List<Article> results = query.list();
+		session.getTransaction().commit();
+		session.close();
+		return results;
+	}
+	
+	
 	public static List<Article> getArticlesForReview(User user) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -42,6 +66,19 @@ public class ArticleDao {
 			query = session.createQuery("from Article a where a.author <> :user");
 		else
 			query = session.createQuery("from Article a where (a.author <> :user and :user not member of a.reviewers)");
+		query.setParameter("user", user);
+		@SuppressWarnings("unchecked")
+		List<Article> results = query.list();
+		session.getTransaction().commit();
+		session.close();
+		return results;
+	}
+	
+	public static List<Article> getArticlesBeingReviewed(User user) {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query;
+		query = session.createQuery("from Article a where (a.author <> :user and :user member of a.reviewers)");
 		query.setParameter("user", user);
 		@SuppressWarnings("unchecked")
 		List<Article> results = query.list();
@@ -78,12 +115,10 @@ public class ArticleDao {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		article.validateModel();
 		session.beginTransaction();
-		Query query = session.createQuery("update Article set fileNameRevision1 = :fileNameRevision1, revisionDetails1 = :revisionDetails1, fileNameRevision2 = :fileNameRevision2, revisionDetails2 = :revisionDetails2 where id = :id");
+		Query query = session.createQuery("update Article set fileNameRevision1 = :fileNameRevision1, revisionDetails1 = :revisionDetails1 where id = :id");
 		query.setParameter("id", article.getId());
 		query.setParameter("fileNameRevision1", article.getFileNameRevision1());
 		query.setParameter("revisionDetails1", article.getRevisionDetails1());
-		query.setParameter("fileNameRevision2", article.getFileNameRevision2());
-		query.setParameter("revisionDetails2", article.getRevisionDetails2());
 		query.executeUpdate();
 		session.getTransaction().commit();
 		session.close();

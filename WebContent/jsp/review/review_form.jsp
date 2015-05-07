@@ -6,57 +6,46 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:template title="Review form">
-  <div class="row">
-    <div class="col-sm-4 col-sm-push-4">
-      <h2>Article review form</h2>
-      <form name="articleReview" action="ReviewForm" method="post" class="form-signin">
-      	<label for="articleToReview">Article to review:</label>
-      	<select name="articleToReview" id="articleToReview">
-      		<option disabled selected>Please select</option>
-      		<c:forEach var="a" items="${articles}">
-      			<c:choose>
-      				<c:when test="${(empty a.revisionDetails1)}">
-      					<option value ='${a.id}' >${a.title}</option>
-	      			</c:when>
-	      			<c:otherwise>
-	      				<option value ='${a.id}' >${a.title}(Revised)</option>
-	      			</c:otherwise>	
-      			</c:choose>
-      		</c:forEach>
-      	</select><br>
-      	<label for="overallJudgement">Overall judgement:</label>
-      	<select name="overallJudgement" id="overallJudgement">
-      		<option disabled selected>Please select</option>
-      		<option value="champion">Champion</option>
-			<option value="detractor">Detractor</option>
-			<option disabled>----------</option>
-			<option value="favourable">Favourable</option>
-			<option value="indifferent">Indifferent</option>
-		</select><br>
-		
-      	<label for="reviewerExpertise">Expertise level:</label>
-  		<select name="reviewerExpertise" id="expertise">
-  			<option disabled selected>Please select</option>
-      		<option value="expert">Expert</option>
-			<option value="knowledgeable">Knowledgeable</option>
-			<option value="outsider">Outsider</option>
-		</select><br>
-		
-		<label for="articleSummary">Article summary:</label><br>
-		<textarea name="articleSummary" rows="3" cols="48" placeholder="Please write a summary for the selected article and make sure to include any novel contributions of the article..."></textarea>
-      	
-      	<label for="articleCriticism">Substantive criticism:</label><br>
-		<textarea name="articleCriticism" rows="3" cols="48" placeholder="Please write any substantial criticism for the selected article..."></textarea>
-      	
-      	<label for="articleErrors">Small errors:</label><br>
-		<textarea name="articleErrors" rows="3" cols="48" placeholder="Please write add any errors that were found (typographical,or grammatical mistakes, etc.)"></textarea>
-      	
-      	<label for="secretComments">Comments for editor:</label><br>
-		<textarea name="secretComments" rows="3" cols="48" placeholder="Please write any comments that you wish only the editor to see..."></textarea>
-      	
-        <br>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit review</button>
-      </form>
-    </div>
-  </div>
+  <c:if test="${empty sessionScope.errorMsg}">
+	  <div class="row">
+	    <div class="col-sm-4 col-sm-push-4">
+	      <h2>Article review form</h2>
+	      <form name="articleReview" action="ReviewForm" method="post" class="form-signin">
+	      <input type="hidden" name="article_id" value="${param.article_id}" />
+	      	<label for="overallJudgement">Overall judgement:</label>
+	      	<select name="overallJudgement" id="overallJudgement">
+	      		<option disabled selected>Please select</option>
+	      		<option value="champion">Champion</option>
+				<option value="detractor">Detractor</option>
+				<option disabled>----------</option>
+				<option value="favourable">Favourable</option>
+				<option value="indifferent">Indifferent</option>
+			</select><br>
+			
+	      	<label for="reviewerExpertise">Expertise level:</label>
+	  		<select name="reviewerExpertise" id="expertise">
+	  			<option disabled selected>Please select</option>
+	      		<option value="expert">Expert</option>
+				<option value="knowledgeable">Knowledgeable</option>
+				<option value="outsider">Outsider</option>
+			</select><br>
+			
+			<label for="articleSummary">Article summary:</label><br>
+			<textarea name="articleSummary" rows="3" cols="48" placeholder="Please write a summary for the selected article and make sure to include any novel contributions of the article..."></textarea>
+	      	
+	      	<label for="articleCriticism">Substantive criticism:</label><br>
+			<textarea name="articleCriticism" rows="3" cols="48" placeholder="Please write any substantial criticism for the selected article..."></textarea>
+	      	
+	      	<label for="articleErrors">Small errors:</label><br>
+			<textarea name="articleErrors" rows="3" cols="48" placeholder="Please write add any errors that were found (typographical,or grammatical mistakes, etc.)"></textarea>
+	      	
+	      	<label for="secretComments">Comments for editor:</label><br>
+			<textarea name="secretComments" rows="3" cols="48" placeholder="Please write any comments that you wish only the editor to see..."></textarea>
+	      	
+	        <br>
+	        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit review</button>
+	      </form>
+	    </div>
+	  </div>
+  </c:if>
 </t:template>

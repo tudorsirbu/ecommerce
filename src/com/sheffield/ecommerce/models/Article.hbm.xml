@@ -27,20 +27,11 @@
             <column name="fileNameRevision1" length="150" />
         </property>
         
-        <property name="fileNameRevision2">
-            <column name="fileNameRevision2" length="150" />
-        </property>
-        
         <property name="revisionDetails1">
             <column name="revisionDetails1" length="10000" />
         </property>
         
-        <property name="revisionDetails2">
-            <column name="revisionDetails2" length="10000" />
-        </property>
-        
         <many-to-one name="author" column="author_id" unique="false" class="com.sheffield.ecommerce.models.User" not-null="true"/>
-        
 
     	<set  name="reviewers"  table="user_article" inverse="true"  fetch="select">
     	 <key column="article_id" />
@@ -53,5 +44,10 @@
           </key>
           <one-to-many class="com.sheffield.ecommerce.models.Review" />
         </set>
+        
+        <many-to-one name="edition" class="com.sheffield.ecommerce.models.Edition" fetch="select">
+        	<column name="edition_id" not-null="false" />
+        </many-to-one>
+        
     </class>
 </hibernate-mapping>

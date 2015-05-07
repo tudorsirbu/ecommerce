@@ -8,7 +8,7 @@
         <!-- hibernate dialect -->
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
  
-         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         
         <property name="hibernate.connection.url">jdbc:mysql://stusql.dcs.shef.ac.uk/team160</property>
         <property name="hibernate.connection.username">team160</property>
