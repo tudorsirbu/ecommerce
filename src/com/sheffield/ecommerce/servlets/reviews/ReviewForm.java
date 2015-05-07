@@ -9,8 +9,10 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import org.hibernate.HibernateException;
+
 import com.sheffield.ecommerce.dao.ArticleDao;
 import com.sheffield.ecommerce.dao.ReviewDao;
+import com.sheffield.ecommerce.dao.UserDao;
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
 import com.sheffield.ecommerce.helpers.Mailer;
 import com.sheffield.ecommerce.models.Article;
@@ -90,8 +92,17 @@ public class ReviewForm extends HttpServlet{
 			review.setCommentsForEditor(request.getParameter("secretComments"));
 			review.setReviewer(currentUser);
 			
+			if(article != null)
+				if(ArticleDao.getReviewers(article.getId()).contains(currentUser)){
+					UserDao dao = new UserDao();
+					dao.deleteReviewedArticle(article,currentUser);
+				}
+					
+			
+	
 			ReviewDao reviewDao = new ReviewDao();
 			reviewDao.addReview(review);
+
 			
 			Mailer.sendEmail(currentUser, "Review Submission Successfull", "You have successfully submited a review for the article with the title:"+article.getTitle());
 			httpSession.setAttribute("successMsg", "Review submitted successfully!");
