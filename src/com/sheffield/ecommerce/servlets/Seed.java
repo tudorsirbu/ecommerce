@@ -4,14 +4,10 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
-
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
-
-import com.sheffield.ecommerce.dao.ReviewDao;
 import com.sheffield.ecommerce.exceptions.*;
 import com.sheffield.ecommerce.helpers.PasswordHelper;
 import com.sheffield.ecommerce.models.Article;

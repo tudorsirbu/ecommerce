@@ -65,11 +65,22 @@ public class ReviewDao {
 		return results;
 	}
 	
+	public int countReviewsForUser(User user) {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("select count(*) from Review where user_id = :userId");
+		query.setParameter("userId", user.getId()); 
+		query.setMaxResults(1);
+		int count = ((Long)query.uniqueResult()).intValue();
+		session.close();
+		return count;
+	}
+	
 	public List<Review> getThreeMostRecentReviews(int articleId) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
-		Query query = session.createQuery("from Review where article_id = :id order by id DESC");
-		query.setParameter("id", articleId);
+		Query query = session.createQuery("select r from Review as r left join r.article as a where a.id = :article_id order by review_id DESC");
+		query.setParameter("article_id", articleId);
 		query.setMaxResults(3);
 		@SuppressWarnings("unchecked")
 		List<Review> results = query.list();
