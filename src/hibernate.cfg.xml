@@ -23,6 +23,7 @@
         <!-- Automatic schema creation (begin) === -->
 <!-- 		<property name="hibernate.hbm2ddl.auto">create</property> -->
  
+  
  
         <!-- Simple memory-only cache -->
         <property name="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>

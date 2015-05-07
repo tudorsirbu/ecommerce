@@ -59,7 +59,7 @@
 							<div class="form-group">
 								<label for="approvedArticle" class="control-label">Select an approved article to assign to this edition:</label>
 								<select name="approvedArticle" id="approvedArticle" class="form-control">
-									<c:forEach items="${editionArticles}" var="article">
+									<c:forEach items="${approvedArticles}" var="article">
 										<option value="${article.id}">${fn:substring(article.title, 0, 75)}</option>
 									</c:forEach>
 								</select>

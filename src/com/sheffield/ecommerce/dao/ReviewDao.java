@@ -65,4 +65,17 @@ public class ReviewDao {
 		return results;
 	}
 	
+	public List<Review> getThreeMostRecentReviews(int articleId) {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from Review where article_id = :id order by id DESC");
+		query.setParameter("id", articleId);
+		query.setMaxResults(3);
+		@SuppressWarnings("unchecked")
+		List<Review> results = query.list();
+		session.getTransaction().commit();
+		session.close();
+		return results;
+	}
+	
 }

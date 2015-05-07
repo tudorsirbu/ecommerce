@@ -11,11 +11,13 @@ import javax.servlet.http.*;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 
+import com.sheffield.ecommerce.dao.ReviewDao;
 import com.sheffield.ecommerce.exceptions.*;
 import com.sheffield.ecommerce.helpers.PasswordHelper;
 import com.sheffield.ecommerce.models.Article;
 import com.sheffield.ecommerce.models.Edition;
 import com.sheffield.ecommerce.models.Journal;
+import com.sheffield.ecommerce.models.Review;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.User;
 import com.sheffield.ecommerce.models.Volume;
@@ -68,6 +70,36 @@ public class Seed extends HttpServlet {
 			author.setPasswordSalt(passwordHelper.getPasswordSalt());
 			author.validateModel();
 			
+			User reviewer1 = new User();			
+			reviewer1.setEmail("reviewer1@sheffield.ac.uk");
+			reviewer1.setFirstName("Mr");
+			reviewer1.setLastName("Reviewer1");
+			reviewer1.setRole(0);
+			passwordHelper = new PasswordHelper("password");
+			reviewer1.setPasswordHash(passwordHelper.getPasswordHash());
+			reviewer1.setPasswordSalt(passwordHelper.getPasswordSalt());
+			reviewer1.validateModel();
+			
+			User reviewer2 = new User();
+			reviewer2.setEmail("reviewer2@sheffield.ac.uk");
+			reviewer2.setFirstName("Mr");
+			reviewer2.setLastName("Reviewer2");
+			reviewer2.setRole(0);
+			passwordHelper = new PasswordHelper("password");
+			reviewer2.setPasswordHash(passwordHelper.getPasswordHash());
+			reviewer2.setPasswordSalt(passwordHelper.getPasswordSalt());
+			reviewer2.validateModel();
+			
+			User reviewer3 = new User();
+			reviewer3.setEmail("reviewer3@sheffield.ac.uk");
+			reviewer3.setFirstName("Mr");
+			reviewer3.setLastName("Reviewer3");
+			reviewer3.setRole(0);
+			passwordHelper = new PasswordHelper("password");
+			reviewer3.setPasswordHash(passwordHelper.getPasswordHash());
+			reviewer3.setPasswordSalt(passwordHelper.getPasswordSalt());
+			reviewer3.validateModel();
+			
 			Journal journal = new Journal();
 			journal.setTitle("Test Journal Title");
 			journal.setAcademicAims("Test content for academic aims");
@@ -84,15 +116,42 @@ public class Seed extends HttpServlet {
 			edition.setEditionNumber(1);
 			edition.validateModel();
 			
+			Article publishedArticle = new Article();
+			publishedArticle.setTitle("Author's Published Article");
+			publishedArticle.setArticle_abstract("Test article abstract");
+			publishedArticle.setFileName("TestFileName");
+			publishedArticle.validateModel();
+			
 			Article article = new Article();
-			article.setTitle("Test Article Title");
+			article.setTitle("Author's Article");
 			article.setArticle_abstract("Test article abstract");
 			article.setFileName("TestFileName");
 			article.validateModel();
-						
+			
+			Article article1 = new Article();
+			article1.setTitle("Reviewer1's Article");
+			article1.setArticle_abstract("Test article abstract");
+			article1.setFileName("TestFileName");
+			article1.validateModel();
+			
+			Article article2 = new Article();
+			article2.setTitle("Reviewer2's Article");
+			article2.setArticle_abstract("Test article abstract");
+			article2.setFileName("TestFileName");
+			article2.validateModel();
+			
+			Article article3 = new Article();
+			article3.setTitle("Reviewer3's Article");
+			article3.setArticle_abstract("Test article abstract");
+			article3.setFileName("TestFileName");
+			article3.validateModel();
+								
 			//Save the user to the database
 			session.beginTransaction();
 			session.save(author);
+			session.save(reviewer1);
+			session.save(reviewer2);
+			session.save(reviewer3);
 			session.save(journal);
 			
 			volume.setJournal(journal);
@@ -103,12 +162,100 @@ public class Seed extends HttpServlet {
 			volume.getEditions().add(edition);			
 			session.save(edition);
 			
-			article.setAuthor(author);
-			article.setEdition(edition);
-			edition.getArticles().add(article);
+			publishedArticle.setAuthor(author);
+			publishedArticle.setEdition(edition);
+			edition.getArticles().add(publishedArticle);
+			session.save(publishedArticle);
+			
+			publishedArticle.setAuthor(author);
+			session.save(publishedArticle);
+			
+			article.setAuthor(reviewer1);
 			session.save(article);
 			
+			article1.setAuthor(reviewer1);
+			session.save(article1);
+			
+			article2.setAuthor(reviewer2);
+			session.save(article2);
+			
+			article3.setAuthor(reviewer3);
+			session.save(article3);
+						
+			Review review1 = new Review();
+			review1.setArticle(article1);
+			review1.setOverallJudgement("champion");
+			review1.setReviewerExpertise("reviewerExpertise");
+			review1.setArticleSummary("articleSummary");
+			review1.setSubstantiveCriticism("articleCriticism");
+			review1.setSmallErrors("articleErrors");
+			review1.setCommentsForEditor("secretComments");
+			review1.setReviewer(author);
+			review1.validateModel();
+			session.save(review1);
+
+			Review review2 = new Review();
+			review2.setArticle(article2);
+			review2.setOverallJudgement("champion");
+			review2.setReviewerExpertise("reviewerExpertise");
+			review2.setArticleSummary("articleSummary");
+			review2.setSubstantiveCriticism("articleCriticism");
+			review2.setSmallErrors("articleErrors");
+			review2.setCommentsForEditor("secretComments");
+			review2.setReviewer(author);
+			review2.validateModel();
+			session.save(review2);
+			
+			Review review3 = new Review();
+			review3.setArticle(article3);
+			review3.setOverallJudgement("champion");
+			review3.setReviewerExpertise("reviewerExpertise");
+			review3.setArticleSummary("articleSummary");
+			review3.setSubstantiveCriticism("articleCriticism");
+			review3.setSmallErrors("articleErrors");
+			review3.setCommentsForEditor("secretComments");
+			review3.setReviewer(author);
+			review3.validateModel();
+			session.save(review3);
+			
+			Review review4 = new Review();
+			review4.setArticle(article);
+			review4.setOverallJudgement("champion");
+			review4.setReviewerExpertise("reviewerExpertise");
+			review4.setArticleSummary("articleSummary");
+			review4.setSubstantiveCriticism("articleCriticism");
+			review4.setSmallErrors("articleErrors");
+			review4.setCommentsForEditor("secretComments");
+			review4.setReviewer(reviewer1);
+			review4.validateModel();
+			session.save(review4);
+			
+			Review review5 = new Review();
+			review5.setArticle(article);
+			review5.setOverallJudgement("champion");
+			review5.setReviewerExpertise("reviewerExpertise");
+			review5.setArticleSummary("articleSummary");
+			review5.setSubstantiveCriticism("articleCriticism");
+			review5.setSmallErrors("articleErrors");
+			review5.setCommentsForEditor("secretComments");
+			review5.setReviewer(reviewer2);
+			review5.validateModel();
+			session.save(review5);
+			
+			Review review6 = new Review();
+			review6.setArticle(article);
+			review6.setOverallJudgement("champion");
+			review6.setReviewerExpertise("reviewerExpertise");
+			review6.setArticleSummary("articleSummary");
+			review6.setSubstantiveCriticism("articleCriticism");
+			review6.setSmallErrors("articleErrors");
+			review6.setCommentsForEditor("secretComments");
+			review6.setReviewer(reviewer3);
+			review6.validateModel();
+			session.save(review6);
+			
 			session.getTransaction().commit();
+			
 			LOGGER.log(Level.FINE, "Created seed user");
 			return;
 		} catch (InvalidModelException ex) {
@@ -129,4 +276,5 @@ public class Seed extends HttpServlet {
 			session.close();
 		}
 	}
+
 }

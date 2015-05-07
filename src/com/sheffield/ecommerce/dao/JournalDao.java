@@ -1,5 +1,6 @@
 package com.sheffield.ecommerce.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -8,6 +9,7 @@ import org.hibernate.Session;
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
 import com.sheffield.ecommerce.models.Article;
 import com.sheffield.ecommerce.models.Journal;
+import com.sheffield.ecommerce.models.Review;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.Volume;
 import com.sheffield.ecommerce.models.Edition;
@@ -121,8 +123,9 @@ public class JournalDao {
 		session.beginTransaction();
 		Query query = session.createQuery("select count(*) from Volume");
 		query.setMaxResults(1);
+		int count = ((Long)query.uniqueResult()).intValue();
 		session.close();
-		return ((Long)query.uniqueResult()).intValue();
+		return count;
 	}
 	
 	/**
@@ -134,8 +137,9 @@ public class JournalDao {
 		session.beginTransaction();
 		Query query = session.createQuery("select count(*) from Edition");
 		query.setMaxResults(1);
+		int count = ((Long)query.uniqueResult()).intValue();
 		session.close();
-		return ((Long)query.uniqueResult()).intValue();
+		return count;
 	}
 
 	/**
@@ -222,7 +226,29 @@ public class JournalDao {
 		List<Article> results = query.list();
 		session.getTransaction().commit();
 		session.close();
-		return results;
+		List<Article> approvedArticles = new ArrayList<Article>();
+		for (Article article : results) {
+			UserDao userDao = new UserDao();
+			int publishedCount = userDao.countUsersPublishedArticles(article.getAuthor().getId()); //Count the number of published articles the author owns
+			//Check the author has made enough reviews for this article to be published
+			if (article.getAuthor().getReviews().size() - (3*publishedCount) > 0) {
+				//Check that the article has enough reviews
+				if ((article.getFileNameRevision1() == null && article.getReviews().size() == 3) || (article.getFileNameRevision1() != null && article.getReviews().size() == 6)) {
+					ReviewDao reviewDao = new ReviewDao();
+					//Get the three most recent (we want to ignore reviews made from earlier revisions)
+					List<Review> reviews = reviewDao.getThreeMostRecentReviews(article.getId());
+					int champions = 0;
+					for (Review review : reviews) {
+						if (review.getOverallJudgement().equals("champion")) {
+							champions++;
+						}
+					}
+					if (champions > 1) {
+						approvedArticles.add(article);
+					}
+				}
+			}
+		}
+		return approvedArticles;
 	}
-
 }

@@ -113,12 +113,12 @@ public class EditionEditor extends HttpServlet {
 						Edition edition = dao.getEditionById(id);
 						
 						if (edition != null) { 
-							if (request.getParameterMap().containsKey("editionForm")) {
+							if (request.getParameterMap().containsKey("publicationDate")) {
 								SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 								Date date = format.parse(request.getParameter("publicationDate"));
 								edition.setPublicationDate(date);
 								dao.updateEdition(edition);
-							} else if (request.getParameterMap().containsKey("assignArticleForm")){
+							} else if (request.getParameterMap().containsKey("approvedArticle")){
 								int articleId = Integer.parseInt(request.getParameter("approvedArticle"));
 								dao.assignArticleToEdition(articleId, id);
 							}
