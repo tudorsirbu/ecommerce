@@ -34,9 +34,18 @@
                   <a class="btn btn-link" href="${pageContext.request.contextPath}/DownloadsManager?article_id=${a.id}">
                     <span class="glyphicon glyphicon-download-alt">&nbsp;</span>Download
                   </a>
-                  <a class="btn btn-link"  href="${pageContext.request.contextPath}/ReviewForm?article_id=${a.id}">
-                    <span class="glyphicon glyphicon-check">&nbsp;</span>Review
-                  </a>
+                  <c:choose>
+                    <c:when test="${article.numberOfRevisions == 0}"> 
+		                  <a class="btn btn-link"  href="${pageContext.request.contextPath}/ReviewForm?article_id=${a.id}">
+		                    <span class="glyphicon glyphicon-check">&nbsp;</span>Review
+		                  </a>
+	                  </c:when>
+	                  <c:otherwise>
+	                    <a class="btn btn-link"  href="${pageContext.request.contextPath}/article/show?article_id=${a.id}">
+                        <span class="glyphicon glyphicon-info-sign">&nbsp;</span>View feedback
+                      </a>
+	                  </c:otherwise>
+                  </c:choose>
                 </td>
               </tr>
             </c:forEach>

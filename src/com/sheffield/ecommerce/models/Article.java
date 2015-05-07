@@ -145,4 +145,8 @@ public class Article implements Serializable {
 		if (this.fileNameRevision1 != null && !this.fileNameRevision1.equals("")) { revisions++; }
 		return revisions;
 	}
+	
+    public int hashCode() {
+        return this.id;
+    }
 }

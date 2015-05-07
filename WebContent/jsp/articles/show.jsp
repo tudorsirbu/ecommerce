@@ -107,10 +107,13 @@
 				</div>
 			</c:if>
 			<c:forEach items="${reviewers}" var="reviewer">
-				<c:if test="${reviewer.id == currentUser.id and article.revisionDetails1 != ' '}">
+				<c:if test="${reviewer.id == currentUser.id and article.numberOfRevisions == 1}">
 					<h2>Feedback from the author</h2>
 					<div class="well col-md-6">
 						<b>${article.revisionDetails1}</b>
+						<br><br>
+						<a href="${pageContext.request.contextPath}/ReviewForm?article_id=${article.id}" class="btn btn-success">Accept Revision</a>
+            <a href="${pageContext.request.contextPath}/ReviewForm?article_id=${article.id}&rejecting" class="btn btn-danger">Reject Revision</a>
 					</div>
 				</c:if>
 			</c:forEach>

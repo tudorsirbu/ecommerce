@@ -36,8 +36,12 @@
             <column name="commentsForEditor" length="10000" not-null="true" />
         </property>
         
+        <property name="rejectReason">
+            <column name="rejectReason" length="10000" />
+        </property>
+        
         <many-to-one name="article" column="article" 
-       class="com.sheffield.ecommerce.models.Article" not-null="true"/>
+       class="com.sheffield.ecommerce.models.Article" not-null="true" lazy="false" />
        
         <many-to-one name="reviewer" class="com.sheffield.ecommerce.models.User" fetch="select">
           <column name="user_id" not-null="true" />

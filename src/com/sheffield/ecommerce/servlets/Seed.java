@@ -58,6 +58,21 @@ public class Seed extends HttpServlet {
 			session.getTransaction().commit();
 			
 			//Create a new user with seed data
+			User reviewer = new User();
+			reviewer.setEmail("reviewer@sheffield.ac.uk");
+			reviewer.setFirstName("Mr");
+			reviewer.setLastName("Reviewer");
+			reviewer.setRole(0);
+			passwordHelper = new PasswordHelper("password");
+			reviewer.setPasswordHash(passwordHelper.getPasswordHash());
+			reviewer.setPasswordSalt(passwordHelper.getPasswordSalt());
+			reviewer.validateModel();
+			
+			session.beginTransaction();
+			session.save(reviewer);	
+			session.getTransaction().commit();
+			
+			//Create a new user with seed data
 			User author = new User();
 			author.setEmail("author@sheffield.ac.uk");
 			author.setFirstName("An");

@@ -38,7 +38,7 @@
          <many-to-many class="com.sheffield.ecommerce.models.User" column="user_id"/>
   		</set>
 
-        <set name="reviews" table="reviews" inverse="true" lazy="true" fetch="select">
+        <set name="reviews" table="reviews" inverse="true" lazy="false" fetch="select">
           <key>
             <column name="article" not-null="true" />
           </key>

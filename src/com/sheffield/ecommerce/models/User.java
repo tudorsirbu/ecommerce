@@ -7,6 +7,7 @@ import java.util.Set;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.sheffield.ecommerce.dao.UserDao;
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
 
 public class User implements Serializable {
@@ -33,7 +34,8 @@ public class User implements Serializable {
 	
 	public void deleteReviewedArticle(Article article){
 		Set<Article> articles = new HashSet<Article>();
-		for(Article a : getArticlesToReview()){
+		UserDao dao = new UserDao();
+		for(Article a : dao.getArticlesToReview(id)){
 			if(a.getId() != article.getId())
 				articles.add(a);	
 		}

@@ -2,6 +2,7 @@ package com.sheffield.ecommerce.servlets.articlesForReview;
 
 import java.io.IOException;
 import java.util.List;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.sheffield.ecommerce.dao.ArticleDao;
+import com.sheffield.ecommerce.dao.ReviewDao;
 import com.sheffield.ecommerce.models.Article;
+import com.sheffield.ecommerce.models.Review;
 import com.sheffield.ecommerce.models.User;
 
 public class ListArticlesForReview extends HttpServlet {
@@ -26,6 +29,16 @@ public class ListArticlesForReview extends HttpServlet {
 				// get the articles for the current user
 				List<Article> articles = ArticleDao.getArticlesForReview(currentUser);
 				List<Article> articlesBeingReviewed = ArticleDao.getArticlesBeingReviewed(currentUser);
+				ReviewDao dao = new ReviewDao();
+				List<Review> reviews = dao.getReviewsForUser(currentUser);
+				
+				// Remove any articles that the user has already reviewed in the past
+				for (Review r : reviews) {
+					if (articles.contains(r.getArticle())) {
+						articles.remove(r.getArticle());
+					}
+				}
+				
 				if(currentUser.getId() == User.EDITOR) {
 					request.setAttribute("editor",true);
 				}

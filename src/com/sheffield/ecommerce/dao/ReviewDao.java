@@ -1,7 +1,10 @@
 package com.sheffield.ecommerce.dao;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -58,6 +61,30 @@ public class ReviewDao {
 		Query query = session.createQuery("select r from Review as r left join r.article as a left join r.reviewer as u where (a.id = :article_id and u.id = :user_id)");
 		query.setParameter("user_id", user.getId()); 
 		query.setParameter("article_id", article.getId());
+		@SuppressWarnings("unchecked")
+		List<Review> results = query.list();
+		session.getTransaction().commit();
+		session.close();
+		return results;
+	}
+	
+	public List<Review> getReviewsForUser(User user) {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from Review r where r.reviewer = :user");
+		query.setParameter("user", user);
+		@SuppressWarnings("unchecked")
+		List<Review> results = query.list();
+		session.getTransaction().commit();
+		session.close();
+		return results;
+	}
+	
+	public List<Review> getArticleF(User user) {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from Review r where r.reviewer = :user");
+		query.setParameter("user", user);
 		@SuppressWarnings("unchecked")
 		List<Review> results = query.list();
 		session.getTransaction().commit();

@@ -15,6 +15,7 @@ public class Review implements Serializable {
 	private String commentsForEditor;
 	private Article article;
 	private User reviewer;
+	private String rejectReason;
 	
 	public int getId() {
 		return id;
@@ -69,6 +70,12 @@ public class Review implements Serializable {
 	}
 	public void setReviewer(User reviewer) {
 		this.reviewer = reviewer;
+	}
+	public String getRejectReason() {
+		return rejectReason;
+	}
+	public void setRejectReason(String rejectReason) {
+		this.rejectReason = rejectReason;
 	}
 	public void validateModel() throws InvalidModelException {
 		if (article == null){

@@ -2,6 +2,7 @@ package com.sheffield.ecommerce.servlets.reviews;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -9,6 +10,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Session;
 
 import com.sheffield.ecommerce.dao.ArticleDao;
 import com.sheffield.ecommerce.dao.ReviewDao;
@@ -17,6 +19,7 @@ import com.sheffield.ecommerce.exceptions.InvalidModelException;
 import com.sheffield.ecommerce.helpers.Mailer;
 import com.sheffield.ecommerce.models.Article;
 import com.sheffield.ecommerce.models.Review;
+import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.User;
 
    
@@ -68,6 +71,10 @@ public class ReviewForm extends HttpServlet{
 					}
 						
 					//Otherwise the user is shown the review submission page
+					request.setAttribute("article", article);
+					if (currentArticleReviews.size() > 0) {
+						request.setAttribute("lastReview", currentArticleReviews.get(0));
+					}
 					RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/review/review_form.jsp"); 
 					requestDispatcher.forward(request, response);
 				}
@@ -90,15 +97,14 @@ public class ReviewForm extends HttpServlet{
 			review.setSubstantiveCriticism(request.getParameter("articleCriticism"));
 			review.setSmallErrors(request.getParameter("articleErrors"));
 			review.setCommentsForEditor(request.getParameter("secretComments"));
-			review.setReviewer(currentUser);
+			review.setRejectReason(request.getParameter("rejectReason"));
+			review.setReviewer(currentUser);				
 			
 			if(article != null)
-				if(ArticleDao.getReviewers(article.getId()).contains(currentUser)){
+				if(article.getNumberOfRevisions() == 1 && ArticleDao.getReviewers(article.getId()).contains(currentUser)){
 					UserDao dao = new UserDao();
 					dao.deleteReviewedArticle(article,currentUser);
 				}
-					
-			
 	
 			ReviewDao reviewDao = new ReviewDao();
 			reviewDao.addReview(review);
