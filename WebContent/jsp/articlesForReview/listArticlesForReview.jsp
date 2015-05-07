@@ -9,6 +9,8 @@
     
       <c:if test="${not empty articlesBeingReviewed}">
 	      <h2>Articles you're currently reviewing</h2>
+	      <p>These are the articles that you have committed to reviewing. You can download the latest copy as many times as you like but you must write a review for it by clicking the Review button and filling out the form.</p>
+	      <p>If the author uploads a revision to their article, you must write a second review based on the changes made. You can view revision comments by clicking the article title.</p>
 
         <table class="table">
           <thead>
@@ -47,6 +49,7 @@
       <c:choose>
 			<c:when test="${editor != true}">
 			  <h2>Articles you can review</h2>
+			  <p>These are the articles that you can choose to review. When uploading an article, you must review 3 other articles by different authors. You can view more details of an article such as its abstract by clicking its title. By clicking download, you are committing to review this article.</p>
 			</c:when>
 			<c:otherwise>
 			  <h2>Articles you can review or reject reviewers for</h2>
