@@ -46,7 +46,7 @@
         </set>
         
         <many-to-one name="edition" class="com.sheffield.ecommerce.models.Edition" fetch="select">
-        	<column name="edition_id" not-null="true" />
+        	<column name="edition_id" not-null="false" />
         </many-to-one>
         
     </class>

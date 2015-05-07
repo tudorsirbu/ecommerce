@@ -27,7 +27,7 @@ public class AboutJournal extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Attempt to get the current user
-		HttpSession httpSession = request.getSession(false);
+		HttpSession httpSession = request.getSession(true);
 	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 	    
 		//If a user is not logged in or they are not an editor

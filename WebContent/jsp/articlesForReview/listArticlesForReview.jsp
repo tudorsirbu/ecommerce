@@ -29,10 +29,10 @@
                   </a>
                 </td>
                 <td>
-                  <a class="btn btn-default" href="${pageContext.request.contextPath}/DownloadsManager?article_id=${a.id}">
+                  <a class="btn btn-link" href="${pageContext.request.contextPath}/DownloadsManager?article_id=${a.id}">
                     <span class="glyphicon glyphicon-download-alt">&nbsp;</span>Download
                   </a>
-                  <a class="btn btn-default"  href="${pageContext.request.contextPath}/ReviewForm?article_id=${a.id}">
+                  <a class="btn btn-link"  href="${pageContext.request.contextPath}/ReviewForm?article_id=${a.id}">
                     <span class="glyphicon glyphicon-check">&nbsp;</span>Review
                   </a>
                 </td>

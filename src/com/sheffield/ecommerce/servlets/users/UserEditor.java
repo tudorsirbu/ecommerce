@@ -35,7 +35,7 @@ public class UserEditor extends HttpServlet {
 	 * Handle GET requests for the user edit page
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession httpSession = request.getSession(false);
+		HttpSession httpSession = request.getSession(true);
 		try {
 			//Attempt to get the current user from the session
 		    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
@@ -82,7 +82,7 @@ public class UserEditor extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		User user = null;
-		HttpSession httpSession = request.getSession(false);
+		HttpSession httpSession = request.getSession(true);
 		try {			
 			//Attempt to get the current user from the session
 		    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
