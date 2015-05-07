@@ -3,13 +3,10 @@ package com.sheffield.ecommerce.dao;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
-
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
 import com.sheffield.ecommerce.models.Article;
-import com.sheffield.ecommerce.models.Review;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.User;
 
@@ -168,5 +165,16 @@ public class UserDao {
 		session.update(user);
 		session.getTransaction().commit();
 		session.close();
+	}
+	
+	public int countUsersPublishedArticles(int userId) {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("select count(*) from Article where author_id = :userId and edition_id != null");
+		query.setParameter("userId", userId);
+		query.setMaxResults(1);
+		int count = ((Long)query.uniqueResult()).intValue();
+		session.close();
+		return count;
 	}
 }

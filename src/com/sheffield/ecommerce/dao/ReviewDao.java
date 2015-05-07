@@ -79,12 +79,25 @@ public class ReviewDao {
 		session.close();
 		return results;
 	}
-	
-	public List<Review> getArticleF(User user) {
+
+	public int countReviewsForUser(User user) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
-		Query query = session.createQuery("from Review r where r.reviewer = :user");
-		query.setParameter("user", user);
+		Query query = session.createQuery("select count(*) from Review where user_id = :userId");
+		query.setParameter("userId", user.getId()); 
+		query.setMaxResults(1);
+		int count = ((Long)query.uniqueResult()).intValue();
+		session.close();
+		return count;
+	}
+	
+	public List<Review> getThreeMostRecentReviews(int articleId) {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("select r from Review as r left join r.article as a where a.id = :article_id order by review_id DESC");
+		query.setParameter("article_id", articleId);
+		query.setMaxResults(3);
+
 		@SuppressWarnings("unchecked")
 		List<Review> results = query.list();
 		session.getTransaction().commit();
