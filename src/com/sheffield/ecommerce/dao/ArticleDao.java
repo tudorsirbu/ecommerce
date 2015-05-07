@@ -74,6 +74,19 @@ public class ArticleDao {
 		return results;
 	}
 	
+	public static List<Article> getArticlesBeingReviewed(User user) {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query;
+		query = session.createQuery("from Article a where (a.author <> :user and :user member of a.reviewers)");
+		query.setParameter("user", user);
+		@SuppressWarnings("unchecked")
+		List<Article> results = query.list();
+		session.getTransaction().commit();
+		session.close();
+		return results;
+	}
+	
 	public static boolean doesArticleBelongToUser(int articleId, User author){
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
