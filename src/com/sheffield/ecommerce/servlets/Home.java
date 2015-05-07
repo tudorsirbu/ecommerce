@@ -39,11 +39,9 @@ public class Home extends HttpServlet {
 			JournalDao journalDao = new JournalDao();
 			Journal journal = journalDao.getJournal();
 			List<Volume> volumes = journalDao.getAllVolumesWithEditions();
-			List<Article> articles = ArticleDao.getAllArticles();
 			
 			request.setAttribute("volumes", volumes);
 			request.setAttribute("journal", journal);
-			request.setAttribute("articles", articles);
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/published_articles.jsp");
 			requestDispatcher.forward(request, response);
 		}	

@@ -38,7 +38,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach var="a" items="${articles}">
+										<c:forEach var="a" items="${edition.articles}">
 											<tr>
 												<td><a
 													href="${pageContext.request.contextPath}/uploads/${a.latestFileName}">${a.title}</a>
