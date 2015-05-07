@@ -26,10 +26,6 @@
 	<c:if test="${not empty edition}">
 		<br><br>
 		
-		<a class="btn btn-primary pull-right" href="">Assign Articles</a>
-	
-		<br><br>
-	
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<h4 style="margin: 0">Articles</h4>
@@ -51,10 +47,36 @@
 								</td>
 							</tr>
 						</c:forEach>
+						<form name="assignArticleForm" method="post" class="form-horizontal">
+						<tr>
+							
+	  							<td>
+	  								<div class="form-group">
+		  								<label for="approvedArticle" class="control-label col-sm-2">Approved Articles</label>	
+		  								<select name="approvedArticle" id="approvedArticle" class="form-control">
+										  	<option>1</option>
+										  	<option>2</option>
+										  	<option>3</option>
+										  	<option>4</option>
+											<option>5</option>
+										</select>
+									</div>
+								</td>
+								<td>
+									<div class="form-actions">
+								      <button class="btn btn-primary" type="submit">Assign Article</button>
+									</div>
+								</td>
+						</tr>
+						</form>
 					</tbody>
 				</table>
 			</div>
 		</div>		
 	</c:if>
+	
+	
+	
+
 
 </t:template>
