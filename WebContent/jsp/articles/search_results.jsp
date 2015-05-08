@@ -19,8 +19,8 @@
 		<tbody>
 			<c:forEach var="a" items="${articles}">
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${a.id}">${a.title}</a></td>
-					<td style="white-space: pre-wrap;">${a.article_abstract}</td>
+					<td style="width:25%"><a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${a.id}">${a.title}</a></td>
+					<td class="text-justify" style="white-space: pre-wrap;">${a.article_abstract}</td>
 				</tr>
 			</c:forEach>
 		</tbody>

@@ -196,7 +196,7 @@ public class ArticleDao {
 	public static List<Article> getAllUnpublishedArticles() {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
-		Query query = session.createQuery("from Article where edition_id = null");
+		Query query = session.createQuery("from Article where edition_id is null");
 		@SuppressWarnings("unchecked")
 		List<Article> results = query.list();
 		session.getTransaction().commit();
@@ -211,7 +211,7 @@ public class ArticleDao {
 	public static List<Article> getAllPublishedArticles() {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
-		Query query = session.createQuery("from Article where edition_id != null");
+		Query query = session.createQuery("from Article where edition_id is not null");
 		@SuppressWarnings("unchecked")
 		List<Article> results = query.list();
 		session.getTransaction().commit();

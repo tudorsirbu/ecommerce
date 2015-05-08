@@ -195,7 +195,7 @@ public class UserDao {
 	public static int countUsersPublishedArticles(int userId) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
-		Query query = session.createQuery("select count(*) from Article where author_id = :userId and edition_id != null");
+		Query query = session.createQuery("select count(*) from Article where author_id = :userId and edition_id is not null");
 		query.setParameter("userId", userId);
 		query.setMaxResults(1);
 		int count = ((Long)query.uniqueResult()).intValue();
