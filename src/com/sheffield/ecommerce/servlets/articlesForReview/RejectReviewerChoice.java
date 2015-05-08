@@ -33,8 +33,7 @@ public class RejectReviewerChoice extends HttpServlet {
 			dao.deleteReviewedArticle(article, user);
 			httpSession.setAttribute("successMsg", "Reviewer's choice rejected! The reviewer has been notified.");
 			Mailer.sendEmail(user, "Your article for review", "The editor has rejected your choice of article to review. Please select another article.");
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/articlesForReview/listArticlesForReview.jsp");
-			requestDispatcher.forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/Home"); 
 		} else {
 			response.sendRedirect(request.getContextPath() + "/Login");
 		}
