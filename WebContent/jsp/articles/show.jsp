@@ -12,13 +12,18 @@
 			<div class="page-header">
 				<h1>
 					${article.title}
+				<c:if test="${article.numberOfRevisions > 0}">
+                <small>(Revision ${article.numberOfRevisions})</small>
+                <c:if test="${currentUser.role == cons.editor and fn:length(reviews) <= 3}">		
+				<a
+				href="${pageContext.request.contextPath}/RejectRevision?articleId=${article.id}"
+				class="btn btn-danger">Reject revision</a>
+			  	</c:if>
+              	</c:if>	
 					<c:choose>
 						<c:when test="${editor == true}">
 						</c:when>
 						<c:otherwise>
-              <c:if test="${article.numberOfRevisions > 0}">
-                <small>(Revision ${article.numberOfRevisions})</small>
-              </c:if>
 							<c:choose>
 								<c:when test="${downloadable == true}">
 									<a href="${pageContext.request.contextPath}/uploads/${article.latestFileName}" target="_blank">

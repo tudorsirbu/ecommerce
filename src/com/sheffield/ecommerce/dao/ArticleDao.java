@@ -124,6 +124,18 @@ public class ArticleDao {
 		session.close();
 	}
 	
+	public static void rejectRevision(Article article) {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("update Article set fileNameRevision1 = :fileNameRevision1, revisionDetails1 = :revisionDetails1 where id = :id");
+		query.setParameter("id", article.getId());
+		query.setParameter("fileNameRevision1", null);
+		query.setParameter("revisionDetails1", null);
+		query.executeUpdate();
+		session.getTransaction().commit();
+		session.close();
+	}
+	
 	public static List<User> getReviewers(int id) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();

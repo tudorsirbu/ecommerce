@@ -244,4 +244,14 @@
     <servlet-name>RejectReview</servlet-name>
     <url-pattern>/RejectReview</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RejectRevision</display-name>
+    <servlet-name>RejectRevision</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.articles.RejectRevision</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RejectRevision</servlet-name>
+    <url-pattern>/RejectRevision</url-pattern>
+  </servlet-mapping>
 </web-app>
