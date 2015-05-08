@@ -22,13 +22,7 @@ import com.sheffield.ecommerce.servlets.Register;
 public class UsersList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(Register.class.getName());
-	private UserDao dao; //Data access object
-	
-	public UsersList() {
-		// Create a new instance of the data access object when the servlet is initialised
-		dao = new UserDao();
-	}
-	
+
 	/**
 	 * Handle GET requests for the user edit page
 	 */
@@ -53,7 +47,7 @@ public class UsersList extends HttpServlet {
 					// Check that the current user is an editor, or that they are trying to view their own show page
 					if (currentUser.getRole() == User.EDITOR || (currentUser.getRole() != User.EDITOR && currentUser.getId() == id)) {
 						// Get the user from the id
-						User user = dao.getUserById(id);
+						User user = UserDao.getUserById(id);
 						
 						// Send the user object to the page
 						// If the user is null, display an error
@@ -77,7 +71,7 @@ public class UsersList extends HttpServlet {
 					// Check that the current user is an editor
 					if (currentUser.getRole() == User.EDITOR) {
 						// Get a list of all the users
-						request.setAttribute("users", dao.getAllUsers());
+						request.setAttribute("users", UserDao.getAllUsers());
 						
 						// Redirect to the index page
 						RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/users/list.jsp");

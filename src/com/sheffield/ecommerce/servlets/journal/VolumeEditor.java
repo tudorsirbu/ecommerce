@@ -29,12 +29,6 @@ import com.sheffield.ecommerce.models.Volume;
 public class VolumeEditor extends HttpServlet {
 	private static final long serialVersionUID = 6252143328801068461L;
 	private static final Logger LOGGER = Logger.getLogger(VolumeEditor.class.getName());
-	private JournalDao dao;
-	
-	public VolumeEditor() {
-		// Create a new instance of the data access object when the servlet is initialised
-		dao = new JournalDao();
-	}
 
 	/**
 	 * Handle GET requests for the volume editor
@@ -53,7 +47,7 @@ public class VolumeEditor extends HttpServlet {
 				if (request.getParameterMap().containsKey("id")) {
 					// Get the volume from the id in the request parameters
 					int id = Integer.parseInt(request.getParameter("id"));
-					Volume volume = dao.getVolumeById(id);
+					Volume volume = JournalDao.getVolumeById(id);
 					
 					// Send the volume object to the page if they exist
 					// Otherwise, display an error
@@ -99,13 +93,13 @@ public class VolumeEditor extends HttpServlet {
 					if (request.getParameterMap().containsKey("id")) {
 						// Get the volume from the id in the request parameters
 						int id = Integer.parseInt(request.getParameter("id"));
-						Volume volume = dao.getVolumeById(id);
+						Volume volume = JournalDao.getVolumeById(id);
 						
 						if (volume != null) { 
 							SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 							Date date = format.parse(request.getParameter("publicationDate"));
 							volume.setPublicationDate(date);
-							dao.updateVolume(volume);
+							JournalDao.updateVolume(volume);
 						} else {
 							httpSession.setAttribute("errorMsg", "Unable to edit volume with this id.");
 						}
@@ -114,7 +108,7 @@ public class VolumeEditor extends HttpServlet {
 						SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 						Date date = format.parse(request.getParameter("publicationDate"));
 						volume.setPublicationDate(date);
-						dao.addNewVolume(volume);
+						JournalDao.addNewVolume(volume);
 					}
 					response.sendRedirect(request.getContextPath() + "/ManageJournal");
 				} else {

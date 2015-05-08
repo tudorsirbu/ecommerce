@@ -91,6 +91,7 @@ public class UploadArticle extends HttpServlet {
                 	String currentTimestamp = String.valueOf(System.currentTimeMillis());
                 	String extension = getFileExtension(item.getName());
                 	
+                	// check if the file is pdf and display an appropriate message is it isn't
                 	if(!extension.toLowerCase().equals("pdf")){
                 		httpSession.setAttribute("errorMsg", "Uploaded article needs to be a PDF.");
                         requestDispatcher = request.getRequestDispatcher("jsp/upload_article.jsp");
@@ -98,6 +99,7 @@ public class UploadArticle extends HttpServlet {
                 		return;
                 	}
                 	
+                	// construct the file path and the file
                     String fileName = new File(currentTimestamp + "." + extension).getName();
                     String filePath = UPLOAD_PATH + File.separator + fileName;
                     File storeFile = new File(filePath);
@@ -126,6 +128,7 @@ public class UploadArticle extends HttpServlet {
     		return;
         }
 
+        // send an email after uploading and creating the article
         Mailer.sendEmail(currentUser, "Article uploaded successfully", "Your article has been uploaded successfully and it will soon be reviewed by other authors. \n Thank you!");
         httpSession.setAttribute("successMsg", "Article submitted successfully!");
 		response.sendRedirect(request.getContextPath() + "/Home");

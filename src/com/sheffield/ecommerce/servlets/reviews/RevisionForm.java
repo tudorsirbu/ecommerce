@@ -79,9 +79,8 @@ public class RevisionForm extends HttpServlet {
 			requestDispatcher.forward(request, response);
 			return;
 		}
-		
-		ReviewDao reviewDao = new ReviewDao();
-		if (reviewDao.getReviewsForArticle(articleId).size() % 3 != 0) {
+
+		if (ReviewDao.getReviewsForArticle(articleId).size() % 3 != 0) {
 			// Display an error if less than 3 reviews have been submitted for this article
 			httpSession.setAttribute("errorMsg", "This article does not have enough reviews to be revised.");
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/review/revision_form.jsp"); 

@@ -24,12 +24,6 @@ import com.sheffield.ecommerce.models.User;
 public class UserEditor extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(UserEditor.class.getName());
-	private UserDao dao;
-	
-	public UserEditor() {
-		// Create a new instance of the data access object when the servlet is initialised
-		dao = new UserDao();
-	}
 
 	/**
 	 * Handle GET requests for the user edit page
@@ -44,7 +38,7 @@ public class UserEditor extends HttpServlet {
 			if (currentUser != null) {			
 				// Get the user from the id in the request parameters
 				int id = Integer.parseInt(request.getParameter("id"));
-				User user = dao.getUserById(id);
+				User user = UserDao.getUserById(id);
 				
 				// Only allow editors and the current user to access their edit page
 				if (currentUser.getRole() == User.EDITOR || currentUser.getId() == id) {	
@@ -94,7 +88,7 @@ public class UserEditor extends HttpServlet {
 			if (currentUser != null && (currentUser.getRole() == User.EDITOR || currentUser.getId() == id)) {
 
 				// Update the user's parameters
-				user = dao.getUserById(id);
+				user = UserDao.getUserById(id);
 				user.setFirstName(request.getParameter("firstName"));
 				user.setLastName(request.getParameter("lastName"));
 				user.setEmail(request.getParameter("email"));
@@ -119,11 +113,11 @@ public class UserEditor extends HttpServlet {
 						PasswordHelper passwordHelper = new PasswordHelper(request.getParameter("password"));
 						user.setPasswordHash(passwordHelper.getPasswordHash());
 						user.setPasswordSalt(passwordHelper.getPasswordSalt());
-						dao.updateUserWithPassword(user);
+						UserDao.updateUserWithPassword(user);
 					}
 				} else {
 					// If no password was entered, update the user in the database normally
-					dao.updateUser(user);
+					UserDao.updateUser(user);
 				}
 				
 				// If the current user is being updated, also update the current user in the session

@@ -20,12 +20,7 @@ import com.sheffield.ecommerce.models.User;
 public class ManageJournal extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(ManageJournal.class.getName());
-	private JournalDao dao; //Data access object
-	
-    public ManageJournal() {
-        super();
-		dao = new JournalDao();
-	}   
+
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Attempt to get the current user
@@ -39,8 +34,8 @@ public class ManageJournal extends HttpServlet {
 			requestDispatcher.forward(request, response);
 		} else {
 			//Otherwise the editor is shown the manage journal page
-			request.setAttribute("journal", dao.getJournal());
-			request.setAttribute("volumes", dao.getAllVolumesWithEditions());
+			request.setAttribute("journal", JournalDao.getJournal());
+			request.setAttribute("volumes", JournalDao.getAllVolumesWithEditions());
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/journal/manage.jsp");
 			requestDispatcher.forward(request, response);
 		}
@@ -71,7 +66,7 @@ public class ManageJournal extends HttpServlet {
 				journal.validateModel();
 				
 				//Update database
-				dao.updateJournal(journal);
+				JournalDao.updateJournal(journal);
 				LOGGER.log(Level.FINE, "Journal updated");	
 				
 			} catch (InvalidModelException ex) {
@@ -91,8 +86,8 @@ public class ManageJournal extends HttpServlet {
 			}
 			//Otherwise the editor is shown the manage journal page
 			httpSession.setAttribute("successMsg", "Journal updated successfully");
-			request.setAttribute("journal", dao.getJournal());
-			request.setAttribute("volumes", dao.getAllVolumesWithEditions());
+			request.setAttribute("journal", JournalDao.getJournal());
+			request.setAttribute("volumes", JournalDao.getAllVolumesWithEditions());
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/journal/manage.jsp");
 			requestDispatcher.forward(request, response);
 		}

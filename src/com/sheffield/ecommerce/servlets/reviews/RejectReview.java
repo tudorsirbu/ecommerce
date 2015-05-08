@@ -16,7 +16,6 @@ import com.sheffield.ecommerce.models.User;
 public class RejectReview extends HttpServlet {
 	
 	private static final long serialVersionUID = 3272403543196162754L;
-	private ReviewDao dao = new ReviewDao();
 	
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -24,10 +23,11 @@ public class RejectReview extends HttpServlet {
 		HttpSession httpSession = request.getSession(true);
 	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
 		
-	    //If a user is logged in show the homepage, otherwise direct them to the login page
+	    //If a user is not logged in direct them to the login page
 		if (currentUser != null && currentUser.getId() == 1) {
+			// delete the user's article
 			Review review = ReviewDao.getReviewById(Integer.parseInt(request.getParameter("reviewId")));
-			dao.deleteReview(Integer.parseInt(request.getParameter("reviewId")));
+			ReviewDao.deleteReview(Integer.parseInt(request.getParameter("reviewId")));
 			
 			httpSession.setAttribute("successMsg", "Review was successfully rejected! The reviewer has been notified.");
 			Mailer.sendEmail(review.getReviewer(), "Your review for article: " + review.getArticle().getTitle(), "The editor has rejected your review. Please put in a proper effort when reviewing an article.");

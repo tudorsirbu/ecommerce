@@ -30,13 +30,7 @@ import com.sheffield.ecommerce.models.Volume;
 public class EditionEditor extends HttpServlet {
 	private static final long serialVersionUID = 6252143328801068461L;
 	private static final Logger LOGGER = Logger.getLogger(EditionEditor.class.getName());
-	private JournalDao dao;
 	
-	public EditionEditor() {
-		// Create a new instance of the data access object when the servlet is initialised
-		dao = new JournalDao();
-	}
-
 	/**
 	 * Handle GET requests for the edition editor
 	 */
@@ -54,14 +48,14 @@ public class EditionEditor extends HttpServlet {
 				if (request.getParameterMap().containsKey("id")) {
 					// Get the edition from the id in the request parameters
 					int id = Integer.parseInt(request.getParameter("id"));
-					Edition edition = dao.getEditionById(id);
+					Edition edition = JournalDao.getEditionById(id);
 					
 					// Send the edition object to the page if it exists
 					// Otherwise, display an error
 					if (edition != null) { 
 						request.setAttribute("edition", edition);
-						request.setAttribute("editionArticles", dao.getArticlesForEdition(edition.getEditionId()));
-						request.setAttribute("approvedArticles", dao.getApprovedArticles());
+						request.setAttribute("editionArticles", JournalDao.getArticlesForEdition(edition.getEditionId()));
+						request.setAttribute("approvedArticles", JournalDao.getApprovedArticles());
 						// Display the edit form
 						RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/journal/editionForm.jsp");
 						requestDispatcher.forward(request, response);
@@ -110,17 +104,17 @@ public class EditionEditor extends HttpServlet {
 					if (request.getParameterMap().containsKey("id")) {
 						// Get the edition from the id in the request parameters
 						int id = Integer.parseInt(request.getParameter("id"));
-						Edition edition = dao.getEditionById(id);
+						Edition edition = JournalDao.getEditionById(id);
 						
 						if (edition != null) { 
 							if (request.getParameterMap().containsKey("publicationDate")) {
 								SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 								Date date = format.parse(request.getParameter("publicationDate"));
 								edition.setPublicationDate(date);
-								dao.updateEdition(edition);
+								JournalDao.updateEdition(edition);
 							} else if (request.getParameterMap().containsKey("approvedArticle")){
 								int articleId = Integer.parseInt(request.getParameter("approvedArticle"));
-								dao.assignArticleToEdition(articleId, id);
+								JournalDao.assignArticleToEdition(articleId, id);
 							}
 							int vol = Integer.parseInt(request.getParameter("vol"));
 							urlString = "EditionEditor?id=" + edition.getVolume().getVolumeId() + "&vol=" + vol;
@@ -130,7 +124,7 @@ public class EditionEditor extends HttpServlet {
 					} else {
 						// Get the edition from the id in the request parameters
 						int vol = Integer.parseInt(request.getParameter("vol"));
-						Volume volume = dao.getVolumeById(vol);
+						Volume volume = JournalDao.getVolumeById(vol);
 						
 						// Send the edition object to the page if it exists
 						// Otherwise, display an error
@@ -140,7 +134,7 @@ public class EditionEditor extends HttpServlet {
 							Date date = format.parse(request.getParameter("publicationDate"));
 							edition.setPublicationDate(date);
 							edition.setVolume(volume);
-							dao.addNewEdition(edition);
+							JournalDao.addNewEdition(edition);
 							urlString = "VolumeEditor?id=" + vol;
 						} else {
 							httpSession.setAttribute("errorMsg", "No volume exists with this id.");

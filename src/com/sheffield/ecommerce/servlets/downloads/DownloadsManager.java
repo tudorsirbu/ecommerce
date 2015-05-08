@@ -21,7 +21,6 @@ import com.sheffield.ecommerce.models.User;
 import com.sheffield.ecommerce.servlets.UploadArticle;
 
 public class DownloadsManager extends HttpServlet {
-	private UserDao dao = new UserDao();
 	private static final Logger LOGGER = Logger.getLogger(DownloadsManager.class.getName());
 	
 	private static final long serialVersionUID = 3350776160576001632L;
@@ -57,12 +56,11 @@ public class DownloadsManager extends HttpServlet {
 				}
 				
 				// Otherwise check review status			
-				int articlesToReviewSize = dao.getArticlesToReview(currentUser.getId()).size();
+				int articlesToReviewSize = UserDao.getArticlesToReview(currentUser.getId()).size();
 				if(articlesToReviewSize <3){
-					ReviewDao reviewDao = new ReviewDao();
-					if (!reviewDao.isUserReviewingArticle(currentUser,article.getId())) {
+					if (!ReviewDao.isUserReviewingArticle(currentUser,article.getId())) {
 						// Assign user to review this article if not done so already
-						dao.setArticleToReview(article, currentUser);
+						UserDao.setArticleToReview(article, currentUser);
 					}
 	
 					loadFile(article.getLatestFileName(), response);

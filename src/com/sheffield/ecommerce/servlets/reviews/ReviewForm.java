@@ -57,8 +57,7 @@ public class ReviewForm extends HttpServlet{
 					}
 					
 					//Throw an error if the article has already been reviewed or if it has been revised and already been reviewed
-					ReviewDao reviewDao = new ReviewDao();
-					List<Review> currentArticleReviews = reviewDao.getReviewsForUserAndArticle(currentUser, article);
+					List<Review> currentArticleReviews = ReviewDao.getReviewsForUserAndArticle(currentUser, article);
 					if ((article.getNumberOfRevisions() == 0 && currentArticleReviews.size() > 0) || (article.getNumberOfRevisions() == 1 && currentArticleReviews.size() != 1)) {
 						httpSession.setAttribute("errorMsg", "This article cannot be reviewed at this time.");
 						RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/review/review_form.jsp"); 
@@ -98,12 +97,10 @@ public class ReviewForm extends HttpServlet{
 			
 			if(article != null)
 				if(article.getNumberOfRevisions() == 1 && ArticleDao.getReviewers(article.getId()).contains(currentUser)){
-					UserDao dao = new UserDao();
-					dao.deleteReviewedArticle(article,currentUser);
+					UserDao.deleteReviewedArticle(article,currentUser);
 				}
 	
-			ReviewDao reviewDao = new ReviewDao();
-			reviewDao.addReview(review);
+			ReviewDao.addReview(review);
 
 			
 			Mailer.sendEmail(currentUser, "Review Submission Successfull", "You have successfully submited a review for the article with the title:"+article.getTitle());

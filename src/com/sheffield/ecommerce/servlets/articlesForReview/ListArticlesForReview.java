@@ -29,8 +29,7 @@ public class ListArticlesForReview extends HttpServlet {
 				// get the articles for the current user
 				List<Article> articles = ArticleDao.getArticlesForReview(currentUser);
 				List<Article> articlesBeingReviewed = ArticleDao.getArticlesBeingReviewed(currentUser);
-				ReviewDao dao = new ReviewDao();
-				List<Review> reviews = dao.getReviewsForUser(currentUser);
+				List<Review> reviews = ReviewDao.getReviewsForUser(currentUser);
 				
 				// Remove any articles that the user has already reviewed in the past
 				for (Review r : reviews) {
