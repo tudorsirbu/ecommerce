@@ -57,16 +57,20 @@ public class ArticleDao {
 		return results;
 	}
 	
-	
+	/**
+	 * Gets the 10 latest articles that require review ordered by the oldest first
+	 * @param user The current logged in user
+	 */
 	public static List<Article> getArticlesForReview(User user) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query;
 		if(user.getRole() == User.EDITOR)
-			query = session.createQuery("from Article a where a.author <> :user");
+			query = session.createQuery("from Article a where a.author <> :user order by a.id asc");
 		else
-			query = session.createQuery("from Article a where (a.author <> :user and :user not member of a.reviewers)");
+			query = session.createQuery("from Article a where (a.author <> :user and :user not member of a.reviewers) order by a.id asc");
 		query.setParameter("user", user);
+		query.setMaxResults(10);
 		@SuppressWarnings("unchecked")
 		List<Article> results = query.list();
 		session.getTransaction().commit();
@@ -119,6 +123,18 @@ public class ArticleDao {
 		query.setParameter("id", article.getId());
 		query.setParameter("fileNameRevision1", article.getFileNameRevision1());
 		query.setParameter("revisionDetails1", article.getRevisionDetails1());
+		query.executeUpdate();
+		session.getTransaction().commit();
+		session.close();
+	}
+	
+	public static void rejectRevision(Article article) {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("update Article set fileNameRevision1 = :fileNameRevision1, revisionDetails1 = :revisionDetails1 where id = :id");
+		query.setParameter("id", article.getId());
+		query.setParameter("fileNameRevision1", null);
+		query.setParameter("revisionDetails1", null);
 		query.executeUpdate();
 		session.getTransaction().commit();
 		session.close();

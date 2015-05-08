@@ -41,11 +41,14 @@ public class UploadArticle extends HttpServlet {
 			RequestDispatcher requestDispatcher;
 			if(currentUser.getRole() == 0){
 				requestDispatcher = request.getRequestDispatcher("jsp/upload_article.jsp");
+				requestDispatcher.forward(request, response);
+				return;
 			} else { 
 				httpSession.setAttribute("errorMsg", "You do not have the necessary rights to upload articles.");
-				requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
+				response.sendRedirect(request.getContextPath() + "/Home");
+				return;
 			}
-			requestDispatcher.forward(request, response);
+			
 		} else {
 			response.sendRedirect(request.getContextPath() + "/Login");
 		}
@@ -125,8 +128,7 @@ public class UploadArticle extends HttpServlet {
 
         Mailer.sendEmail(currentUser, "Article uploaded successfully", "Your article has been uploaded successfully and it will soon be reviewed by other authors. \n Thank you!");
         httpSession.setAttribute("successMsg", "Article submitted successfully!");
-        requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
-        requestDispatcher.forward(request, response);
+		response.sendRedirect(request.getContextPath() + "/Home");
 	}
 	
 	private void initUpload(){

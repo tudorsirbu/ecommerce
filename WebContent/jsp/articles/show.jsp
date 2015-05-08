@@ -12,29 +12,26 @@
 			<div class="page-header">
 				<h1>
 					${article.title}
+				<c:if test="${article.numberOfRevisions > 0}">
+                <small>(Revision ${article.numberOfRevisions})</small>
+                <c:if test="${currentUser.role == cons.editor and fn:length(reviews) <= 3}">		
+				<a
+				href="${pageContext.request.contextPath}/RejectRevision?articleId=${article.id}"
+				class="btn btn-danger">Reject revision</a>
+			  	</c:if>
+              	</c:if>	
 					<c:choose>
-						<c:when test="${editor == true}">
+						<c:when test="${downloadable == true}">
+							<a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${a.id}" target="_blank">
+							  <span class="glyphicon glyphicon-download-alt"></span>
+							</a>
 						</c:when>
 						<c:otherwise>
-              <c:if test="${article.numberOfRevisions > 0}">
-                <small>(Revision ${article.numberOfRevisions})</small>
-              </c:if>
-							<c:choose>
-								<c:when test="${downloadable == true}">
-									<a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${a.id}" target="_blank">
-									  <span class="glyphicon glyphicon-download-alt">&nbsp;</span>
-									</a>
-									<br />
-								</c:when>
-								<c:otherwise>
-									<a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${article.id}">
-										<span class="glyphicon glyphicon-download-alt">&nbsp;</span>
-									</a>
-									<br />
-								</c:otherwise>
-							</c:choose>
+							<a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${article.id}">
+								<span class="glyphicon glyphicon-download-alt"></span>
+							</a>
 						</c:otherwise>
-					</c:choose>
+					</c:choose>	
 				</h1>
 			</div>
 			
@@ -130,7 +127,7 @@
 
 
 			<c:if test="${currentUser.role == cons.editor and not empty reviewers}">
-				<h2>This article is being reviewed by:</h2>
+				<h2 style="clear:both;">This article is being reviewed by:</h2>
 				<div class="well well-sm">
 					<table class="table">
 						<thead>

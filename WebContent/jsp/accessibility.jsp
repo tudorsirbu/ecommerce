@@ -75,7 +75,6 @@
 								<c:if test="${sessionScope.currentUser.role == 1}">
 									<tr><td>2 - Manage Journal</td></tr>
 									<tr><td>3 - Review Articles</td></tr>
-									<tr><td>4 - Approve Articles</td></tr>
 								</c:if>
 								<c:if test="${sessionScope.currentUser.role == 0}">
 									<tr><td>2 - About Journal</td></tr>

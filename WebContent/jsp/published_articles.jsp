@@ -17,7 +17,7 @@
 							required="required" autofocus="autofocus">
 					</div>
 					<div class="col-md-2">
-						<button class="btn btn-primary btn-block" btn-sm type="submit">Search</button>
+						<button class="btn btn-primary btn-block" type="submit">Search</button>
 					</div>
 				</form>
 				<div style="clear: both;"></div>

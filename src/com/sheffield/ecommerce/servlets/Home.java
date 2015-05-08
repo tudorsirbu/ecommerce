@@ -7,10 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import com.sheffield.ecommerce.dao.JournalDao;
 import com.sheffield.ecommerce.models.Journal;
-import com.sheffield.ecommerce.models.User;
 import com.sheffield.ecommerce.models.Volume;
 /**
  * Servlet implementation class Home

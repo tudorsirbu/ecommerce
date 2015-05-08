@@ -2,7 +2,6 @@ package com.sheffield.ecommerce.servlets.reviews;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,8 +9,6 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
-
 import com.sheffield.ecommerce.dao.ArticleDao;
 import com.sheffield.ecommerce.dao.ReviewDao;
 import com.sheffield.ecommerce.dao.UserDao;
@@ -19,7 +16,6 @@ import com.sheffield.ecommerce.exceptions.InvalidModelException;
 import com.sheffield.ecommerce.helpers.Mailer;
 import com.sheffield.ecommerce.models.Article;
 import com.sheffield.ecommerce.models.Review;
-import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.User;
 
    
@@ -113,8 +109,7 @@ public class ReviewForm extends HttpServlet{
 			Mailer.sendEmail(currentUser, "Review Submission Successfull", "You have successfully submited a review for the article with the title:"+article.getTitle());
 			httpSession.setAttribute("successMsg", "Review submitted successfully!");
 			LOGGER.log(Level.FINE, "New review submitted for article: " + article.getTitle());
-	        requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
-			requestDispatcher.forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/Home");
 			return;
 		} catch (InvalidModelException ex) {
 			//If there was any invalid User information then log and throw the message up to the user
