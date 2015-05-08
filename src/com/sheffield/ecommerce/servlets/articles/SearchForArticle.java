@@ -15,7 +15,7 @@ public class SearchForArticle extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// get the articles for the current user
-		String query = request.getParameter("inputTitle");
+		String query = request.getParameter("inputTitle").trim();
 
 		List<Article> articles = ArticleDao.getAllPublishedArticles();
 		if(query != null && !query.isEmpty()){

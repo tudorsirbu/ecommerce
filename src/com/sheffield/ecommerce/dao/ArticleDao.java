@@ -55,7 +55,7 @@ public class ArticleDao {
 	public static List<Article> getArticlesWithTitle(String title) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
-		Query query = session.createQuery("from Article a where a.title LIKE :title");
+		Query query = session.createQuery("from Article a where a.title LIKE :title and edition_id is not null");
 		query.setParameter("title", "%" + title + "%");
 		@SuppressWarnings("unchecked")
 		List<Article> results = query.list();
