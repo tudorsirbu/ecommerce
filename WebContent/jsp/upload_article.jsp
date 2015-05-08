@@ -15,7 +15,7 @@
         		<input type="text" name="inputTitle" id="inputTitle" class="form-control" placeholder="Article title" required="required" autofocus="autofocus">
 				
 				<label for="inputAuthors" class="sr-only">Other authors</label>
-        		<input type="text" name="inputAuthors" id="inputAuthors" class="form-control" placeholder="Other articles" required="required" autofocus="autofocus">
+        		<input type="text" name="inputAuthors" id="inputAuthors" class="form-control" placeholder="Other authors">
 				
 				<label for="inputArticleAbstract" class="sr-only">Article abstract</label>
 				<textarea name="inputArticleAbstract" id="inputArticleAbstract" class="form-control" placeholder="Please enter an article abstract" required="required" rows="10"></textarea>
