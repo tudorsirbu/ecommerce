@@ -41,7 +41,14 @@
 			
 			<div class="well well-sm">
 				<h5>
-					<b> Written by ${article.otherAuthors} and ${author.firstName} ${author.lastName} </b> | <a href="mailto:${author.email}">${author.email}</a>
+					<c:choose>
+						<c:when test="${empty article.otherAuthors}">
+							<b> Written by ${author.firstName} ${author.lastName} </b> | <a href="mailto:${author.email}">${author.email}</a>
+						</c:when>
+						<c:otherwise>
+							<b> Written by ${article.otherAuthors} and ${author.firstName} ${author.lastName} </b> | <a href="mailto:${author.email}">${author.email}</a>
+						</c:otherwise>
+					</c:choose>
 				</h5>
 			</div>
 			
