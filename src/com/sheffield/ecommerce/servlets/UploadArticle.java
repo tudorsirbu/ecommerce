@@ -108,6 +108,8 @@ public class UploadArticle extends HttpServlet {
                 		article.setTitle(item.getString());
                 	else if(fieldName.equals("inputArticleAbstract"))
                 		article.setArticle_abstract(item.getString());
+                	else if(fieldName.equals("inputAuthors"))
+                		article.setOtherAuthors(item.getString());;
                 }
             }
             article.setAuthor(currentUser);
