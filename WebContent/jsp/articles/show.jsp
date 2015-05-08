@@ -21,23 +21,17 @@
 			  	</c:if>
               	</c:if>	
 					<c:choose>
-						<c:when test="${editor == true}">
+						<c:when test="${downloadable == true}">
+							<a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${a.id}" target="_blank">
+							  <span class="glyphicon glyphicon-download-alt"></span>
+							</a>
 						</c:when>
 						<c:otherwise>
-							<c:choose>
-								<c:when test="${downloadable == true}">
-									<a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${a.id}" target="_blank">
-									  <span class="glyphicon glyphicon-download-alt"></span>
-									</a>
-								</c:when>
-								<c:otherwise>
-									<a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${article.id}">
-										<span class="glyphicon glyphicon-download-alt"></span>
-									</a>
-								</c:otherwise>
-							</c:choose>
+							<a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${article.id}">
+								<span class="glyphicon glyphicon-download-alt"></span>
+							</a>
 						</c:otherwise>
-					</c:choose>
+					</c:choose>	
 				</h1>
 			</div>
 			
