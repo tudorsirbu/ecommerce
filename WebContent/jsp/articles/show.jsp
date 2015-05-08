@@ -92,7 +92,10 @@
 									<b>Comments for Editors</b>
 								</div>
 								<div class="col-sm-9">${review.commentsForEditor}</div>
-							</div>
+							</div><br>
+							<a
+							href="${pageContext.request.contextPath}/RejectReview?reviewId=${review.id}"
+							class="btn btn-danger">Reject review</a>
 						</c:if><br>
 
 						<br>

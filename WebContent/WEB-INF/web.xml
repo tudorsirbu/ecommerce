@@ -234,4 +234,14 @@
     <servlet-name>SearchForArticle</servlet-name>
     <url-pattern>/SearchForArticle</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RejectReview</display-name>
+    <servlet-name>RejectReview</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.reviews.RejectReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RejectReview</servlet-name>
+    <url-pattern>/RejectReview</url-pattern>
+  </servlet-mapping>
 </web-app>
