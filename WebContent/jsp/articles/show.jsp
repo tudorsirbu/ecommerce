@@ -12,13 +12,18 @@
 			<div class="page-header">
 				<h1>
 					${article.title}
+				<c:if test="${article.numberOfRevisions > 0}">
+                <small>(Revision ${article.numberOfRevisions})</small>
+                <c:if test="${currentUser.role == cons.editor and fn:length(reviews) <= 3}">		
+				<a
+				href="${pageContext.request.contextPath}/RejectRevision?articleId=${article.id}"
+				class="btn btn-danger">Reject revision</a>
+			  	</c:if>
+              	</c:if>	
 					<c:choose>
 						<c:when test="${editor == true}">
 						</c:when>
 						<c:otherwise>
-              <c:if test="${article.numberOfRevisions > 0}">
-                <small>(Revision ${article.numberOfRevisions})</small>
-              </c:if>
 							<c:choose>
 								<c:when test="${downloadable == true}">
 									<a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${a.id}" target="_blank">
@@ -41,7 +46,14 @@
 			
 			<div class="well well-sm">
 				<h5>
-					<b> Written by ${author.firstName} ${author.lastName} </b> | <a href="mailto:${author.email}">${author.email}</a>
+					<c:choose>
+						<c:when test="${empty article.otherAuthors}">
+							<b> Written by ${author.firstName} ${author.lastName} </b> | <a href="mailto:${author.email}">${author.email}</a>
+						</c:when>
+						<c:otherwise>
+							<b> Written by ${article.otherAuthors} and ${author.firstName} ${author.lastName} </b> | <a href="mailto:${author.email}">${author.email}</a>
+						</c:otherwise>
+					</c:choose>
 				</h5>
 			</div>
 			
