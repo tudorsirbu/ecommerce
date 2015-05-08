@@ -105,4 +105,27 @@ public class ReviewDao {
 		return results;
 	}
 	
+	public void deleteReview(int review_id) {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("delete Review r where r.id = :review_id");
+		query.setParameter("review_id", review_id);
+		query.executeUpdate();
+		session.getTransaction().commit();
+		session.close();
+	}
+	
+	public static Review getReviewById(int id) {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from Review r where r.id = :id");
+		query.setMaxResults(1);
+		query.setParameter("id", id);
+		Review review = (Review) query.uniqueResult();
+		Hibernate.initialize(review.getReviewer());
+		Hibernate.initialize(review.getArticle());
+		session.close();
+		return review;
+	}
+	
 }

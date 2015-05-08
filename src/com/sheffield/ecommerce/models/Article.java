@@ -16,6 +16,7 @@ public class Article implements Serializable {
 	private String fileName;
 	private String fileNameRevision1;
 	private String revisionDetails1;
+	private String otherAuthors;
 	private User author;
 	private Set<Review> reviews = new HashSet<Review>(0);
 	
@@ -111,6 +112,14 @@ public class Article implements Serializable {
 		this.reviews = reviews;
 	}
 	
+	public String getOtherAuthors() {
+		return otherAuthors;
+	}
+
+	public void setOtherAuthors(String otherAuthors) {
+		this.otherAuthors = otherAuthors;
+	}
+
 	/**
 	 * Returns the file name of the latest revision
 	 * @return The file name as a string

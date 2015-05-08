@@ -2,7 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
   <display-name>ecommerce</display-name>
   <welcome-file-list>
-    <welcome-file>welcome.jsp</welcome-file>
+    <welcome-file>/jsp/index.jsp</welcome-file>
   </welcome-file-list>
   <error-page>
     <error-code>403</error-code>
@@ -233,5 +233,15 @@
   <servlet-mapping>
     <servlet-name>SearchForArticle</servlet-name>
     <url-pattern>/SearchForArticle</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RejectReview</display-name>
+    <servlet-name>RejectReview</servlet-name>
+    <servlet-class>com.sheffield.ecommerce.servlets.reviews.RejectReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RejectReview</servlet-name>
+    <url-pattern>/RejectReview</url-pattern>
   </servlet-mapping>
 </web-app>

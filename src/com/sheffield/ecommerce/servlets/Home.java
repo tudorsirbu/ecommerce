@@ -22,23 +22,13 @@ public class Home extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Attempt to get the current user
-		HttpSession httpSession = request.getSession(true);
-	    User currentUser = (httpSession != null) ? (User) httpSession.getAttribute("currentUser") : null;
+	    JournalDao journalDao = new JournalDao();
+		Journal journal = journalDao.getJournal();
+		List<Volume> volumes = journalDao.getAllVolumesWithEditions();
 		
-	    //If a user is logged in show the homepage, otherwise direct them to the login page //TODO change this so login isnt essential
-		if (currentUser != null) {
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
-			requestDispatcher.forward(request, response);
-		} else {
-			JournalDao journalDao = new JournalDao();
-			Journal journal = journalDao.getJournal();
-			List<Volume> volumes = journalDao.getAllVolumesWithEditions();
-			
-			request.setAttribute("volumes", volumes);
-			request.setAttribute("journal", journal);
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/published_articles.jsp");
-			requestDispatcher.forward(request, response);
-		}	
+		request.setAttribute("volumes", volumes);
+		request.setAttribute("journal", journal);
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/published_articles.jsp");
+		requestDispatcher.forward(request, response);
 	}
 }
