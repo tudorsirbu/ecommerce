@@ -35,10 +35,10 @@
                     <span class="glyphicon glyphicon-download-alt">&nbsp;</span>Download
                   </a>
                   <c:choose>
-                    <c:when test="${article.numberOfRevisions == 0}"> 
-		                  <a class="btn btn-link"  href="${pageContext.request.contextPath}/ReviewForm?article_id=${a.id}">
-		                    <span class="glyphicon glyphicon-check">&nbsp;</span>Review
-		                  </a>
+                    <c:when test="${a.numberOfRevisions == 0}"> 
+	                  <a class="btn btn-link"  href="${pageContext.request.contextPath}/ReviewForm?article_id=${a.id}">
+	                    <span class="glyphicon glyphicon-check">&nbsp;</span>Review
+	                  </a>
 	                  </c:when>
 	                  <c:otherwise>
 	                    <a class="btn btn-link"  href="${pageContext.request.contextPath}/article/show?article_id=${a.id}">

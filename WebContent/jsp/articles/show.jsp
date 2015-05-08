@@ -22,7 +22,7 @@
               	</c:if>	
 					<c:choose>
 						<c:when test="${downloadable == true}">
-							<a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${a.id}" target="_blank">
+							<a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${article.id}" target="_blank">
 							  <span class="glyphicon glyphicon-download-alt"></span>
 							</a>
 						</c:when>

@@ -77,8 +77,6 @@ public class UploadArticle extends HttpServlet {
         // instantiate a new article
         Article article = new Article();
         
-String testFileName = "";
-        
         try {
             // parses the request's content to extract file data
             List<FileItem> formItems = upload.parseRequest(request);
@@ -103,8 +101,6 @@ String testFileName = "";
                     String fileName = new File(currentTimestamp + "." + extension).getName();
                     String filePath = UPLOAD_PATH + File.separator + fileName;
                     File storeFile = new File(filePath);
-                    
-testFileName = fileName;
 
                     // saves the file on disk
                     item.write(storeFile);
@@ -131,7 +127,7 @@ testFileName = fileName;
         }
 
         Mailer.sendEmail(currentUser, "Article uploaded successfully", "Your article has been uploaded successfully and it will soon be reviewed by other authors. \n Thank you!");
-httpSession.setAttribute("successMsg", "Article submitted successfully! - " + testFileName);
+        httpSession.setAttribute("successMsg", "Article submitted successfully!");
 		response.sendRedirect(request.getContextPath() + "/Home");
 	}
 	

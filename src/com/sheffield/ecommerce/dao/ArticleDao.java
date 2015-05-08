@@ -73,9 +73,9 @@ public class ArticleDao {
 		session.beginTransaction();
 		Query query;
 		if(user.getRole() == User.EDITOR)
-			query = session.createQuery("from Article a where a.author <> :user order by a.id asc");
+			query = session.createQuery("from Article a where a.author <> :user and a.edition is null order by a.id asc");
 		else
-			query = session.createQuery("from Article a where (a.author <> :user and :user not member of a.reviewers) order by a.id asc");
+			query = session.createQuery("from Article a where (a.author <> :user and a.edition is null and :user not member of a.reviewers) order by a.id asc");
 		query.setParameter("user", user);
 		query.setMaxResults(10);
 		@SuppressWarnings("unchecked")
