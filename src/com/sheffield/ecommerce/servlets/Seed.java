@@ -17,7 +17,18 @@ import com.sheffield.ecommerce.models.Review;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.User;
 import com.sheffield.ecommerce.models.Volume;
-   
+
+/**
+ * This class is used to input some initial data into the system. 
+ * 
+ * 
+ * ****	NOTE: This class is not intended to be used in a real production environment ******
+ * 
+ *  This class has been created purely for the purposes of demonstrating the system and as such may not conform to the structural and 'good coding' practices followed in the rest of the system 
+ * 
+ * 
+ * 
+ */
 public class Seed extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(Seed.class.getName());

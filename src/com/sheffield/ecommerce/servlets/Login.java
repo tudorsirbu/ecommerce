@@ -17,11 +17,9 @@ import com.sheffield.ecommerce.models.User;
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(Login.class.getName());
-	private UserDao dao;
 	
 	public Login() {
-		// Create a new instance of the data access object when the servlet is initialised
-		dao = new UserDao();
+		super();
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
@@ -47,7 +45,7 @@ public class Login extends HttpServlet {
 		String password = request.getParameter("inputPassword");
 
 		// Attempt to get the user object
-		User currentUser = dao.getUserByEmail(email);
+		User currentUser = UserDao.getUserByEmail(email);
 		
 		//If no user is found then display an error
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/login.jsp");
