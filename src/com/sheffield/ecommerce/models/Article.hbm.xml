@@ -19,8 +19,12 @@
             <column name="article_abstract" length="10000" not-null="true" unique="true" />
         </property>
  
- 		   <property name="fileName">
+	   	<property name="fileName">
             <column name="fileName" length="150" not-null="true" />
+        </property>
+        
+        <property name="otherAuthors">
+            <column name="other_authors" length="250" not-null="false" />
         </property>
         
         <property name="fileNameRevision1">

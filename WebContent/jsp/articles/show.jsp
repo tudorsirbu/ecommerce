@@ -26,7 +26,7 @@
 						<c:otherwise>
 							<c:choose>
 								<c:when test="${downloadable == true}">
-									<a href="${pageContext.request.contextPath}/uploads/${article.latestFileName}" target="_blank">
+									<a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${a.id}" target="_blank">
 									  <span class="glyphicon glyphicon-download-alt">&nbsp;</span>
 									</a>
 									<br />
@@ -46,7 +46,14 @@
 			
 			<div class="well well-sm">
 				<h5>
-					<b> Written by ${author.firstName} ${author.lastName} </b> | <a href="mailto:${author.email}">${author.email}</a>
+					<c:choose>
+						<c:when test="${empty article.otherAuthors}">
+							<b> Written by ${author.firstName} ${author.lastName} </b> | <a href="mailto:${author.email}">${author.email}</a>
+						</c:when>
+						<c:otherwise>
+							<b> Written by ${article.otherAuthors} and ${author.firstName} ${author.lastName} </b> | <a href="mailto:${author.email}">${author.email}</a>
+						</c:otherwise>
+					</c:choose>
 				</h5>
 			</div>
 			

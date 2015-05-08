@@ -23,7 +23,7 @@
               	<a href="${pageContext.request.contextPath}/article/show?article_id=${a.id}">${a.title}</a>
               </td>
               <td>
-              	<a href="${pageContext.request.contextPath}/uploads/${a.fileName}">
+              	<a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${a.id}">
               		<span class="glyphicon glyphicon-download-alt">&nbsp;</span>Download
               	</a>
               </td>
