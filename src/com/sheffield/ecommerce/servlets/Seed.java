@@ -316,6 +316,9 @@ public class Seed extends HttpServlet {
 			review9.validateModel();
 			session.save(review9);
 			
+			session.getTransaction().commit();
+			session.close();
+			
 			UserDao.setArticleToReview(article1, author);
 			UserDao.setArticleToReview(article2, author);
 			UserDao.setArticleToReview(article3, author);
@@ -323,26 +326,25 @@ public class Seed extends HttpServlet {
 			UserDao.setArticleToReview(article, reviewer2);
 			UserDao.setArticleToReview(article, reviewer3);
 			
-			session.getTransaction().commit();
-			
 			LOGGER.log(Level.FINE, "Created seed user");
 			return;
 		} catch (InvalidModelException ex) {
 			//If there was any invalid User information then log and throw the message up to the user
 			LOGGER.log(Level.INFO, ex.getMessage());
+			session.close();
 			throw ex;
 		} catch (ConstraintViolationException ex) {
 			//If an unexpected error occurred then log, attempt to rollback and then throw a user friendly error
 			LOGGER.log(Level.SEVERE, ex.getCause().getMessage());
 			session.getTransaction().rollback();
+			session.close();
 			throw new InvalidModelException("The seed data entered is invalid, please check and try again.");
 		} catch (Exception ex) {
 			//If an unexpected error occurred then log, attempt to rollback and then throw a user friendly error
 			LOGGER.log(Level.SEVERE, ex.getMessage());
 			session.getTransaction().rollback();
-			throw new ConnectionProblemException("A problem occurred and seeding could not be completed.");
-		} finally {
 			session.close();
+			throw new ConnectionProblemException("A problem occurred and seeding could not be completed.");
 		}
 	}
 
