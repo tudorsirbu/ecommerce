@@ -4,8 +4,6 @@ package com.sheffield.ecommerce.servlets.reviews;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,11 +19,9 @@ import com.sheffield.ecommerce.dao.ArticleDao;
 import com.sheffield.ecommerce.dao.ReviewDao;
 import com.sheffield.ecommerce.models.Article;
 import com.sheffield.ecommerce.models.User;
-import com.sheffield.ecommerce.servlets.UploadArticle;
 
 public class RevisionForm extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(UploadArticle.class.getName());
 
 	public static final String UPLOAD_PATH = "/tmp";
  
@@ -35,7 +31,6 @@ public class RevisionForm extends HttpServlet {
     private static final int MAX_REQUEST_SIZE   = 1024 * 1024 * 50; // 50MB
     
     private ServletFileUpload upload;
-    private String uploadPath;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Attempt to get the current user
