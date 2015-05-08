@@ -135,7 +135,7 @@
 
 
 			<c:if test="${currentUser.role == cons.editor and not empty reviewers}">
-				<h2>This article is being reviewed by:</h2>
+				<h2 style="clear:both;">This article is being reviewed by:</h2>
 				<div class="well well-sm">
 					<table class="table">
 						<thead>
