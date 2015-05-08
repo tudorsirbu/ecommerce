@@ -16,11 +16,9 @@ import com.sheffield.ecommerce.models.User;
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(Register.class.getName());
-	private UserDao dao;
 	
 	public Register() {
-		// Create a new instance of the data access object when the servlet is initialised
-		dao = new UserDao();
+		super();
 	}
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,7 +40,7 @@ public class Register extends HttpServlet {
 		RequestDispatcher requestDispatcher;
 		HttpSession httpSession = request.getSession(true);
 		
-		if (!arePasswordsMatching(request)){
+		if (!request.getParameter("inputPassword").equals(request.getParameter("inputPasswordConfirmation"))){
 			httpSession.setAttribute("errorMsg", "Password and confirmation do not match");
 			requestDispatcher = request.getRequestDispatcher("jsp/register.jsp");
 			requestDispatcher.forward(request, response);
@@ -60,7 +58,7 @@ public class Register extends HttpServlet {
 			user.setPasswordSalt(passwordHelper.getPasswordSalt());
 			
 			//Save the user to the database
-			dao.addUser(user);
+			UserDao.addUser(user);
 			
 			LOGGER.log(Level.FINE, "New user registered with email: " + user.getEmail());
 			requestDispatcher = request.getRequestDispatcher("jsp/login.jsp");
@@ -82,10 +80,6 @@ public class Register extends HttpServlet {
 		
 		requestDispatcher = request.getRequestDispatcher("jsp/register.jsp");
 		requestDispatcher.forward(request, response);
-	}
-	
-	private boolean arePasswordsMatching(HttpServletRequest request){
-		return request.getParameter("inputPassword").equals(request.getParameter("inputPasswordConfirmation"));
 	}
 	
 }

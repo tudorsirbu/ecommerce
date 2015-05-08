@@ -4,6 +4,7 @@ package com.sheffield.ecommerce.servlets.reviews;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,12 +21,13 @@ import com.sheffield.ecommerce.dao.ArticleDao;
 import com.sheffield.ecommerce.dao.ReviewDao;
 import com.sheffield.ecommerce.models.Article;
 import com.sheffield.ecommerce.models.User;
+import com.sheffield.ecommerce.servlets.UploadArticle;
 
 public class RevisionForm extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	// location to store file uploaded
-    private static final String UPLOAD_DIRECTORY = "uploads";
+	private static final Logger LOGGER = Logger.getLogger(UploadArticle.class.getName());
+
+	public static final String UPLOAD_PATH = "/tmp";
  
     // upload settings
     private static final int MEMORY_THRESHOLD   = 1024 * 1024 * 3;  // 3MB
@@ -141,7 +143,7 @@ public class RevisionForm extends HttpServlet {
                 	}
                 	
                     fileName = new File(currentTimestamp + "." + extension).getName();
-                    String filePath = uploadPath + File.separator + fileName;
+                    String filePath = UPLOAD_PATH + File.separator + fileName;
                     File storeFile = new File(filePath);
 
                     // saves the file on disk
@@ -192,13 +194,9 @@ public class RevisionForm extends HttpServlet {
          
         // sets maximum size of request (include file + form data)
         upload.setSizeMax(MAX_REQUEST_SIZE);
- 
-        // constructs the directory path to store upload file
-        // this path is relative to application's directory
-        uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY;
          
         // creates the directory if it does not exist
-        File uploadDir = new File(uploadPath);
+        File uploadDir = new File(UPLOAD_PATH);
         if (!uploadDir.exists()) {
             uploadDir.mkdir();
         }
