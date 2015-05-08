@@ -21,7 +21,7 @@ public class JournalDao {
 	 * Returns all the volumes and their respective editions in the database
 	 * @return Returns a list of volume objects
 	 */
-	public List<Volume> getAllVolumesWithEditions() {
+	public static List<Volume> getAllVolumesWithEditions() {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("from Volume");
@@ -36,7 +36,7 @@ public class JournalDao {
 	 * Gets the single journal entry from the database
 	 * @returns The journal object
 	 */
-	public Journal getJournal() {
+	public static Journal getJournal() {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("from Journal");
@@ -51,7 +51,7 @@ public class JournalDao {
 	 * @param journal
 	 * @throws InvalidModelException
 	 */
-	public void updateJournal(Journal journal) throws InvalidModelException {
+	public static void updateJournal(Journal journal) throws InvalidModelException {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		journal.validateModel();
 		session.beginTransaction();
@@ -68,7 +68,7 @@ public class JournalDao {
 	 * @param id
 	 * @return The requested volume
 	 */
-	public Volume getVolumeById(int id) {
+	public static Volume getVolumeById(int id) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("from Volume v where v.volumeId = :id");
@@ -84,7 +84,7 @@ public class JournalDao {
 	 * @param volume
 	 * @throws InvalidModelException
 	 */
-	public void addNewVolume(Volume volume) throws InvalidModelException {
+	public static void addNewVolume(Volume volume) throws InvalidModelException {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		volume.setJournal(getJournal());
 		volume.setVolumeNumber(numberOfCurrentVolumes() + 1);
@@ -100,7 +100,7 @@ public class JournalDao {
 	 * @param volume
 	 * @throws InvalidModelException
 	 */
-	public void updateVolume(Volume volume) throws InvalidModelException {
+	public static void updateVolume(Volume volume) throws InvalidModelException {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		volume.validateModel();
 		session.beginTransaction();
@@ -116,7 +116,7 @@ public class JournalDao {
 	 * Count number number of volumes currently in the database
 	 * @return number of volumes
 	 */
-	public int numberOfCurrentVolumes() {
+	public static int numberOfCurrentVolumes() {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("select count(*) from Volume");
@@ -130,7 +130,7 @@ public class JournalDao {
 	 * Count number number of editions currently in the database
 	 * @return number of volumes
 	 */
-	public int numberOfCurrentEditions() {
+	public static int numberOfCurrentEditions() {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("select count(*) from Edition");
@@ -145,7 +145,7 @@ public class JournalDao {
 	 * @param id
 	 * @return The requested edition
 	 */
-	public Edition getEditionById(int id) {
+	public static Edition getEditionById(int id) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("from Edition e where e.editionId = :id");
@@ -161,7 +161,7 @@ public class JournalDao {
 	 * @param edition
 	 * @throws InvalidModelException
 	 */
-	public void addNewEdition(Edition edition) throws InvalidModelException {
+	public static void addNewEdition(Edition edition) throws InvalidModelException {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		edition.setEditionNumber(numberOfCurrentEditions() + 1);
 		edition.validateModel();
@@ -176,7 +176,7 @@ public class JournalDao {
 	 * @param edition
 	 * @throws InvalidModelException
 	 */
-	public void updateEdition(Edition edition) throws InvalidModelException {
+	public static void updateEdition(Edition edition) throws InvalidModelException {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		edition.validateModel();
 		session.beginTransaction();
@@ -193,7 +193,7 @@ public class JournalDao {
 	 * @param editionId
 	 * @return A list of articles
 	 */
-	public List<Article> getArticlesForEdition(int editionId) {
+	public static List<Article> getArticlesForEdition(int editionId) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("from Article where edition_id = :id");
@@ -205,7 +205,13 @@ public class JournalDao {
 		return results;
 	}
 	
-	public void assignArticleToEdition(int articleId, int editionId) throws InvalidModelException {
+	/**
+	 * Marks an article as published by assigning it to an edition
+	 * @param articleId
+	 * @param editionId
+	 * @throws InvalidModelException
+	 */
+	public static void assignArticleToEdition(int articleId, int editionId) throws InvalidModelException {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("update Article set edition_id = :editionId where id = :articleId");
@@ -216,26 +222,25 @@ public class JournalDao {
 		session.close();
 	}
 
-	public List<Article> getApprovedArticles() {
-		Session session = SessionFactoryUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		Query query = session.createQuery("from Article where edition_id = null");
-		@SuppressWarnings("unchecked")
-		List<Article> results = query.list();
-		session.getTransaction().commit();
-		session.close();
+	/**
+	 * Returns a list of articles that are suitable for publication.
+	 * 1. The author must have reviewed at least three articles (excluding those needed for articles already published)
+	 * 2. At least three people must have reviewed the article (6 if revised)
+	 * 3. The reviews must contain at least 2 champions
+	 * @return
+	 */
+	public static List<Article> getApprovedArticles() {
+		List<Article> unpublishedArticles = ArticleDao.getAllUnpublishedArticles();
 		List<Article> approvedArticles = new ArrayList<Article>();
-		for (Article article : results) {
-			UserDao userDao = new UserDao();
-			int publishedCount = userDao.countUsersPublishedArticles(article.getAuthor().getId()); //Count the number of published articles the author owns
-			ReviewDao reviewDao = new ReviewDao();
+		for (Article article : unpublishedArticles) {
+			int publishedCount = UserDao.countUsersPublishedArticles(article.getAuthor().getId()); //Count the number of published articles the author owns
 			//Check the author has made enough reviews for this article to be published
-			if (reviewDao.countReviewsForUser(article.getAuthor()) - (3*publishedCount) >= 3) {
+			if (ReviewDao.countReviewsForUser(article.getAuthor()) - (3*publishedCount) >= 3) {
 				//Check that the article has enough reviews
 				if ((article.getFileNameRevision1() == null && article.getReviews().size() == 3) || (article.getFileNameRevision1() != null && article.getReviews().size() == 6)) {
 					
 					//Get the three most recent (we want to ignore reviews made from earlier revisions)
-					List<Review> reviews = reviewDao.getThreeMostRecentReviews(article.getId());
+					List<Review> reviews = ReviewDao.getThreeMostRecentReviews(article.getId());
 					int champions = 0;
 					for (Review review : reviews) {
 						if (review.getOverallJudgement().equals("champion")) {

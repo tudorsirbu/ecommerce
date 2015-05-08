@@ -4,8 +4,17 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import com.sheffield.ecommerce.models.User;
 
+/**
+ * Class is responsible for sending emails
+ */
 public class Mailer {
 	
+	/**
+	 * Create an email by passing in a user (containing an email), an email subject and the email body
+	 * @param user
+	 * @param subject
+	 * @param content
+	 */
 	public static void sendEmail(User user,String subject, String content) {
 		
 		  // Recipient's email

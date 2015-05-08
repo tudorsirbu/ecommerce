@@ -3,8 +3,10 @@ package com.sheffield.ecommerce.dao;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
+
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
 import com.sheffield.ecommerce.models.Article;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
@@ -12,7 +14,6 @@ import com.sheffield.ecommerce.models.User;
 
 /**
  * Database Access Object which provides database manipulation methods for Users
- * 
  */
 public class UserDao {
 
@@ -21,7 +22,7 @@ public class UserDao {
 	 * @param user
 	 * @throws InvalidModelException
 	 */
-	public void addUser(User user) throws InvalidModelException {
+	public static void addUser(User user) throws InvalidModelException {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		user.validateModel();
 		session.beginTransaction();
@@ -34,7 +35,7 @@ public class UserDao {
 	 * Delete a user from the database
 	 * @param id
 	 */
-	public void deleteUser(int id) {
+	public static void deleteUser(int id) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("delete from User where id = :id");
@@ -48,14 +49,14 @@ public class UserDao {
 	 * @param user
 	 * @throws InvalidModelException
 	 */
-	public void updateUser(User user) throws InvalidModelException {
+	public static void updateUser(User user) throws InvalidModelException {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		user.validateModel();
 		session.beginTransaction();
 		Query query = session.createQuery("update User set first_name = :firstName, last_name = :lastName, email = :email, role = :role where id = :id");
 		query.setParameter("id", user.getId());
 		query.setParameter("firstName", user.getFirstName());
-		query.setParameter("lastName", user.getlastName());
+		query.setParameter("lastName", user.getLastName());
 		query.setParameter("email", user.getEmail());
 		query.setParameter("role", user.getRole());
 		query.executeUpdate();
@@ -68,14 +69,14 @@ public class UserDao {
 	 * @param user
 	 * @throws InvalidModelException
 	 */
-	public void updateUserWithPassword(User user) throws InvalidModelException {
+	public static void updateUserWithPassword(User user) throws InvalidModelException {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		user.validateModel();
 		session.beginTransaction();
 		Query query = session.createQuery("update User set first_name = :firstName, last_name = :lastName, email = :email, role = :role, passwordHash = :passwordHash, passwordSalt = :passwordSalt where id = :id");
 		query.setParameter("id", user.getId());
 		query.setParameter("firstName", user.getFirstName());
-		query.setParameter("lastName", user.getlastName());
+		query.setParameter("lastName", user.getLastName());
 		query.setParameter("email", user.getEmail());
 		query.setParameter("role", user.getRole());
 		query.setParameter("passwordHash", user.getPasswordHash());
@@ -89,7 +90,7 @@ public class UserDao {
 	 * Fetch a list of all users in the database
 	 * @return A list of users
 	 */
-	public List<User> getAllUsers() {
+	public static List<User> getAllUsers() {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("from User");
@@ -105,7 +106,7 @@ public class UserDao {
 	 * @param id
 	 * @return The requested user
 	 */
-	public User getUserById(int id) {
+	public static User getUserById(int id) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("from User u where u.id = :id");
@@ -122,7 +123,7 @@ public class UserDao {
 	 * @param id
 	 * @return The requested user
 	 */
-	public User getUserByEmail(String email) {
+	public static User getUserByEmail(String email) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("from User u where u.email = :email");
@@ -133,7 +134,12 @@ public class UserDao {
 		return user;
 	}
 	
-	public Set<Article> getArticlesToReview(int id) {
+	/**
+	 * Returns a list of articles that are awaiting a review from a user that has selected them 
+	 * @param id User id 
+	 * @return List of articles
+	 */
+	public static Set<Article> getArticlesToReview(int id) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("SELECT u.articlesToReview FROM User u where u.id = :id");
@@ -146,7 +152,12 @@ public class UserDao {
 		return results;
 	}
 	
-	public void setArticleToReview(Article article, User user) {
+	/**
+	 * Marks a given article as awaiting review by the given user
+	 * @param article Article to be marked as awaiting review
+	 * @param user User who is going to review it
+	 */
+	public static void setArticleToReview(Article article, User user) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Set<Article> articles = getArticlesToReview(user.getId());
@@ -158,16 +169,31 @@ public class UserDao {
 		
 	}
 	
-	public void deleteReviewedArticle(Article article, User user) {
+	/**
+	 * Deletes the database connection that indicates an article is awaiting review from a user
+	 * @param article
+	 * @param user
+	 */
+	public static void deleteReviewedArticle(Article article, User user) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
-		user.deleteReviewedArticle(article);
+		Set<Article> articles = new HashSet<Article>();
+		for(Article a : getArticlesToReview(user.getId())){
+			if(a.getId() != article.getId())
+				articles.add(a);	
+		}
+		user.setArticlesToReview(articles); 		
 		session.update(user);
 		session.getTransaction().commit();
 		session.close();
 	}
 	
-	public int countUsersPublishedArticles(int userId) {
+	/**
+	 * Returns a count of the number of published articles for a given author
+	 * @param userId The user whos articles should be considered
+	 * @return The number of published articles
+	 */
+	public static int countUsersPublishedArticles(int userId) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("select count(*) from Article where author_id = :userId and edition_id != null");

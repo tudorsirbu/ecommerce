@@ -20,62 +20,170 @@ public class Article implements Serializable {
 	private User author;
 	private Set<Review> reviews = new HashSet<Review>(0);
 	
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	/**
+	 * @return the reviewers
+	 */
 	public Set<User> getReviewers() {
 		return reviewers;
 	}
 
+	/**
+	 * @param reviewers the reviewers to set
+	 */
 	public void setReviewers(Set<User> reviewers) {
 		this.reviewers = reviewers;
 	}
 
+	/**
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
-	
+
+	/**
+	 * @param id the id to set
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	/**
+	 * @return the title
+	 */
 	public String getTitle() {
 		return title;
 	}
 
+	/**
+	 * @param title the title to set
+	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
+	/**
+	 * @return the edition
+	 */
 	public Edition getEdition() {
 		return edition;
 	}
 
+	/**
+	 * @param edition the edition to set
+	 */
 	public void setEdition(Edition edition) {
 		this.edition = edition;
 	}
 
+	/**
+	 * @return the article_abstract
+	 */
 	public String getArticle_abstract() {
 		return article_abstract;
 	}
 
+	/**
+	 * @param article_abstract the article_abstract to set
+	 */
 	public void setArticle_abstract(String article_abstract) {
 		this.article_abstract = article_abstract;
 	}
-	
-	public User getAuthor() {
-		return author;
-	}
 
-	public void setAuthor(User author) {
-		this.author = author;
-	}
-
+	/**
+	 * @return the fileName
+	 */
 	public String getFileName() {
 		return fileName;
 	}
 
+	/**
+	 * @param fileName the fileName to set
+	 */
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-	
+
+	/**
+	 * @return the fileNameRevision1
+	 */
+	public String getFileNameRevision1() {
+		return fileNameRevision1;
+	}
+
+	/**
+	 * @param fileNameRevision1 the fileNameRevision1 to set
+	 */
+	public void setFileNameRevision1(String fileNameRevision1) {
+		this.fileNameRevision1 = fileNameRevision1;
+	}
+
+	/**
+	 * @return the revisionDetails1
+	 */
+	public String getRevisionDetails1() {
+		return revisionDetails1;
+	}
+
+	/**
+	 * @param revisionDetails1 the revisionDetails1 to set
+	 */
+	public void setRevisionDetails1(String revisionDetails1) {
+		this.revisionDetails1 = revisionDetails1;
+	}
+
+	/**
+	 * @return the otherAuthors
+	 */
+	public String getOtherAuthors() {
+		return otherAuthors;
+	}
+
+	/**
+	 * @param otherAuthors the otherAuthors to set
+	 */
+	public void setOtherAuthors(String otherAuthors) {
+		this.otherAuthors = otherAuthors;
+	}
+
+	/**
+	 * @return the author
+	 */
+	public User getAuthor() {
+		return author;
+	}
+
+	/**
+	 * @param author the author to set
+	 */
+	public void setAuthor(User author) {
+		this.author = author;
+	}
+
+	/**
+	 * @return the reviews
+	 */
+	public Set<Review> getReviews() {
+		return reviews;
+	}
+
+	/**
+	 * @param reviews the reviews to set
+	 */
+	public void setReviews(Set<Review> reviews) {
+		this.reviews = reviews;
+	}
+
+	/**
+	 * Compares two instances
+	 */
 	public boolean equals(Object obj) {
 	      if (obj == null) return false;
 	      if (!this.getClass().equals(obj.getClass())) return false;
@@ -87,38 +195,6 @@ public class Article implements Serializable {
 	      }
 	      return false;
 	   }
-
-	public String getFileNameRevision1() {
-		return fileNameRevision1;
-	}
-
-	public void setFileNameRevision1(String fileNameRevision1) {
-		this.fileNameRevision1 = fileNameRevision1;
-	}
-	
-	public String getRevisionDetails1() {
-		return revisionDetails1;
-	}
-
-	public void setRevisionDetails1(String revisionDetails1) {
-		this.revisionDetails1 = revisionDetails1;
-	}
-
-	public Set<Review> getReviews() {
-		return reviews;
-	}
-
-	public void setReviews(Set<Review> reviews) {
-		this.reviews = reviews;
-	}
-	
-	public String getOtherAuthors() {
-		return otherAuthors;
-	}
-
-	public void setOtherAuthors(String otherAuthors) {
-		this.otherAuthors = otherAuthors;
-	}
 
 	/**
 	 * Returns the file name of the latest revision
@@ -132,6 +208,10 @@ public class Article implements Serializable {
 		}
 	}
 
+	/**
+	 * This method will check that the model conforms to validation rules. If it does not an execption is thrown with the details
+	 * @throws InvalidModelException Contains the validation rule that was broken
+	 */
 	public void validateModel() throws InvalidModelException {
 		if (title == null || title.isEmpty()){
 			throw new InvalidModelException("Article title cannot be empty.");
@@ -144,7 +224,6 @@ public class Article implements Serializable {
 		}
 	}
 
-	
 	/**
 	 * Returns the number of revisions made to this article
 	 * @return The number of revisions
@@ -155,7 +234,4 @@ public class Article implements Serializable {
 		return revisions;
 	}
 	
-    public int hashCode() {
-        return this.id;
-    }
 }

@@ -8,6 +8,9 @@ import javax.xml.bind.DatatypeConverter;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+/**
+ * This class is used to secure user login credentials and authenticate user credentials
+ */
 public class PasswordHelper {
 	private static final int SALT_BYTE_SIZE = 24;
     private static final int HASH_BYTE_SIZE = 24;

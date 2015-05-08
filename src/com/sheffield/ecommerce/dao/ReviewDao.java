@@ -11,6 +11,9 @@ import com.sheffield.ecommerce.models.Review;
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.User;
 
+/**
+ * This class abstracts data access methods relating to reviews into a single file
+ */
 public class ReviewDao {
 
 	/**
@@ -18,7 +21,7 @@ public class ReviewDao {
 	 * @param id
 	 * @return The list of reviews
 	 */
-	public List<Review> getReviewsForArticle(int article_id) {
+	public static List<Review> getReviewsForArticle(int article_id) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("select r from Review as r left join r.article as a where a.id = :article_id");
@@ -30,7 +33,13 @@ public class ReviewDao {
 		return results;
 	}
 	
-	public boolean isUserReviewingArticle(User user, int article_id) {
+	/**
+	 * Given an article and a user, returns true if the article has been reviewed by the user
+	 * @param user
+	 * @param article_id
+	 * @return
+	 */
+	public static boolean isUserReviewingArticle(User user, int article_id) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("from Article a where (a.id = :article_id and a.author <> :user and :user member of a.reviewers)");
@@ -43,7 +52,12 @@ public class ReviewDao {
 		return !results.isEmpty();
 	}
 	
-	public void addReview(Review review) throws InvalidModelException {
+	/**
+	 * Adds the given review to the database
+	 * @param review
+	 * @throws InvalidModelException
+	 */
+	public static void addReview(Review review) throws InvalidModelException {
 		review.validateModel();
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -52,7 +66,13 @@ public class ReviewDao {
 		session.close();
 	}
 	
-	public List<Review> getReviewsForUserAndArticle(User user, Article article) {
+	/**
+	 * Returns a list of reviews made by a user about a given article
+	 * @param user
+	 * @param article
+	 * @return
+	 */
+	public static List<Review> getReviewsForUserAndArticle(User user, Article article) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("select r from Review as r left join r.article as a left join r.reviewer as u where (a.id = :article_id and u.id = :user_id)");
@@ -65,7 +85,12 @@ public class ReviewDao {
 		return results;
 	}
 	
-	public List<Review> getReviewsForUser(User user) {
+	/**
+	 * Returns a list of all reviews made by a given user
+	 * @param user
+	 * @return
+	 */
+	public static List<Review> getReviewsForUser(User user) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("from Review r where r.reviewer = :user");
@@ -77,7 +102,12 @@ public class ReviewDao {
 		return results;
 	}
 
-	public int countReviewsForUser(User user) {
+	/**
+	 * Counts the number of reviews made by a given user
+	 * @param user
+	 * @return
+	 */
+	public static int countReviewsForUser(User user) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("select count(*) from Review where user_id = :userId");
@@ -88,7 +118,12 @@ public class ReviewDao {
 		return count;
 	}
 	
-	public List<Review> getThreeMostRecentReviews(int articleId) {
+	/**
+	 * Returns a list of the three most recent reviews made about an article (this will in essence cause reviews made about earlier revisions to be ignored)
+	 * @param articleId
+	 * @return
+	 */
+	public static List<Review> getThreeMostRecentReviews(int articleId) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("select r from Review as r left join r.article as a where a.id = :article_id order by review_id DESC");
@@ -102,7 +137,11 @@ public class ReviewDao {
 		return results;
 	}
 	
-	public void deleteReview(int review_id) {
+	/**
+	 * Deletes a review with the given id
+	 * @param review_id
+	 */
+	public static void deleteReview(int review_id) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("delete Review r where r.id = :review_id");
@@ -112,6 +151,11 @@ public class ReviewDao {
 		session.close();
 	}
 	
+	/**
+	 * Returns a review with the givne id
+	 * @param id
+	 * @return
+	 */
 	public static Review getReviewById(int id) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();

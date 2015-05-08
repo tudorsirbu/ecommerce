@@ -11,8 +11,16 @@ import com.sheffield.ecommerce.models.SessionFactoryUtil;
 import com.sheffield.ecommerce.models.Article;
 import com.sheffield.ecommerce.models.User;
 
+/**
+ * This class abstracts data access methods relating to Articles into a single file
+ */
 public class ArticleDao {
 
+	/**
+	 * Adds a given article to the database
+	 * @param article
+	 * @throws InvalidModelException
+	 */
 	public static void addArticle(Article article) throws InvalidModelException {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		article.validateModel();
@@ -22,6 +30,11 @@ public class ArticleDao {
 		session.close();
 	}
 	
+	/**
+	 * Returns a list of articles uploaded by a given user
+	 * @param author
+	 * @return
+	 */
 	public static List<Article> getArticlesForUser(User author) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -34,17 +47,11 @@ public class ArticleDao {
 		return results;
 	}
 	
-	public static List<Article> getAllArticles() {
-		Session session = SessionFactoryUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		Query query = session.createQuery("from Article a");
-		@SuppressWarnings("unchecked")
-		List<Article> results = query.list();
-		session.getTransaction().commit();
-		session.close();
-		return results;
-	}
-	
+	/**
+	 * Returns a list of articles with the passed title
+	 * @param title
+	 * @return
+	 */
 	public static List<Article> getArticlesWithTitle(String title) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -78,6 +85,11 @@ public class ArticleDao {
 		return results;
 	}
 	
+	/**
+	 * Returns a list of articles being reviewed by the given user
+	 * @param user
+	 * @return
+	 */
 	public static List<Article> getArticlesBeingReviewed(User user) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -91,6 +103,12 @@ public class ArticleDao {
 		return results;
 	}
 	
+	/**
+	 * Returns true if the given user is the author of the article with the passed it
+	 * @param articleId
+	 * @param author
+	 * @return
+	 */
 	public static boolean doesArticleBelongToUser(int articleId, User author){
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -103,6 +121,11 @@ public class ArticleDao {
 		return article != null ? true : false;
 	}
 	
+	/**
+	 * Returns an article with the given id
+	 * @param id
+	 * @return
+	 */
 	public static Article getArticleById(int id) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -115,6 +138,11 @@ public class ArticleDao {
 		return article;
 	}
 
+	/**
+	 * Updates an article in the database with the given article object which should 
+	 * @param article
+	 * @throws InvalidModelException
+	 */
 	public static void reviseArticle(Article article) throws InvalidModelException {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		article.validateModel();
@@ -128,6 +156,10 @@ public class ArticleDao {
 		session.close();
 	}
 	
+	/**
+	 * Updates an article in the database with the given article object which should reject the article
+	 * @param article
+	 */
 	public static void rejectRevision(Article article) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -140,6 +172,11 @@ public class ArticleDao {
 		session.close();
 	}
 	
+	/**
+	 * Return a list of users who are reviewing an article with the passed id
+	 * @param id Article id
+	 * @return
+	 */
 	public static List<User> getReviewers(int id) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -150,5 +187,35 @@ public class ArticleDao {
 		session.getTransaction().commit();
 		session.close();
 		return result;
+	}
+
+	/**
+	 * Returns a list of all the unpublished articles
+	 * @return
+	 */
+	public static List<Article> getAllUnpublishedArticles() {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from Article where edition_id = null");
+		@SuppressWarnings("unchecked")
+		List<Article> results = query.list();
+		session.getTransaction().commit();
+		session.close();
+		return results;
+	}
+	
+	/**
+	 * Returns a list of all the published articles
+	 * @return
+	 */
+	public static List<Article> getAllPublishedArticles() {
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from Article where edition_id != null");
+		@SuppressWarnings("unchecked")
+		List<Article> results = query.list();
+		session.getTransaction().commit();
+		session.close();
+		return results;
 	}
 }

@@ -17,7 +17,7 @@ public class SearchForArticle extends HttpServlet {
 		// get the articles for the current user
 		String query = request.getParameter("inputTitle");
 
-		List<Article> articles = ArticleDao.getAllArticles();
+		List<Article> articles = ArticleDao.getAllPublishedArticles();
 		if(query != null && !query.isEmpty()){
 			articles = ArticleDao.getArticlesWithTitle(query);
 		}

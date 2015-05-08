@@ -3,11 +3,8 @@ package com.sheffield.ecommerce.models;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
-
-import com.sheffield.ecommerce.dao.UserDao;
 import com.sheffield.ecommerce.exceptions.InvalidModelException;
 
 public class User implements Serializable {
@@ -24,90 +21,167 @@ public class User implements Serializable {
 	private Set<Article> articlesToReview = new HashSet<Article>();
 	private Set<Review> reviews = new HashSet<Review>();
 	
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the firstName
+	 */
+	public String getFirstName() {
+		return firstName;
+	}
+
+	/**
+	 * @param firstName the firstName to set
+	 */
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	/**
+	 * @return the lastName
+	 */
+	public String getLastName() {
+		return lastName;
+	}
+
+	/**
+	 * @param lastName the lastName to set
+	 */
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	/**
+	 * @return the passwordHash
+	 */
 	public String getPasswordHash() {
 		return passwordHash;
 	}
 
+	/**
+	 * @param passwordHash the passwordHash to set
+	 */
 	public void setPasswordHash(String passwordHash) {
 		this.passwordHash = passwordHash;
 	}
-	
-	public void deleteReviewedArticle(Article article){
-		Set<Article> articles = new HashSet<Article>();
-		UserDao dao = new UserDao();
-		for(Article a : dao.getArticlesToReview(id)){
-			if(a.getId() != article.getId())
-				articles.add(a);	
-		}
-		setArticlesToReview(articles);
-		    
-	}
 
+	/**
+	 * @return the passwordSalt
+	 */
 	public String getPasswordSalt() {
 		return passwordSalt;
 	}
 
+	/**
+	 * @param passwordSalt the passwordSalt to set
+	 */
 	public void setPasswordSalt(String passwordSalt) {
 		this.passwordSalt = passwordSalt;
 	}
 
+	/**
+	 * @return the role
+	 */
 	public int getRole() {
 		return role;
 	}
-	
-	public String getRoleName() {
-		return (role == 1) ? "Editor" : "Author/Reviewer";
-	}
 
+	/**
+	 * @param role the role to set
+	 */
 	public void setRole(int role) {
 		this.role = role;
 	}
 
-	public int getId() {
-		return id;
-	}
-	
-	public String getFirstName() {
-		return firstName;
-	}
-	
-	public String getlastName() {
-		return lastName;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-		
-	@SuppressWarnings("unused")
-	private void setId(int id) {
-		this.id = id;
+	/**
+	 * @return the articlesToReview
+	 */
+	public Set<Article> getArticlesToReview() {
+		return articlesToReview;
 	}
 
-	public void setFirstName(String firstName) throws InvalidModelException {
-		this.firstName = firstName;
+	/**
+	 * @param articlesToReview the articlesToReview to set
+	 */
+	public void setArticlesToReview(Set<Article> articlesToReview) {
+		this.articlesToReview = articlesToReview;
 	}
 
-	public void setLastName(String lastName) throws InvalidModelException {
-		this.lastName = lastName;
+	/**
+	 * @return the reviews
+	 */
+	public Set<Review> getReviews() {
+		return reviews;
 	}
 
-	public void setEmail(String email) throws InvalidModelException {
-		this.email = email;
+	/**
+	 * @param reviews the reviews to set
+	 */
+	public void setReviews(Set<Review> reviews) {
+		this.reviews = reviews;
 	}
-	
+
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	/**
+	 * @return The string representaiton of the role
+	 */
+	public String getRoleName() {
+		return (role == 1) ? "Editor" : "Author/Reviewer";
+	}
+
+	/**
+	 * compares two instances
+	 */
 	public boolean equals(Object obj) {
-	      if (obj == null) return false;
-	      if (!this.getClass().equals(obj.getClass())) return false;
-
-	      User obj2 = (User)obj;
-	      if(this.id == obj2.getId())
-	      {
-	         return true;
-	      }
-	      return false;
-	   }
+      if (obj == null){
+    	  return false;
+      }
+      if (!this.getClass().equals(obj.getClass())){
+    	  return false;
+      }
+      User obj2 = (User)obj;
+      if(this.id == obj2.getId()) {
+         return true;
+      }
+      return false;
+	}
 	
+	/**
+	 * This method will check that the model conforms to validation rules. If it does not an exception is thrown with the details
+	 * @throws InvalidModelException Contains the validation rule that was broken
+	 */
 	public void validateModel() throws InvalidModelException {
 		// Check the first name is present
 		if (firstName == null || firstName.isEmpty()){
@@ -143,23 +217,5 @@ public class User implements Serializable {
 		// Commit the transaction and close the connection
 		session.getTransaction().commit();
 	}
-
-	public Set<Article> getArticlesToReview() {
-		return articlesToReview;
-	}
-
-	public void setArticlesToReview(Set<Article> articlesToReview) {
-		this.articlesToReview = articlesToReview;
-	}
-
-	public Set<Review> getReviews() {
-		return reviews;
-	}
-
-	public void setReviews(Set<Review> reviews) {
-		this.reviews = reviews;
-	}
-	
-	
 	
 }

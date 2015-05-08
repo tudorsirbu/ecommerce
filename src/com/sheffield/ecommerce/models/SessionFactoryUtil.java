@@ -5,6 +5,9 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+/**
+ * Manages the hibernate sessions
+ */
 public class SessionFactoryUtil {
 
 	private static final SessionFactory sessionFactory;
@@ -12,8 +15,7 @@ public class SessionFactoryUtil {
 	static {
 	    Configuration configuration = new Configuration();
 	    configuration.configure();
-	    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
-	            configuration.getProperties()).build();
+	    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 	    sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 	}
 	

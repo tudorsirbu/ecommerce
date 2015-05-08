@@ -4,7 +4,6 @@ import com.sheffield.ecommerce.models.User;
 
 /**
  * Java Bean class which provides constants to the view pages 
- *
  */
 
 public class Constant {
