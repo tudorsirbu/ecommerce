@@ -4,10 +4,14 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
+
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
+
+import com.sheffield.ecommerce.dao.UserDao;
 import com.sheffield.ecommerce.exceptions.*;
 import com.sheffield.ecommerce.helpers.PasswordHelper;
 import com.sheffield.ecommerce.models.Article;
@@ -311,6 +315,13 @@ public class Seed extends HttpServlet {
 			review9.setReviewer(reviewer3);
 			review9.validateModel();
 			session.save(review9);
+			
+			UserDao.setArticleToReview(article1, author);
+			UserDao.setArticleToReview(article2, author);
+			UserDao.setArticleToReview(article3, author);
+			UserDao.setArticleToReview(article, reviewer1);
+			UserDao.setArticleToReview(article, reviewer2);
+			UserDao.setArticleToReview(article, reviewer3);
 			
 			session.getTransaction().commit();
 			

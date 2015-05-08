@@ -165,8 +165,7 @@ public class UserDao {
 		user.setArticlesToReview(articles);
 		session.update(user);
 		session.getTransaction().commit();
-		session.close();
-		
+		session.close();	
 	}
 	
 	/**
