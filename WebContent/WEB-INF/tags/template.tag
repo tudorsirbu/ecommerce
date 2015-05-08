@@ -37,7 +37,6 @@
 					<c:if test="${sessionScope.currentUser.role == 1}">
 						<li class="${fn:endsWith(pageContext.request.requestURI, 'manage.jsp') ? 'active' : ''}"><a accesskey="2" href="${pageContext.request.contextPath}/ManageJournal">Manage Journal</a></li>
 						<li class="${fn:endsWith(pageContext.request.requestURI, 'listArticlesForReview.jsp') ? 'active' : ''}"><a accesskey="3" href="${pageContext.request.contextPath}/articlesForReview">Review Articles</a></li>
-						<li class="${fn:endsWith(pageContext.request.requestURI, '') ? 'active' : ''}"><a accesskey="4" href="${pageContext.request.contextPath}">Approve Articles</a></li>
 					</c:if>
 					<c:if test="${sessionScope.currentUser.role == 0}">
 						<li class="${fn:endsWith(pageContext.request.requestURI, 'journal/about.jsp') ? 'active' : ''}"><a accesskey="2" href="${pageContext.request.contextPath}/AboutJournal">About Journal</a></li>

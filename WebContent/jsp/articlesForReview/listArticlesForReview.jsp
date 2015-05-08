@@ -58,12 +58,12 @@
       <c:choose>
 			<c:when test="${editor != true}">
 			  <h2>Articles you can review</h2>
-			  <p>These are the articles that you can choose to review. When uploading an article, you must review 3 other articles by different authors. You can view more details of an article such as its abstract by clicking its title. By clicking download, you are committing to review this article.</p>
 			</c:when>
 			<c:otherwise>
 			  <h2>Articles you can review or reject reviewers for</h2>
 			</c:otherwise>
 	  </c:choose>
+	  <p>These are the articles that you can choose to review. When uploading an article, you must review 3 other articles by different authors. You can view more details of an article such as its abstract by clicking its title. By clicking download, you are committing to review this article.</p>
 	  <table class="table">
 					<thead>
 						<tr>
@@ -75,12 +75,18 @@
 						<c:forEach var="a" items="${articles}">
 							<tr>
 							<td>
-							<a href="${pageContext.request.contextPath}/article/show?article_id=${a.id}">${a.title}</a>
+							<a class="btn btn-link" href="${pageContext.request.contextPath}/article/show?article_id=${a.id}">${a.title}</a>
 							</td>
 							<td>
-							<a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${a.id}">
-								<span class="glyphicon glyphicon-download-alt">&nbsp;</span> Download
+							<a class="btn btn-link" href="${pageContext.request.contextPath}/DownloadsManager?article_id=${a.id}">
+								<span class="glyphicon glyphicon-download-alt"></span>Download
 							</a>
+							
+							<c:if test="${editor == true}">
+								<a class="btn btn-link" href="${pageContext.request.contextPath}/ReviewForm?article_id=${a.id}">
+									<span class="glyphicon glyphicon-check"></span>Review
+								</a>
+							</c:if>
 							</td>
 							</tr>
 						</c:forEach>

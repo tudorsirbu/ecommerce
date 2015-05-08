@@ -41,11 +41,14 @@ public class UploadArticle extends HttpServlet {
 			RequestDispatcher requestDispatcher;
 			if(currentUser.getRole() == 0){
 				requestDispatcher = request.getRequestDispatcher("jsp/upload_article.jsp");
+				requestDispatcher.forward(request, response);
+				return;
 			} else { 
 				httpSession.setAttribute("errorMsg", "You do not have the necessary rights to upload articles.");
-				requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
+				response.sendRedirect(request.getContextPath() + "/Home");
+				return;
 			}
-			requestDispatcher.forward(request, response);
+			
 		} else {
 			response.sendRedirect(request.getContextPath() + "/Login");
 		}
@@ -74,6 +77,8 @@ public class UploadArticle extends HttpServlet {
         // instantiate a new article
         Article article = new Article();
         
+String testFileName = "";
+        
         try {
             // parses the request's content to extract file data
             List<FileItem> formItems = upload.parseRequest(request);
@@ -98,6 +103,8 @@ public class UploadArticle extends HttpServlet {
                     String fileName = new File(currentTimestamp + "." + extension).getName();
                     String filePath = UPLOAD_PATH + File.separator + fileName;
                     File storeFile = new File(filePath);
+                    
+testFileName = fileName;
 
                     // saves the file on disk
                     item.write(storeFile);
@@ -124,9 +131,8 @@ public class UploadArticle extends HttpServlet {
         }
 
         Mailer.sendEmail(currentUser, "Article uploaded successfully", "Your article has been uploaded successfully and it will soon be reviewed by other authors. \n Thank you!");
-        httpSession.setAttribute("successMsg", "Article submitted successfully!");
-        requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
-        requestDispatcher.forward(request, response);
+httpSession.setAttribute("successMsg", "Article submitted successfully! - " + testFileName);
+		response.sendRedirect(request.getContextPath() + "/Home");
 	}
 	
 	private void initUpload(){

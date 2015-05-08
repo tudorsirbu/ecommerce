@@ -173,8 +173,7 @@ public class RevisionForm extends HttpServlet {
         }
 
         httpSession.setAttribute("successMsg", "Article revised!");
-        requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
-        requestDispatcher.forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/Home");	
 	}
 	
 	private void initUpload(){

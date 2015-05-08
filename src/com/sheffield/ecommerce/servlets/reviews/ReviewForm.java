@@ -109,8 +109,7 @@ public class ReviewForm extends HttpServlet{
 			Mailer.sendEmail(currentUser, "Review Submission Successfull", "You have successfully submited a review for the article with the title:"+article.getTitle());
 			httpSession.setAttribute("successMsg", "Review submitted successfully!");
 			LOGGER.log(Level.FINE, "New review submitted for article: " + article.getTitle());
-	        requestDispatcher = request.getRequestDispatcher("jsp/welcome.jsp");
-			requestDispatcher.forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/Home");
 			return;
 		} catch (InvalidModelException ex) {
 			//If there was any invalid User information then log and throw the message up to the user
