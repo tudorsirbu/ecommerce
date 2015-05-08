@@ -24,7 +24,7 @@
               </td>
               <td>
               	<a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${a.id}">
-              		<span class="glyphicon glyphicon-download-alt">&nbsp;</span>Download
+              		<span class="glyphicon glyphicon-download-alt"></span>Download
               	</a>
               </td>
             </tr>

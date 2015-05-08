@@ -27,15 +27,13 @@
 							<c:choose>
 								<c:when test="${downloadable == true}">
 									<a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${a.id}" target="_blank">
-									  <span class="glyphicon glyphicon-download-alt">&nbsp;</span>
+									  <span class="glyphicon glyphicon-download-alt"></span>
 									</a>
-									<br />
 								</c:when>
 								<c:otherwise>
 									<a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${article.id}">
-										<span class="glyphicon glyphicon-download-alt">&nbsp;</span>
+										<span class="glyphicon glyphicon-download-alt"></span>
 									</a>
-									<br />
 								</c:otherwise>
 							</c:choose>
 						</c:otherwise>
