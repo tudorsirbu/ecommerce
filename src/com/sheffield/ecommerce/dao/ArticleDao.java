@@ -57,16 +57,20 @@ public class ArticleDao {
 		return results;
 	}
 	
-	
+	/**
+	 * Gets the 10 latest articles that require review ordered by the oldest first
+	 * @param user The current logged in user
+	 */
 	public static List<Article> getArticlesForReview(User user) {
 		Session session = SessionFactoryUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query;
 		if(user.getRole() == User.EDITOR)
-			query = session.createQuery("from Article a where a.author <> :user");
+			query = session.createQuery("from Article a where a.author <> :user order by a.id asc");
 		else
-			query = session.createQuery("from Article a where (a.author <> :user and :user not member of a.reviewers)");
+			query = session.createQuery("from Article a where (a.author <> :user and :user not member of a.reviewers) order by a.id asc");
 		query.setParameter("user", user);
+		query.setMaxResults(10);
 		@SuppressWarnings("unchecked")
 		List<Article> results = query.list();
 		session.getTransaction().commit();
