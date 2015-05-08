@@ -19,7 +19,7 @@
 		<tbody>
 			<c:forEach var="a" items="${articles}">
 				<tr>
-					<td><a href="${pageContext.request.contextPath}/uploads/${a.latestFileName}">${a.title}</a></td>
+					<td><a href="${pageContext.request.contextPath}/DownloadsManager?article_id=${a.id}">${a.title}</a></td>
 					<td style="white-space: pre-wrap;">${a.article_abstract}</td>
 				</tr>
 			</c:forEach>
