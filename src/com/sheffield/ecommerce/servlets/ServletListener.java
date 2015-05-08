@@ -8,6 +8,9 @@ import javax.servlet.ServletContextListener;
 
 import com.sheffield.ecommerce.models.SessionFactoryUtil;
 
+/**
+ * This class is responsible for closing any open database connections when the server is shutdown
+ */
 public class ServletListener implements ServletContextListener {
 	private static final Logger LOGGER = Logger.getLogger(ServletListener.class.getName());
 	

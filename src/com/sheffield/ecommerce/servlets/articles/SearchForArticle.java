@@ -22,7 +22,6 @@ public class SearchForArticle extends HttpServlet {
 			articles = ArticleDao.getArticlesWithTitle(query);
 		}
 			
-			
 		request.setAttribute("articles", articles);
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/articles/search_results.jsp");
 		requestDispatcher.forward(request, response);

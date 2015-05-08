@@ -20,9 +20,8 @@ public class Home extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    JournalDao journalDao = new JournalDao();
-		Journal journal = journalDao.getJournal();
-		List<Volume> volumes = journalDao.getAllVolumesWithEditions();
+		Journal journal = JournalDao.getJournal();
+		List<Volume> volumes = JournalDao.getAllVolumesWithEditions();
 		
 		request.setAttribute("volumes", volumes);
 		request.setAttribute("journal", journal);

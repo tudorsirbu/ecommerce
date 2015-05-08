@@ -30,8 +30,7 @@ public class ArticleShow extends HttpServlet {
 				boolean downloadable = ArticleDao.doesArticleBelongToUser(articleId, currentUser);
 				
 				Article article = ArticleDao.getArticleById(articleId);
-				ReviewDao reviewDao = new ReviewDao();
-				List <Review> reviews = reviewDao.getReviewsForArticle(article.getId());
+				List <Review> reviews = ReviewDao.getReviewsForArticle(article.getId());
 				List <User> reviewers = ArticleDao.getReviewers(articleId); 
 				if(currentUser.getId() == 1) {
 					request.setAttribute("editor",true);
