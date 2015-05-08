@@ -112,9 +112,9 @@ public class Seed extends HttpServlet {
 			reviewer3.validateModel();
 			
 			Journal journal = new Journal();
-			journal.setTitle("Test Journal Title");
-			journal.setAcademicAims("Test content for academic aims");
-			journal.setSubmissionGuidelines("Test content for submission guidelines");
+			journal.setTitle("The dissertations");
+			journal.setAcademicAims("The journal aims to outline dissertations written by students from the Department of Computer Sciece at the University of Sheffield.");
+			journal.setSubmissionGuidelines("Each dissertation must be between 30 and 60 pages and it must follow the department's guidelines on 3rd year dissertations.");
 			journal.validateModel();
 			
 			Volume volume = new Volume();
@@ -129,7 +129,7 @@ public class Seed extends HttpServlet {
 			
 			Article publishedArticle = new Article();
 			publishedArticle.setTitle("An example paper");
-			publishedArticle.setArticle_abstract("This is the abstract for an example paper.");
+			publishedArticle.setArticle_abstract("Lorem Ipsum is simply dummy text of the printing and typesetting industry. \n Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. \n It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. \n It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
 			publishedArticle.setFileName("1431099295403.pdf");
 			publishedArticle.validateModel();
 			
