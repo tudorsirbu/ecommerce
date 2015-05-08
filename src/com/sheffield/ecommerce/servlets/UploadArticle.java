@@ -23,8 +23,7 @@ public class UploadArticle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(UploadArticle.class.getName());
 
-	// location to store file uploaded
-    private static final String UPLOAD_DIRECTORY = "uploads";
+	public static final String UPLOAD_PATH = "/tmp";
  
     // upload settings
     private static final int MEMORY_THRESHOLD   = 1024 * 1024 * 3;  // 3MB
@@ -32,7 +31,6 @@ public class UploadArticle extends HttpServlet {
     private static final int MAX_REQUEST_SIZE   = 1024 * 1024 * 50; // 50MB
     
     private ServletFileUpload upload;
-    private String uploadPath;
     
 	public void doGet(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 		//Attempt to get the current user from the session
@@ -98,7 +96,7 @@ public class UploadArticle extends HttpServlet {
                 	}
                 	
                     String fileName = new File(currentTimestamp + "." + extension).getName();
-                    String filePath = uploadPath + File.separator + fileName;
+                    String filePath = UPLOAD_PATH + File.separator + fileName;
                     File storeFile = new File(filePath);
 
                     // saves the file on disk
@@ -146,13 +144,9 @@ public class UploadArticle extends HttpServlet {
          
         // sets maximum size of request (include file + form data)
         upload.setSizeMax(MAX_REQUEST_SIZE);
- 
-        // constructs the directory path to store upload file
-        // this path is relative to application's directory
-        uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY;
          
         // creates the directory if it does not exist
-        File uploadDir = new File(uploadPath);
+        File uploadDir = new File(UPLOAD_PATH);
         if (!uploadDir.exists()) {
             uploadDir.mkdir();
         }

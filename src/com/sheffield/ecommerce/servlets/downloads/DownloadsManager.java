@@ -1,6 +1,9 @@
 package com.sheffield.ecommerce.servlets.downloads;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.file.Files;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,6 +17,7 @@ import com.sheffield.ecommerce.dao.ReviewDao;
 import com.sheffield.ecommerce.dao.UserDao;
 import com.sheffield.ecommerce.models.Article;
 import com.sheffield.ecommerce.models.User;
+import com.sheffield.ecommerce.servlets.UploadArticle;
 
 public class DownloadsManager extends HttpServlet {
 	private UserDao dao = new UserDao();
@@ -35,8 +39,15 @@ public class DownloadsManager extends HttpServlet {
 					// Assign user to review this article if not done so already
 					dao.setArticleToReview(article, currentUser);
 				}
-				response.sendRedirect(request.getContextPath()+"/uploads/"+article.getLatestFileName());
-				httpSession.setAttribute("successMsg", "Article draft downloaded successfully!");
+				
+				// Get the file from the tmp folder and send it to the user
+				String filename = article.getLatestFileName();
+			    File file = new File(UploadArticle.UPLOAD_PATH, filename);
+			    response.setHeader("Content-Type", getServletContext().getMimeType(filename));
+			    response.setHeader("Content-Length", String.valueOf(file.length()));
+			    response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
+			    Files.copy(file.toPath(), response.getOutputStream());
+
 				return;
 			}else{
 				httpSession.setAttribute("errorMsg", "You already downloaded three articles for review! Please finish reviewing those before downloading other articles!");	
